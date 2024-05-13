@@ -643,3 +643,10 @@ function testApp() {
         }
     }
 }
+
+//register service worker
+if(`serviceWorker` in navigator){
+    navigator.serviceWorker.register(`./sw.js`)
+        .then(reg => console.log(`service worker has been registered`, reg))
+        .catch(err => console.log(`error registering worker`, err))
+}
