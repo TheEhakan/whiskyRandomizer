@@ -128,11 +128,13 @@ function createBottleList({ name, type, neat, iced, mixed }) {
 
     const bottleName = document.createElement("button")
     bottleName.setAttribute("class", "accordion")
-    bottleName.setAttribute("onclick", `accOpen(A${smallName})`)
+    bottleName.setAttribute("onclick", `accOpen(event)`)
 
     const bottleInfo = document.createElement("div")
     bottleInfo.setAttribute("class", "panel")
     bottleInfo.setAttribute("id", `A${smallName}`)
+    bottleInfo.setAttribute("style", "display: none;")
+
     const bottleType = document.createElement('p')
 
     //neat checkbox in div
@@ -579,21 +581,24 @@ function editBottleInfo() {
 }
 
 //makes accordian panels work
-function accOpen(accName) {
+
+function accOpen(event) {
     let i, panel, acc;
     panel = document.getElementsByClassName("panel")
-    if(accName.style.display === "block"){
+    let accID = event.target.nextElementSibling.id
+    let accElement = document.getElementById(accID)
+    if(accElement.style.display == "block"){
         acc = true
-    } else if (accName.style.display === "none"){
+    } else if (accElement.style.display == "none"){
         acc = false
     }
     for(i = 0; i < panel.length; i++) {
         panel[i].style.display = "none"
     }
     if(acc){
-        accName.style.display = "none"
+        accElement.style.display = "none"
     } else {
-        accName.style.display = "block"
+        accElement.style.display = "block"
     }
 }
 
