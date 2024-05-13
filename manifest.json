@@ -1,7 +1,7 @@
 {
     "name": "Drink Randomizer",
     "short_name": "DrinkRandomizer",
-    "start_url": "frontPage.html",
+    "start_url": "index.html",
     "display": "standalone",
     "background_color": "#585858",
     "theme_color": "#5c5c5c",
