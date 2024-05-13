@@ -1,0 +1,51 @@
+{
+    "name": "Drink Randomizer",
+    "short_name": "DrinkRandomizer",
+    "start_url": "frontPage.html",
+    "display": "standalone",
+    "background_color": "#585858",
+    "theme_color": "#5c5c5c",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/img/whisky72x72.jpg",
+            "type": "image/jpg",
+            "sizes": "72x72"
+        },
+        {
+            "src": "/img/whisky96x96.jpg",
+            "type": "image/jpg",
+            "sizes": "96x96"
+        },
+        {
+            "src": "/img/whisky128x128.jpg",
+            "type": "image/jpg",
+            "sizes": "128x128"
+        },
+        {
+            "src": "/img/whisky144x144.jpg",
+            "type": "image/jpg",
+            "sizes": "144x144"
+        },
+        {
+            "src": "/img/whisky152x152.jpg",
+            "type": "image/jpg",
+            "sizes": "152x152"
+        },
+        {
+            "src": "/img/whisky192x192.jpg",
+            "type": "image/jpg",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/img/whisky384x384.jpg",
+            "type": "image/jpg",
+            "sizes": "384x384"
+        },
+        {
+            "src": "/img/whisky512x512.jpg",
+            "type": "image/jpg",
+            "sizes": "512x512"
+        }
+    ]
+}

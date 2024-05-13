@@ -1,0 +1,274 @@
+* {
+    box-sizing: border-box
+}
+
+body,
+html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial;
+    background-color: rgb(22, 22, 24);
+    color: whitesmoke;
+}
+
+.tablink {
+    background-color: #777;
+    color: rgb(255, 254, 254);
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 25%;
+}
+
+.tablink2 {
+    background-color: #777;
+    color: rgb(255, 254, 254);
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    width: 33%;
+}
+
+.tablink:hover, .tablink2:hover {
+    background-color: #9b9b9b;
+}
+
+.tabcontent, .tabcontent2 {
+    color: rgb(255, 255, 255);
+    display: none;
+    padding: 100px 20px;
+}
+
+#Randomizer {
+    background-color: rgb(52, 52, 54);
+}
+
+#Bottles {
+    background-color: rgb(52, 52, 54);
+}
+
+#Settings {
+    background-color: rgb(52, 52, 54);
+}
+
+#About {
+    background-color: rgb(52, 52, 54);
+}
+
+form {
+    border: 1px solid #f1f1f1;
+    font-family: Arial;
+}
+
+input[type=text] {
+    width: 94%;
+    padding: 12px;
+    margin: 8px 0;
+    margin-left: 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=submit],
+input[type=button] {
+    width: 120px;
+    padding: 12px;
+    margin: 8px 0;
+    margin-left: 10px;
+    background-color: #04AA6D;
+    color: white;
+    border: none;
+    box-sizing: border-box;
+}
+
+input[type=submit]:hover,
+input[type=button]:hover {
+    opacity: 0.8;
+}
+
+input[type=select],
+select {
+    width: 150px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    margin-left: 10px;
+    display: block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+
+.container {
+    display: block;
+    position: relative;
+    padding-left: 35px;
+    margin-left: 10px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.checkmark {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 25px;
+    width: 25px;
+    background-color: #eee;
+}
+
+.container:hover input~.checkmark {
+    background-color: #ccc;
+}
+
+.container input:checked~.checkmark {
+    background-color: #2196F3;
+}
+
+.checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.container input:checked~.checkmark:after {
+    display: block;
+}
+
+.container .checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+.accordion {
+    background-color: #5c5c5c;
+    color: #ffffff;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+    transition: 0.4s;
+}
+
+.active,
+.accordion:hover {
+    background-color: #585858;
+}
+
+.panel {
+    padding: 0 18px;
+    display: none;
+    background-color: rgb(0, 0, 0);
+    overflow: hidden;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked+.slider {
+    background-color: #2196F3;
+}
+
+input:focus+.slider {
+    box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked+.slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+
+#bottlesOnHand2 {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#bottlesOnHand2 li {
+    border: 1px solid #000000;
+    margin-top: -1px;
+    background-color: #d8d8d8;
+    padding: 12px;
+    text-decoration: none;
+    font-size: 18px;
+    color: black;
+    display: block
+}
+
+#bottlesOnHand2 li:hover:not(.header) {
+    background-color: #686868;
+}

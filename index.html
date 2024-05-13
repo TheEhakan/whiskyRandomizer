@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link rel="manifest" href="manifest.json">
+
+</head>
+
+<body>
+    <br />
+    <h1>
+        What to drink and how
+    </h1>
+    <br />
+
+    <button class="tablink" onclick="openPage('Randomizer', this, 'rgb(52, 52, 54)')">Randomizer</button>
+    <button class="tablink" onclick="openPage('Bottles', this, 'rgb(52, 52, 54)')" id="defaultOpen">Bottles</button>
+    <button class="tablink" onclick="openPage('Settings', this, 'rgb(52, 52, 54)')">Settings</button>
+    <button class="tablink" onclick="openPage('Cocktails', this, 'rgb(52, 52, 54)')">Cocktails</button>
+    <br />
+    <div id="Randomizer" class="tabcontent">
+        <label for="chooseDrink">
+            <h2>
+                Choose My Drink!
+            </h2>
+        </label>
+        <br />
+        <br />
+        <form>
+            <br />
+            <div class="bottleChoice">
+                <label for="howToDrink">
+                    <h3>
+                        &nbsp;&nbsp;How would you like your drink?
+                    </h3>
+                </label>
+                <br />
+                <select name="bottleTypeq" id="bottleTypeq">
+                    <option value="">
+                        --Type of liquor--
+                    </option>
+                    <option value="Any">
+                        Any
+                    </option>
+                    <option value="Whisky">
+                        Whisky
+                    </option>
+                    <option value="Tequila/ Mezcal">
+                        Tequila/ Mezcal
+                    </option>
+                    <option value="Rum">
+                        Rum
+                    </option>
+                    <option value="Cognac/ Armagnac">
+                        Cognac/ Armagnac
+                    </option>
+                    <option value="Gin">
+                        Gin
+                    </option>
+                    <option value="Other">
+                        Other
+                    </option>
+                </select>
+                <br />
+                <div>
+                    <label for="neatq" class="container">
+                        <input type="checkbox" id="neatq" name="neatq" />
+                        <span class="checkmark"></span>
+                        Neat
+                    </label>
+                </div>
+                <div>
+                    <label for="icedq" class="container">
+                        <input type="checkbox" id="icedq" name="icedq" />
+                        <span class="checkmark"></span>
+                        On Ice
+                    </label>
+                </div>
+                <div>
+                    <label for="mixedq" class="container">
+                        <input type="checkbox" id="mixedq" name="mixedq" />
+                        <span class="checkmark"></span>
+                        Mixed
+                    </label>
+                </div>
+            </div>
+            <br />
+            <br />
+            <input type="button" id="chooseMyDrink" value="Randomize" onclick="chooseDrink()" />
+            <br />
+            <br />
+            <div id="drink2">
+                <h3 id="drink"></h3>
+            </div>
+            <br />
+            <div id="cocktailRecipeDiv">
+                <p id="cocktailRecipe"></p>
+            </div>
+            <br />
+            <div id="drinkEnjoy">
+                <p>Did you enjoy this drink?</p><br />
+                <div id="enjoyChoice">
+                    <input type="button" value="Yes!" onclick="enjoyedDrink()" /><input type="button" value="Not Good." onclick="didNotEnjoy()" />
+                </div>
+                <p id="enjoyDisplay"></p>
+            </div>
+        </form>
+        <br />
+    </div>
+    <div id="Bottles" class="tabcontent">
+        <label for="addBottle">
+            <h2 id="bottleHeader">
+                Add a bottle to the list
+            </h2>
+        </label>
+        <br />
+        <form action="" method="get" class="bottleInput" id="bottleForm">
+            <div class="bottleInput">
+                <input type="text" id="bottleName" name="bottleName" placeholder="Bottle Name" />
+                <select name="bottleType" id="bottleType">
+                    <option value="">
+                        --Type of liquor--
+                    </option>
+                    <option value="Whisky">
+                        Whisky
+                    </option>
+                    <option value="Tequila/ Mezcal">
+                        Tequila/ Mezcal
+                    </option>
+                    <option value="Rum">
+                        Rum
+                    </option>
+                    <option value="Cognac/ Armagnac">
+                        Cognac/ Armagnac
+                    </option>
+                    <option value="Gin">
+                        Gin
+                    </option>
+                    <option value="Other">
+                        Other
+                    </option>
+                </select>
+            </div>
+            <br />
+            <div class="bottleInput" id="optionalInfo">
+                <label for="howWouldYouDrink" id="howWouldYouDrink">
+                    &nbsp; &nbsp;How would you drink this liquor?
+                </label>
+                <br />
+                <br />
+                <label for="neato" class="container">
+                    Neat
+                    <input type="checkbox" id="neato" name="neato" />
+                    <span class="checkmark"></span>
+                </label>
+                <label for="icedo" class="container">
+                    On Ice
+                    <input type="checkbox" id="icedo" name="icedo" />
+                    <span class="checkmark"></span>
+                </label>
+                <label for="mixedo" class="container">
+                    Mixed
+                    <input type="checkbox" id="mixedo" name="mixedo" />
+                    <span class="checkmark"></span>
+                </label>
+
+            </div>
+            <input type="button" id="addToList" value="Add Bottle" onclick="addBottle()" /><input type="button" id="cancelEdit" value="Cancel" />
+            <br />
+            <div class="bottleInput">
+
+            </div>
+        </form>
+        <br />
+        <br />
+        <div id="bottleDisplay">
+            <h3 id="bottleCount"></h3>
+            <input type="text" id="bottleSearch" onkeyup="bottleSearch()" placeholder="Search Bottles" />
+            <div class="allbottlesOnHand" id="allbottlesOnHand" name="bottlesOnHand2">
+            </div>
+            <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
+                <button class="tablink2" onclick="openPage2('whiskyOnHand', this, 'rgb(75, 75, 75)')"
+                    id="defaultOpen2">Whisky</button>
+                <button class="tablink2" onclick="openPage2('ginOnHand', this, 'rgb(75, 75, 75)')">Gin</button>
+                <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')">Rum</button>
+                <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')">Cognac/ Armagnac</button>
+                <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')">Tequila/ Mezcal</button>
+                <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')">Other</button>
+                <div class="tabcontent2" id="whiskyOnHand" name="bottlesOnHand2"></div>
+                <div class="tabcontent2" id="ginOnHand" name="bottlesOnHand2"></div>
+                <div class="tabcontent2" id="rumOnHand" name="bottlesOnHand2"></div>
+                <div class="tabcontent2" id="cognacOnHand" name="bottlesOnHand2"></div>
+                <div class="tabcontent2" id="tequilaOnHand" name="bottlesOnHand2"></div>
+                <div class="tabcontent2" id="otherOnHand" name="bottlesOnHand2"></div>
+            </div>
+        </div>
+    </div>
+    <div id="Settings" class="tabcontent">
+        <h2>
+            Customize your App
+        </h2><br>
+        <input type="button" id="test" value="Test App" onclick="testApp()" />
+        <br />
+        <br />
+        <p>Allows for drinks styles to be set for every bottle</p>
+        <label class="switch" id="styleSelector2">
+            <input type="checkbox" id="styleSelector" name="styleSelector" />
+            <span class="slider round"></span>
+        </label>
+        <br />
+        <p>Adds a search bar for the bottle display</p>
+        <label class="switch" id="searchSelector2">
+            <input type="checkbox" id="searchSelector" name="searchSelector" />
+            <span class="slider round"></span>
+        </label>
+        <br />
+        <p>Sorts bottle display into categories</p>
+        <label class="switch" id="categorySelector2">
+            <input type="checkbox" id="categorySelector" name="categorySelector" />
+            <span class="slider round"></span>
+        </label>
+    </div>
+    <div id="Cocktails" class="tabcontent">
+        <h2>
+            Cocktails
+        </h2>
+    </div>
+    <script src="app.js"></script>
+    
+</body>
+
+</html>
