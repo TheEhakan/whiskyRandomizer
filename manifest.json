@@ -38,6 +38,12 @@
             "sizes": "192x192"
         },
         {
+            "src": "./img/whisky196x196.png",
+            "type": "image/png",
+            "sizes": "196x196",
+            "purpose": "maskable"
+        },
+        {
             "src": "./img/whisky384x384.png",
             "type": "image/png",
             "sizes": "384x384"
