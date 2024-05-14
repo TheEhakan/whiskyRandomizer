@@ -1,14 +1,45 @@
-// install event
-self.addEventListener(`install`, event => {
-    console.log(`worker installed`)
+const staticCacheName = `site-static-v0.76`
+const dynamicCache = 'site-dynamic-v0.76'
+const assets = [
+    '/',
+    '/index.html',
+    '/app.js',
+    '/style.css',
+    '/manifest.json',
+]
+
+// install evt
+self.addEventListener(`install`, evt => {
+    evt.waitUntil(
+        caches.open(staticCacheName).then(cache => {
+            console.log('caching shell assets')
+            cache.addAll(assets)
+        })
+    )
 })
 
-// activate event
-self.addEventListener(`activate`, event =>{
-    console.log(`worker activated`)
+// activate evt
+self.addEventListener(`activate`, evt =>{
+    evt.waitUntil(
+        caches.keys().then(keys => {
+            return Promise.all(
+                keys.filter(key => key !== staticCacheName && key !== dynamicCache)
+                .map(key => caches.delete(key))
+            )
+        })
+    )
 })
 
-// fetch events
-self.addEventListener(`fetch`, event => {
-    console.log(`fetch event`, event)
-})
+// fetch evts
+self.addEventListener(`fetch`, evt => {
+    evt.respondWith(
+        caches.match(evt.request).then(cachesRes => {
+            return cachesRes || fetch(evt.request).then(fetchRes => {
+                return caches.open(dynamicCache).then(cache => {
+                    cache.put(evt.request.url, fetchRes.clone());
+                    return fetchRes;
+                })
+            });
+        })
+    );
+});
