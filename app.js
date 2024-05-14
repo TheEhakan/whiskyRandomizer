@@ -585,20 +585,20 @@ function editBottleInfo() {
 function accOpen(event) {
     let i, panel, acc;
     panel = document.getElementsByClassName("panel")
-    let accID = event.target.nextElementSibling.id
+    let accID = event.target.nextElementSibling
     let accElement = document.getElementById(accID)
-    if(accElement.style.display == "block"){
+    if(accID.style.display == "block"){
         acc = true
-    } else if (accElement.style.display == "none"){
+    } else if (accID.style.display == "none"){
         acc = false
     }
     for(i = 0; i < panel.length; i++) {
         panel[i].style.display = "none"
     }
     if(acc){
-        accElement.style.display = "none"
+        accID.style.display = "none"
     } else {
-        accElement.style.display = "block"
+        accID.style.display = "block"
     }
 }
 
