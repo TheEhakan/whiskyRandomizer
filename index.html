@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./style.css">
     <link rel="manifest" href="./manifest.json">
+    <link rel="shortcut icon" href="./img/bottle.ico">
+    <link rel="icon" type="image/gif" href="./img/bottle.ico">
+
     <meta name="theme-color" content="#5c5c5c">
 
     <link rel="apple-touch-icon" href="./img/whisky128x128.png">
@@ -29,7 +32,7 @@
     <button class="tablink" onclick="openPage('Randomizer', this, 'rgb(52, 52, 54)')">Randomizer</button>
     <button class="tablink" onclick="openPage('Bottles', this, 'rgb(52, 52, 54)')" id="defaultOpen">Bottles</button>
     <button class="tablink" onclick="openPage('Settings', this, 'rgb(52, 52, 54)')">Settings</button>
-    <button class="tablink" onclick="openPage('Cocktails', this, 'rgb(52, 52, 54)')">Cocktails</button>
+    <button class="tablink" onclick="openPage('About', this, 'rgb(52, 52, 54)')">Cocktails</button>
     <br />
     <div id="Randomizer" class="tabcontent">
         <label for="chooseDrink">
@@ -233,10 +236,11 @@
             <span class="slider round"></span>
         </label>
     </div>
-    <div id="Cocktails" class="tabcontent">
+    <div id="About" class="tabcontent">
         <h2>
-            Cocktails
+            Work in Progress
         </h2>
+        <p>Check back later for more content.</p>
     </div>
     <script src="./app.js"></script>
     <script src="./sw.js"></script>

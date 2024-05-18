@@ -585,20 +585,20 @@ function editBottleInfo() {
 function accOpen(event) {
     let i, panel, acc;
     panel = document.getElementsByClassName("panel")
-    let accID = event.target.nextElementSibling
+    let accID = event.target.nextElementSibling.id
     let accElement = document.getElementById(accID)
-    if(accID.style.display == "block"){
+    if(accElement.style.display == "block"){
         acc = true
-    } else if (accID.style.display == "none"){
+    } else if (accElement.style.display == "none"){
         acc = false
     }
     for(i = 0; i < panel.length; i++) {
         panel[i].style.display = "none"
     }
     if(acc){
-        accID.style.display = "none"
+        accElement.style.display = "none"
     } else {
-        accID.style.display = "block"
+        accElement.style.display = "block"
     }
 }
 
@@ -644,9 +644,10 @@ function testApp() {
     }
 }
 
-//register service worker
+//register service worker 
+
 if(`serviceWorker` in navigator){
     navigator.serviceWorker.register(`./sw.js`)
         .then(reg => console.log(`service worker has been registered`))
         .catch(err => console.log(`error registering worker`, err))
-}
+}  

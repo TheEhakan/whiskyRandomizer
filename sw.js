@@ -1,5 +1,6 @@
-const staticCacheName = `site-static-v0.761`
-const dynamicCache = 'site-dynamic-v0.761'
+
+const staticCacheName = `site-static-v0.763`
+const dynamicCache = 'site-dynamic-v0.763'
 const assets = [
     '/',
     '/index.html',
@@ -42,4 +43,4 @@ self.addEventListener(`fetch`, evt => {
             });
         })
     );
-});
+}); 

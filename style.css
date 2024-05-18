@@ -41,24 +41,9 @@ html {
 
 .tabcontent, .tabcontent2 {
     color: rgb(255, 255, 255);
+    background-color: rgb(52, 52, 54);
     display: none;
     padding: 100px 20px;
-}
-
-#Randomizer {
-    background-color: rgb(52, 52, 54);
-}
-
-#Bottles {
-    background-color: rgb(52, 52, 54);
-}
-
-#Settings {
-    background-color: rgb(52, 52, 54);
-}
-
-#About {
-    background-color: rgb(52, 52, 54);
 }
 
 form {
