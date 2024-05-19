@@ -197,11 +197,11 @@
             <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
                 <button class="tablink2" onclick="openPage2('whiskyOnHand', this, 'rgb(75, 75, 75)')"
                     id="defaultOpen2">Whisky</button>
-                <button class="tablink2" onclick="openPage2('ginOnHand', this, 'rgb(75, 75, 75)')">Gin</button>
-                <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')">Rum</button>
-                <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')">Cognac/ Armagnac</button>
-                <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')">Tequila/ Mezcal</button>
-                <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')">Other</button>
+                <button class="tablink2" onclick="openPage2('ginOnHand', this, 'rgb(75, 75, 75)')" id="ginTotal">Gin</button>
+                <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')" id="rumTotal">Rum</button>
+                <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')" id="cognacTotal">Cognac/ Armagnac</button>
+                <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')" id="tequilaTotal">Tequila/ Mezcal</button>
+                <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')" id="otherTotal">Other</button>
                 <div class="tabcontent2" id="whiskyOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="ginOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="rumOnHand" name="bottlesOnHand2"></div>
@@ -240,7 +240,13 @@
         <h2>
             Work in Progress
         </h2>
-        <p>Check back later for more content.</p>
+        <div id="cocktail-form-div">
+            <label for="cocktail-form">Add a cocktail for your spirits.</label>
+            <form action="" method="get" id="cocktail-form">
+                <input type="text" id="cocktailName" placeholder="Cocktail Name">
+                <input type="text" id="ingrediant1">
+            </form>
+        </div>
     </div>
     <script src="./app.js"></script>
     <script src="./sw.js"></script>
