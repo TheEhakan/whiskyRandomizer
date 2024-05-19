@@ -51,10 +51,33 @@ bottlesWhisky.forEach(function(){
 
 //sets a bottle count display
 function totalBottles() {
-    let total;
-    total = bottlesWhisky.filter((t) => t.name)
-    bottleCount = document.getElementById("bottleCount")
+    let total = bottlesWhisky.filter((t) => t.name)
+    let bottleCount = document.getElementById("bottleCount")
     bottleCount.textContent = `Bottles on Hand: ${total.length}`
+
+    let totalWhisky = bottlesWhisky.filter((w) => w.type === "Whisky")
+    let whiskyTotal = document.getElementById("defaultOpen2")
+    whiskyTotal.textContent = `Whisky - ${totalWhisky.length}`
+
+    let totalRum = bottlesWhisky.filter((r) => r.type === "Rum")
+    let rumTotal = document.getElementById("rumTotal")
+    rumTotal.textContent = `Rum - ${totalRum.length}`
+
+    let totalGin = bottlesWhisky.filter((g) => g.type === "Gin")
+    let ginTotal = document.getElementById("ginTotal")
+    ginTotal.textContent = `Gin - ${totalGin.length}`
+
+    let totalTequila = bottlesWhisky.filter((t) => t.type === "Tequila/ Mezcal")
+    let tequilaTotal = document.getElementById("tequilaTotal")
+    tequilaTotal.textContent = `Tequila/ Mezcal = ${totalTequila.length}`
+
+    let totalCognac = bottlesWhisky.filter((c) => c.type === "Cognac/ Armagnac")
+    let cognacTotal = document.getElementById("cognacTotal")
+    cognacTotal.textContent = `Cognac/ Armagnac - ${totalCognac.length}`
+
+    let totalOther = bottlesWhisky.filter((o) => o.type === "Other")
+    let otherTotal = document.getElementById("otherTotal")
+    otherTotal.textContent = `Other - ${totalOther.length}`
 }
 
 //items needed for startup
@@ -585,8 +608,7 @@ function editBottleInfo() {
 function accOpen(event) {
     let i, panel, acc;
     panel = document.getElementsByClassName("panel")
-    let accID = event.target.nextElementSibling.id
-    let accElement = document.getElementById(accID)
+    let accElement = event.target.nextElementSibling
     if(accElement.style.display == "block"){
         acc = true
     } else if (accElement.style.display == "none"){
