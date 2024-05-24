@@ -9,12 +9,12 @@ const rumOnHand = document.querySelector("#rumOnHand")
 const cognacOnHand = document.querySelector("#cognacOnHand")
 const ginOnHand = document.querySelector("#ginOnHand")
 const otherOnHand = document.querySelector("#otherOnHand")
-let bottleNameInput = addBottleForm['bottleName']
-let bottleTypeInput = addBottleForm['bottleType']
-let neatInput = document.querySelector("#neato")
-let icedInput = document.querySelector("#icedo")
-let mixedInput = document.querySelector("#mixedo")
-let addBottleBtn = document.getElementById("addToList")
+const bottleNameInput = document.getElementById("bottleName")
+const bottleTypeInput = addBottleForm['bottleType']
+const neatInput = document.querySelector("#neato")
+const icedInput = document.querySelector("#icedo")
+const mixedInput = document.querySelector("#mixedo")
+const addBottleBtn = document.getElementById("addToList")
 const displayCheck = document.getElementsByName("display")
 const bottlesWhisky = JSON.parse(localStorage.getItem("Whisky")) || []
 let bottleNumber = 0
@@ -40,8 +40,8 @@ const tabcontent2 = document.getElementsByName("bottlesOmHand2")
 categorySelector.addEventListener("click", categorySwitch)
 
 //clears empty array units
-bottlesWhisky.forEach(function(){
-    for(let i = 0; i < bottlesWhisky.length; i++){
+bottlesWhisky.forEach(function () {
+    for (let i = 0; i < bottlesWhisky.length; i++) {
         if (bottlesWhisky[i] === "") {
             bottlesWhisky.splice(i, 1)
         }
@@ -90,6 +90,14 @@ searchSwitch()
 categorySwitch()
 totalBottles()
 
+//allows the enter key to be used to submit 
+bottleNameInput.addEventListener("keypress", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault()
+        addBottle()
+    }
+})
+
 //pushes bottle info into an object and stores it
 function addBottle(name, type, neat, iced, mixed) {
     name = bottleNameInput.value
@@ -106,134 +114,74 @@ function addBottle(name, type, neat, iced, mixed) {
             alert("Input a name for this bottle.")
             return
         }
-        if (neatInput.checked === false && icedInput.checked === false && mixedInput.checked === false){
+        if (neatInput.checked === false && icedInput.checked === false && mixedInput.checked === false) {
             alert("Choose at least one drink style for this bottle.")
             return
         }
 
         let n;
-        for(n = 0; n < bottlesWhisky.length; n++){
-            if(bottlesWhisky[n] === ""){
+        for (n = 0; n < bottlesWhisky.length; n++) {
+            if (bottlesWhisky[n] === "") {
                 continue
             }
-            if(bottlesWhisky[n].name.toLowerCase() === bottleNameInput.value.toLowerCase()){
-                if(confirm(`${bottlesWhisky[n].name} is already on your list, add it anyway?`)){
+            if (bottlesWhisky[n].name.toLowerCase() === bottleNameInput.value.toLowerCase()) {
+                if (confirm(`${bottlesWhisky[n].name} is already on your list, add it anyway?`)) {
                 } else {
                     return
                 }
+            }
         }
-    }
 
-    bottlesWhisky.push({
-        name,
-        type,
-        neat,
-        iced,
-        mixed
-    });
-    localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
-    document.getElementById("bottleName").value = ""
-    createBottleList({ name, type, neat, iced, mixed })
-    sortList()
-    bottleNameInput.value = ""
-    styleSwitch()
-    totalBottles()
-    } else {editBottleInfo()}
+        bottlesWhisky.push({
+            name,
+            type,
+            neat,
+            iced,
+            mixed
+        });
+        localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
+        document.getElementById("bottleName").value = ""
+        createBottleList({ name, type, neat, iced, mixed })
+        sortList()
+        bottleNameInput.value = ""
+        styleSwitch()
+        totalBottles()
+    } else { editBottleInfo() }
 }
 
 //creates new div for each bottle
 function createBottleList({ name, type, neat, iced, mixed }) {
+    let thisBottleObject = bottlesWhisky.filter((o) => o.name === name)
+    let thisBottle = bottlesWhisky.indexOf(thisBottleObject[0])
+
     let smallName = name.replaceAll(/[^A-Za-z0-9]/g, "")
-    const bottleDiv = document.createElement("div");
-    bottleDiv.setAttribute("class", "info")
-    bottleDiv.setAttribute("name", "info")
-    bottleDiv.setAttribute("id", bottleNumber)
 
-    const bottleName = document.createElement("button")
-    bottleName.setAttribute("class", "accordion")
-    bottleName.setAttribute("onclick", `accOpen(event)`)
+    const bottleDiv = 
+        `<div id='${thisBottle}' class='info' name='info'>
+            <button class='accordion' onclick='accOpen(event)'>${name}</button>
+            <div id='A${smallName}' class='panel' style='display: none;'>
+                <p>${type}</p>
+                <label class='container' for='display'>
+                    Neat
+                    <input type='checkbox' onclick='defaultCheck(event)' ${neat ? 'checked' : ''}/>
+                    <span class='checkmark'></span>
+                </label>
+                <label class='container' for='display'>
+                    Iced
+                    <input type='checkbox' onclick='defaultCheck(event)' ${iced ? 'checked' : ''}/>
+                    <span class='checkmark'></span>
+                </label>
+                <label class='container' for='display'>
+                    Mixed
+                    <input type='checkbox' onclick='defaultCheck(event)' ${mixed ? 'checked' : ''} />
+                    <span class='checkmark'></span>
+                </label>
+                <input type='button' value='Edit Bottle' name='editBottle' onclick='editBottle(${thisBottle})' />
+                <input type='button' value='Delete' name='deleteBottle' onclick='deleteBottle(${thisBottle})' />
+            </div> 
+        </div>`;
 
-    const bottleInfo = document.createElement("div")
-    bottleInfo.setAttribute("class", "panel")
-    bottleInfo.setAttribute("id", `A${smallName}`)
-    bottleInfo.setAttribute("style", "display: none;")
-
-    const bottleType = document.createElement('p')
-
-    //neat checkbox in div
-    const span1 = document.createElement("span")
-    span1.setAttribute("class", "checkmark")
-    const neatCheck = document.createElement("label")
-    neatCheck.setAttribute("for", "display")
-    neatCheck.setAttribute("class", "container")
-    let neat2 = document.createElement("input")
-    neat2.setAttribute("type", "checkbox")
-    neat2.setAttribute("onclick", "defultCheck(event)")
-    if (neat === true) {
-        neat2.setAttribute("checked", "checked")
-    }
-
-    //iced checkbox in div
-    const span2 = document.createElement("span")
-    span2.setAttribute("class", "checkmark")
-    const icedCheck = document.createElement("label")
-    icedCheck.setAttribute("for", "display")
-    icedCheck.setAttribute("class", "container")
-    let iced2 = document.createElement("input")
-    iced2.setAttribute("type", "checkbox")
-    iced2.setAttribute("onclick", "defultCheck(event)")
-    if (iced === true) {
-        iced2.setAttribute("checked", "checked")
-    }
-
-    //mixed checkbox in div
-    const span3 = document.createElement("span")
-    span3.setAttribute("class", "checkmark")
-    const mixedCheck = document.createElement("label")
-    mixedCheck.setAttribute("for", "display")
-    mixedCheck.setAttribute("class", "container")
-    let mixed2 = document.createElement("input")
-    mixed2.setAttribute("type", "checkbox")
-    mixed2.setAttribute("onclick", "defultCheck(event)")
-    if (mixed === true) {
-        mixed2.setAttribute("checked", "checked")
-    }
-
-    //edit button in div
-    let editBottle = document.createElement("input")
-    editBottle.setAttribute("type", "button")
-    editBottle.setAttribute("value", "Edit Bottle")
-    editBottle.setAttribute("id", bottleNumber)
-    editBottle.setAttribute("name", "editBottle")
-    editBottle.setAttribute("onclick", `editBottle(${bottleNumber})`)
-
-    //delete button in div
-    let deleteBottle = document.createElement("input")
-    deleteBottle.setAttribute("type", "button")
-    deleteBottle.setAttribute("value", "Delete")
-    deleteBottle.setAttribute("id", bottleNumber)
-    deleteBottle.setAttribute("name", "deleteBottle")
-    deleteBottle.setAttribute("onclick", `deleteBottle(${bottleNumber})`)
-    bottleNumber++
-
-    //values to add to div                    
-    bottleName.innerText = name
-    bottleType.innerText = type
-    neatCheck.innerHTML = "Neat"
-    neat2.innerText = neat
-    icedCheck.innerHTML = "On Ice"
-    iced2.innerHTML = iced
-    mixedCheck.innerHTML = "Mixed"
-    mixed2.innerHTML = mixed
-
-    //making the div
-    neatCheck.append(neat2, span1)
-    icedCheck.append(iced2, span2)
-    mixedCheck.append(mixed2, span3)
-    bottleInfo.append(bottleType, neatCheck, icedCheck, mixedCheck, editBottle, deleteBottle)
-    bottleDiv.append(bottleName, bottleInfo)
-
-    //sets div based on bottle type
+        //sets div based on bottle type
     switch (type) {
         case "Whisky":
             bottlesOnHand = whiskyOnHand
@@ -255,8 +203,8 @@ function createBottleList({ name, type, neat, iced, mixed }) {
             break;
     }
 
-    allbottlesOnHand.appendChild(bottleDiv.cloneNode(true))
-    bottlesOnHand.appendChild(bottleDiv)
+    allbottlesOnHand.innerHTML += bottleDiv
+    bottlesOnHand.innerHTML += bottleDiv
 }
 
 //makes div checkboxes for display only
@@ -290,7 +238,7 @@ function chooseDrink() {
     }
 
     if (bottleTypeChoice.length === 0) {
-        if(type === "Any"){
+        if (type === "Any") {
             alert("No available bottles on hand.")
             return
         } else {
@@ -360,7 +308,7 @@ function chooseDrink() {
     }
     cocktail = cocktails[Math.floor(Math.random() * cocktails.length)]
     if (style === " Mixed") {
-        if(type === "Other"){
+        if (type === "Other") {
             style += ", as" + cocktail
         } else {
             style += ", perhaps as" + cocktail
@@ -374,6 +322,7 @@ function chooseDrink() {
     enjoyChoice.style.display = "block"
     let didEnjoy = document.getElementById("enjoyDisplay")
     didEnjoy.textContent = ""
+    document.getElementById('enjoyedDrink').focus()
     console.log(cocktail)
 }
 
@@ -394,27 +343,31 @@ function didNotEnjoy() {
     style = style.slice(0, 6).trim()
     let sampled = bottlesWhisky.indexOf(drinkRandom)
     console.log(sampled)
-    if(style == "Neat") {
+    if (style == "Neat") {
         bottlesWhisky[sampled].neat = false
-    } 
-    if(style == "Iced") {
+    }
+    if (style == "Iced") {
         bottlesWhisky[sampled].iced = false
-    } 
-    if(style == "Mixed") {
+    }
+    if (style == "Mixed") {
         bottlesWhisky[sampled].mixed = false
     }
     localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
+    document.getElementById(sampled).remove()
+    document.getElementById(sampled).remove()
+    createBottleList(bottlesWhisky[sampled])
+    sortList()
 }
 
 //style selector setting
 function styleSwitch() {
-    if (styleSelector.checked){
+    if (styleSelector.checked) {
         optionalInfo.style.display = "block"
     } else {
         document.getElementById("neato").checked = true
         document.getElementById("icedo").checked = true
         document.getElementById("mixedo").checked = true
-        optionalInfo.style.display = "none"       
+        optionalInfo.style.display = "none"
     }
     settings.splice(0, 1, styleSelector.checked)
     localStorage.setItem("settings", JSON.stringify(settings))
@@ -443,7 +396,7 @@ function categorySwitch() {
     }
     settings.splice(2, 1, categorySelector.checked)
     localStorage.setItem("settings", JSON.stringify(settings))
-} 
+}
 
 //search through bottles
 function bottleSearch() {
@@ -451,7 +404,7 @@ function bottleSearch() {
     input = document.getElementById("bottleSearch");
     filter = input.value.toUpperCase();
     ul = document.getElementsByName("bottlesOnHand2");
-    for(b = 0; b < ul.length; b++){
+    for (b = 0; b < ul.length; b++) {
         li = ul[b].getElementsByClassName("info");
         for (i = 0; i < li.length; i++) {
             a = li[i];
@@ -474,7 +427,7 @@ function sortList() {
     let i;
     let b;
     let c;
-    for(c = 0; c < list.length; c++){
+    for (c = 0; c < list.length; c++) {
         list2 = document.getElementById(list[c].id)
         switching = true
         while (switching) {
@@ -493,7 +446,7 @@ function sortList() {
             }
         }
     }
-} 
+}
 
 //functionality to switch and view tabs
 function openPage(pageName, elmnt, color) {
@@ -533,7 +486,7 @@ function deleteBottle(id) {
     confirmName = bottlesWhisky[id].name
     let thisDiv = document.getElementById(id)
     console.log(thisDiv)
-    if(confirm(`Are you sure you wish to delete ${confirmName}?`)){
+    if (confirm(`Are you sure you wish to delete ${confirmName}?`)) {
         bottlesWhisky.splice(id, 1, "")
         localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
         thisDiv.remove()
@@ -567,7 +520,7 @@ function editBottle(id) {
     console.log(bottlesWhisky[id])
 }
 
-cancelEdit.addEventListener("click", function(){
+cancelEdit.addEventListener("click", function () {
     addBottleBtn.value = "Add Bottle"
     cancelEdit.style.visibility = "hidden"
     bottleNameInput.value = ""
@@ -586,21 +539,28 @@ function editBottleInfo() {
         alert("Input a name for this bottle.")
         return
     }
-    if (neatInput.checked === false && icedInput.checked === false && mixedInput.checked === false){
+    if (neatInput.checked === false && icedInput.checked === false && mixedInput.checked === false) {
         alert("Choose at least one drink style for this bottle.")
         return
     }
     cancelEdit.style.visibility = "hidden"
     bottleDisplay.style.display = "block"
-    bottleHeader.textContent = "Add a bottle to the list"
-    console.log(id2)
+    bottlesWhisky[id2] = {
+        name: bottleNameInput.value,
+        type: bottleTypeInput.value,
+        neat: neatInput.checked,
+        iced: icedInput.checked,
+        mixed: mixedInput.checked,
+    }
+    localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
+    document.getElementById(id2).remove()
+    document.getElementById(id2).remove()
+    createBottleList(bottlesWhisky[id2])
+    bottleHeader.textContent = "Add a bottle to the list"   
     addBottleBtn.value = "Add Bottle"
-    bottlesWhisky.splice(id2, 1, "")
-    let thisDiv = document.getElementById(id2)
-    thisDiv.remove()
-    thisDiv = document.getElementById(id2)
-    thisDiv.remove()
-    addBottle()
+    bottleNameInput.value = ""
+    sortList()
+    styleSwitch()
 }
 
 //makes accordian panels work
@@ -609,15 +569,15 @@ function accOpen(event) {
     let i, panel, acc;
     panel = document.getElementsByClassName("panel")
     let accElement = event.target.nextElementSibling
-    if(accElement.style.display == "block"){
+    if (accElement.style.display == "block") {
         acc = true
-    } else if (accElement.style.display == "none"){
+    } else if (accElement.style.display == "none") {
         acc = false
     }
-    for(i = 0; i < panel.length; i++) {
+    for (i = 0; i < panel.length; i++) {
         panel[i].style.display = "none"
     }
-    if(acc){
+    if (acc) {
         accElement.style.display = "none"
     } else {
         accElement.style.display = "block"
@@ -630,33 +590,33 @@ if (bottlesWhisky.length > 0) {
     test.value = "Clear List"
 }
 function testApp() {
-    if(test.value === "Test App"){
+    if (test.value === "Test App") {
         bottlesWhisky.push(
-        {name: "Ardbeg 10", type: "Whisky", neat: true, iced: false, mixed: true},
-        {name: "Oban 14", type: "Whisky", neat: true, iced: false, mixed: false},
-        {name: "Old Tub", type: "Whisky", neat: true, iced: true, mixed: true},
-        {name: "Makers Mark 101", type: "Whisky", neat: true, iced: false, mixed: true},
-        {name: "The Classic Laddie", type: "Whisky", neat: true, iced: true, mixed: true},
-        {name: "Weller Special Reserve", type: "Whisky", neat: false, iced: true, mixed: true},
-        {name: "Four Roses Single Barrel", type: "Whisky", neat: true, iced: true, mixed: false},
-        {name: "Laphroaig 10", type: "Whisky", neat: false, iced: false, mixed: true},
-        {name: "Wild Turkey Rare Breed", type: "Whisky", neat: true, iced: true, mixed: false},
-        {name: "Smooth Ambler Old Scout", type: "Whisky", neat: false, iced: false, mixed: true},
-        {name: "Suntory Toki", type: "Whisky", neat: false, iced: true, mixed: true},
-        {name: "Hamilton 86", type: "Rum", neat: true, iced: false, mixed: true},
-        {name: "Appleton Estate Reserve", type: "Rum", neat: false, iced: false, mixed: true},
-        {name: "Watershed Four Peel", type: "Gin", neat: false, iced: true, mixed: true},
-        {name: "Middle West Vim Petal", type: "Gin", neat: true, iced: false, mixed: true},
-        {name: "El Tesoro Reposado", type: "Tequila/ Mezcal", neat: true, iced: false, mixed: true},
-        {name: "Del Maguey Vida", type: "Tequila/ Mezcal", neat: true, iced: false, mixed: true},
-        {name: "Pierra Ferrand 1840", type: "Cognac/ Armagnac", neat: true, iced: true, mixed: true},
-        {name: "Castarède VSOP", type: "Cognac/ Armagnac", neat: true, iced: false, mixed: true},
-        {name: "Watershed Vodka", type: "Other", neat: false, iced: true, mixed: true},
-    );
-    localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
-    location.reload()
+            { name: "Ardbeg 10", type: "Whisky", neat: true, iced: false, mixed: true },
+            { name: "Oban 14", type: "Whisky", neat: true, iced: false, mixed: false },
+            { name: "Old Tub", type: "Whisky", neat: true, iced: true, mixed: true },
+            { name: "Makers Mark 101", type: "Whisky", neat: true, iced: false, mixed: true },
+            { name: "The Classic Laddie", type: "Whisky", neat: true, iced: true, mixed: true },
+            { name: "Weller Special Reserve", type: "Whisky", neat: false, iced: true, mixed: true },
+            { name: "Four Roses Single Barrel", type: "Whisky", neat: true, iced: true, mixed: false },
+            { name: "Laphroaig 10", type: "Whisky", neat: false, iced: false, mixed: true },
+            { name: "Wild Turkey Rare Breed", type: "Whisky", neat: true, iced: true, mixed: false },
+            { name: "Smooth Ambler Old Scout", type: "Whisky", neat: false, iced: false, mixed: true },
+            { name: "Suntory Toki", type: "Whisky", neat: false, iced: true, mixed: true },
+            { name: "Hamilton 86", type: "Rum", neat: true, iced: false, mixed: true },
+            { name: "Appleton Estate Reserve", type: "Rum", neat: false, iced: false, mixed: true },
+            { name: "Watershed Four Peel", type: "Gin", neat: false, iced: true, mixed: true },
+            { name: "Middle West Vim Petal", type: "Gin", neat: true, iced: false, mixed: true },
+            { name: "El Tesoro Reposado", type: "Tequila/ Mezcal", neat: true, iced: false, mixed: true },
+            { name: "Del Maguey Vida", type: "Tequila/ Mezcal", neat: true, iced: false, mixed: true },
+            { name: "Pierra Ferrand 1840", type: "Cognac/ Armagnac", neat: true, iced: true, mixed: true },
+            { name: "Castarède VSOP", type: "Cognac/ Armagnac", neat: true, iced: false, mixed: true },
+            { name: "Watershed Vodka", type: "Other", neat: false, iced: true, mixed: true },
+        );
+        localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
+        location.reload()
     } else {
-        if(confirm("Are you sure you want to clear all bottle data?")) {
+        if (confirm("Are you sure you want to clear all bottle data?")) {
             bottlesWhisky.length = 0
             localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky))
             location.reload()
@@ -672,4 +632,4 @@ if(`serviceWorker` in navigator){
     navigator.serviceWorker.register(`./sw.js`)
         .then(reg => console.log(`service worker has been registered`))
         .catch(err => console.log(`error registering worker`, err))
-}  
+} 
