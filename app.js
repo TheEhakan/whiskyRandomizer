@@ -469,11 +469,11 @@ function chooseDrink() {
 
     cocktail = filteredCocktails[Math.floor(Math.random() * filteredCocktails.length)].name;
 
-    if (style === " Mixed") {
+    if (style === "Mixed") {
         if (type === "Other") {
             style += ", as" + filteredCocktails[0];
         } else {
-            style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } ` + cocktail;
+            style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } ${cocktail}`;
         };
     };
 
