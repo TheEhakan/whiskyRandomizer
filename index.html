@@ -2,9 +2,9 @@
 <html>
 
 <head>
+    <title>Drink Randomizer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="./style.css">
-    <link rel="manifest" href="./manifest.json">
     <link rel="shortcut icon" href="./img/bottle.ico">
     <link rel="icon" type="image/gif" href="./img/bottle.ico">
 
@@ -28,12 +28,10 @@
         What to drink and how
     </h1>
     <br />
-
     <button class="tablink" onclick="openPage('Randomizer', this, 'rgb(52, 52, 54)')">Randomizer</button>
     <button class="tablink" onclick="openPage('Bottles', this, 'rgb(52, 52, 54)')" id="defaultOpen">Bottles</button>
     <button class="tablink" onclick="openPage('Settings', this, 'rgb(52, 52, 54)')">Settings</button>
     <button class="tablink" onclick="openPage('About', this, 'rgb(52, 52, 54)')">Cocktails</button>
-    <br />
     <div id="Randomizer" class="tabcontent">
         <label for="chooseDrink">
             <h2>
@@ -42,7 +40,7 @@
         </label>
         <br />
         <br />
-        <form>
+        <form id="bottle-randomizer-form">
             <br />
             <div class="bottleChoice">
                 <label for="howToDrink">
@@ -72,6 +70,9 @@
                     </option>
                     <option value="Gin">
                         Gin
+                    </option>
+                    <option value="Vodka">
+                        Vodka
                     </option>
                     <option value="Other">
                         Other
@@ -116,7 +117,7 @@
             <div id="drinkEnjoy">
                 <p>Did you enjoy this drink?</p><br />
                 <div id="enjoyChoice">
-                    <input type="button" value="Yes!" id="enjoyedDrink" onclick="enjoyedDrink()" /><input type="button" value="Not Good." onclick="didNotEnjoy()" />
+                    <input type="button" value="Yes!" id="enjoyedDrink" onclick="enjoyedThisDrink()" /><input type="button" value="Not Good." onclick="didNotEnjoy()" />
                 </div>
                 <p id="enjoyDisplay"></p>
             </div>
@@ -151,6 +152,9 @@
                     </option>
                     <option value="Gin">
                         Gin
+                    </option>
+                    <option value="Vodka">
+                        Vodka
                     </option>
                     <option value="Other">
                         Other
@@ -201,12 +205,14 @@
                 <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')" id="rumTotal">Rum</button>
                 <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')" id="cognacTotal">Cognac/ Armagnac</button>
                 <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')" id="tequilaTotal">Tequila/ Mezcal</button>
+                <button class="tablink2" onclick="openPage2('vodkaOnHand', this, 'rgb(75, 75, 75)')" id="vodkaTotal">Vodka</button>
                 <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')" id="otherTotal">Other</button>
                 <div class="tabcontent2" id="whiskyOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="ginOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="rumOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="cognacOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="tequilaOnHand" name="bottlesOnHand2"></div>
+                <div class="tabcontent2" id="vodkaOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="otherOnHand" name="bottlesOnHand2"></div>
             </div>
         </div>
@@ -216,6 +222,7 @@
             Customize your App
         </h2><br>
         <input type="button" id="test" value="Test App" onclick="testApp()" />
+        <input type="button" id="cocktail-test" value="Test Cocktails" onclick="testCocktails()" />
         <br />
         <br />
         <p>Allows for drinks styles to be set for every bottle</p>
@@ -238,18 +245,49 @@
     </div>
     <div id="About" class="tabcontent">
         <h2>
-            Work in Progress
+            Add or modify your personal cocktail list.
         </h2>
         <div id="cocktail-form-div">
-            <label for="cocktail-form">Add a cocktail for your spirits.</label>
-            <form action="" method="get" id="cocktail-form">
-                <input type="text" id="cocktailName" placeholder="Cocktail Name">
-                <input type="text" id="ingrediant1">
+            <form action="" method="get" id="cocktail-form"> <br />
+                <input type="text" id="cocktailName" placeholder="Cocktail Name" />
+                <select id="cocktail-base-spirit">
+                    <option value="">
+                        --Type of liquor--
+                    </option>
+                    <option value="Whisky">
+                        Whisky
+                    </option>
+                    <option value="Tequila/ Mezcal">
+                        Tequila/ Mezcal
+                    </option>
+                    <option value="Rum">
+                        Rum
+                    </option>
+                    <option value="Cognac/ Armagnac">
+                        Cognac/ Armagnac
+                    </option>
+                    <option value="Gin">
+                        Gin
+                    </option>
+                    <option value="Vodka">
+                        Vodka
+                    </option>
+                    <option value="Other">
+                        Other
+                    </option>
+                </select>
+                <input type="number" id="ingredient-number" placeholder="Number of Ingredients" onchange="insertIngredient()" max="10" min="0"/>
+                <div id="ingredient-div">
+
+                </div>
+                <textarea id="recipe-input" placeholder="Recipe Instructions"></textarea>
+                <input type="button" id="recipe-sumbit" value="Add Cocktail" onclick="addCocktail()" >
             </form>
+        </div>
+        <div id="recipe-cards">
         </div>
     </div>
     <script src="./app.js"></script>
-    <script src="./sw.js"></script>
     
 </body>
 

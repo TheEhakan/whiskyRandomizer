@@ -23,17 +23,24 @@ html {
     width: 25%;
 }
 
+#otherTotal {
+    width: 99%;
+    height: 50px;
+}
+
 .tablink2 {
     background-color: #777;
     color: rgb(255, 254, 254);
     float: left;
-    border: none;
+    border: 1px solid #7a7a7a;
     outline: none;
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
     width: 33%;
+    height: 90px;
 }
+
 
 .tablink:hover, .tablink2:hover {
     background-color: #9b9b9b;
@@ -48,8 +55,20 @@ html {
 
 form {
     border: 1px solid #f1f1f1;
+    border-radius: 10px;
     font-family: Arial;
 }
+
+textarea {
+    width: 94%;
+    padding: 12px;
+    margin: 8px 0;
+    margin-left: 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    height: 200px;
+} 
 
 input[type=text] {
     width: 94%;
@@ -84,12 +103,20 @@ select {
     padding: 12px 20px;
     margin: 8px 0;
     margin-left: 10px;
-    display: block;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
 }
 
+input[type=number] {
+    width: 200px;
+    padding: 12px 20px;
+    margin: 8px 0;
+    margin-left: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
 
 .container {
     display: block;
@@ -257,3 +284,17 @@ input:checked+.slider:before {
 #bottlesOnHand2 li:hover:not(.header) {
     background-color: #686868;
 }
+
+.recipeCard{
+    width: 97%;
+    color: white;
+    background-color: #5c5c5c;
+    border: 1px solid black;
+    border-radius: 10px;
+    box-shadow: 5px 5px 5px rgb(70, 69, 69);
+    padding: 10px;
+    margin: 10px;
+    text-align: left;
+    display: inline-block;
+}
+
