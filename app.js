@@ -7,6 +7,10 @@ const addBottleForm = document.getElementById("bottleForm");
     const icedInput = addBottleForm['icedo'];
     const mixedInput = addBottleForm['mixedo'];
     const addBottleBtn = addBottleForm['addToList'];
+const nameModal = document.getElementById('name-input-modal');
+const typeModal = document.getElementById('type-input-modal');
+const styleModal = document.getElementById('style-input-modal');
+const repeatNameModal = document.getElementById('repeat-name-modal');
 
 //all the bottle div elements in the DOM
 let bottlesOnHand;
@@ -118,6 +122,13 @@ categorySwitch();
 totalBottles();
 insertIngredient();
 
+
+let list = ["one", "two", "three"];
+list.forEach((val) => {
+    console.log(val);
+});
+
+
 //allows the enter key to be used to submit 
 bottleNameInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
@@ -135,24 +146,30 @@ function isVowel(word) {
     } else { return false };
 };
 
+//closes the specifiv modal
+function closeModal(name) {
+    name.close();
+};
+
 //pushes bottle info into an object and stores it
 function addBottle(name, type, neat, iced, mixed) {
+
     name = bottleNameInput.value;
     type = bottleTypeInput.value;
     neat = neatInput.checked;
     iced = icedInput.checked;
     mixed = mixedInput.checked;
     if (addBottleBtn.value === "Add Bottle") {
-        if (bottleTypeInput.value === "") {
-            alert("Select a type of liquor for this bottle.");
-            return;
-        };
         if (bottleNameInput.value === "") {
-            alert("Input a name for this bottle.");
+            nameModal.showModal();
+            return;
+        };        
+        if (bottleTypeInput.value === "") {
+            typeModal.showModal();
             return;
         };
         if (!neatInput.checked && !icedInput.checked && !mixedInput.checked) {
-            alert("Choose at least one drink style for this bottle.");
+            styleModal.showModal();
             return;
         };
 
@@ -162,10 +179,15 @@ function addBottle(name, type, neat, iced, mixed) {
                 continue;
             };
             if (bottlesWhisky[n].name.toLowerCase() === bottleNameInput.value.toLowerCase()) {
-                if (confirm(`${bottlesWhisky[n].name} is already on your list, add it anyway?`)) {
-                } else {
-                    return;
-                };
+                const bottleNameModal = document.getElementById('bottleNameModal');
+                bottleNameModal.innerText = `${bottlesWhisky[n].name} is already on your list, choose a different or more detailed name.`;
+                repeatNameModal.showModal();
+                return;
+
+                // if (confirm(`${bottlesWhisky[n].name} is already on your list, add it anyway?`)) {
+                // } else {
+                //     return;
+                // };
             };
         };
 
@@ -187,7 +209,7 @@ function addBottle(name, type, neat, iced, mixed) {
 };
 
 //bottle list testing
-function createBottleList({ name, type, neat, iced, mixed }) {
+async function createBottleList({ name, type, neat, iced, mixed }) {
 
     //finds the index to set as an ID
     let thisBottle = bottlesWhisky.findIndex(n => n.name === name);
@@ -468,20 +490,19 @@ function chooseDrink() {
     };
 
     cocktail = filteredCocktails[Math.floor(Math.random() * filteredCocktails.length)].name;
+    console.log(cocktail)
 
     if (style === "Mixed") {
         if (type === "Other") {
             style += ", as" + filteredCocktails[0];
         } else {
-            style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } ${cocktail}`;
+            style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } <button id='display-cocktail-recipe'>${cocktail}</button>`;
         };
     };
 
-    console.log(isVowel(cocktail));
-
     //displayes the choice based on all previous selections
-    let drinkDisplay = document.getElementById("drink");
-    drinkDisplay.textContent = `You should drink ${drink} ${style}`;
+    let drinkDisplay = document.getElementById("drink2");
+    drinkDisplay.innerHTML = `<h3>You should drink ${drink} ${style}</h3>`;
     drinkEnjoy.style.display = "block";
     enjoyChoice.style.display = "block";
     let didEnjoy = document.getElementById("enjoyDisplay");
@@ -934,8 +955,8 @@ function testCocktails() {
 
 //register service worker 
 
-if(`serviceWorker` in navigator){
-    navigator.serviceWorker.register(`./sw.js`)
-        .then(reg => console.log(`service worker has been registered`))
-        .catch(err => console.log(`error registering worker`, err))
-};  
+// if(`serviceWorker` in navigator){
+//     navigator.serviceWorker.register(`./sw.js`)
+//         .then(reg => console.log(`service worker has been registered`))
+//         .catch(err => console.log(`error registering worker`, err))
+// };  

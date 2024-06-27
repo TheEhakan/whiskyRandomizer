@@ -298,3 +298,15 @@ input:checked+.slider:before {
     display: inline-block;
 }
 
+dialog{
+    background: rgb(192, 192, 192);
+    border-radius: 10px;    
+}
+
+#display-cocktail-recipe{
+    color: white;
+    border: none;
+    background: none;
+    font-weight: bold;
+    font-style: 19;
+}

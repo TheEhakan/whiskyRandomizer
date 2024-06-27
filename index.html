@@ -183,12 +183,26 @@
                     <input type="checkbox" id="mixedo" name="mixedo" />
                     <span class="checkmark"></span>
                 </label>
-
             </div>
             <input type="button" id="addToList" value="Add Bottle" onclick="addBottle()" /><input type="button" id="cancelEdit" value="Cancel" />
             <br />
+            <dialog id="name-input-modal">
+                <h4>Input a name for this bottle.</h4>
+                <input type="button" onclick="closeModal(nameModal)" value="Close"/>
+            </dialog>
+            <dialog id="type-input-modal">
+                <h4>Select a type of liquor for this bottle.</h4>
+                <input type="button" onclick="closeModal(typeModal)" value="Close"/>
+            </dialog>
+            <dialog id="style-input-modal">
+                <h4>Choose at least one drink style for this bottle.</h4>
+                <input type="button" onclick="closeModal(styleModal)" value="Close"/>
+            </dialog>
+            <dialog id="repeat-name-modal">
+                <h4 id="bottleNameModal"></h4>
+                <input type="button" onclick="closeModal(repeatNameModal)" value='Cancel'/>
+            </dialog>
             <div class="bottleInput">
-
             </div>
         </form>
         <br />
