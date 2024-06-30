@@ -45,7 +45,7 @@ function isVowel(word) {
     } else { return false };
 };
 
-//closes the specifiv modal
+//closes the specific modal
 function closeModal(name) {
     name.close();
 };
@@ -133,10 +133,3 @@ function accOpen(event) {
     };
 };
 
-//register service worker 
-
-// if(`serviceWorker` in navigator){
-//     navigator.serviceWorker.register(`./sw.js`)
-//         .then(reg => console.log(`service worker has been registered`))
-//         .catch(err => console.log(`error registering worker`, err))
-// };  

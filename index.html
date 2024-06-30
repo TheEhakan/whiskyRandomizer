@@ -114,8 +114,7 @@
                 <input type="button" onclick="closeModal(randomizerErrorModal)" value="Close"/>
             </dialog>
             <dialog id="randomizer-cocktail-recipe">
-                <div id="randomizer-cocktail-recipe-card" class="recipeCard"></div>
-                <input type="button" onclick="closeModal(randomizerRecipeModal)" value="Close"/>
+                <div id="randomizer-cocktail-recipe-card"></div>
             </dialog>
             <br />
             <div id="drinkEnjoy">
@@ -311,21 +310,24 @@
         </div>
         <div id="recipe-cards">
         </div>
-        <div id="delete-cocktail">
-            <dialog id="delete-cocktail-modal">
-                <p id="delete-cocktail-text"></p>
-                <input type="button" onclick="deleteCocktailTrue()" value="Delete Cocktail">
-                <input type="button" onclick="closeModal(deleteCocktailModal)" value="Cancel">
-            </dialog>
-        </div>
+        <dialog id="delete-cocktail-modal">
+            <p id="delete-cocktail-text"></p>
+            <input type="button" onclick="deleteCocktailTrue()" value="Delete Cocktail">
+            <input type="button" onclick="closeModal(deleteCocktailModal)" value="Cancel">
+        </dialog>
+        <dialog id="cocktail-error-modal">
+            <p id="cocktail-error-text"></p>
+            <input type="button" onclick="closeModal(cocktailErrorModal)" value="Close"/>
+        </dialog>
     </div>
     <script src="./modules/bottlelist.js"></script>
     <script src="./modules/cocktails.js"></script>
-    <script src="./modules/Rendomizer.js"></script>
+    <script src="./modules/randomizer.js"></script>
     <script src="./modules/settings.js"></script>
     <script src="./modules/support.js"></script>
     <script src="./modules/test.js"></script>
     <script src="./startup.js"></script>
+
     
 </body>
 

@@ -3,6 +3,7 @@ let drinkRandom, style, cocktail;
 const randomizerErrorModal = document.getElementById('randomizer-error-modal');
 const randomizerErrorText = document.getElementById('randomizer-error-text');
 const randomizerRecipeModal = document.getElementById('randomizer-cocktail-recipe');
+const thisCocktailDiv = document.getElementById('randomizer-cocktail-recipe-card');
 
 function chooseDrink() {
     const neatq = document.querySelector("#neatq");
@@ -130,9 +131,8 @@ function didNotEnjoy() {
 };
 
 function displayRecipe() {
-    const smallName = cocktail.replaceAll(/[^A-Za-z0-9]/g, "");
-    const thisCocktailDiv = document.getElementsByName(smallName);
-    console.log(thisCocktailDiv);
-    document.getElementById('randomizer-cocktail-recipe-card').innerHTML = thisCocktailDiv;
+    const thisCocktail = cocktails.findIndex(n => n.name === cocktail)
+    thisCocktailDiv.innerHTML = '';
+    createCocktailCard(cocktails[thisCocktail], thisCocktailDiv);
     randomizerRecipeModal.showModal();
 };

@@ -1,31 +1,40 @@
 
 //clears empty array units
-bottlesWhisky.forEach(function () {
-    for (let i = 0; i < bottlesWhisky.length; i++) {
-        if (bottlesWhisky[i] === "") {
-            bottlesWhisky.splice(i, 1);
-        };
+for (bottle in bottlesWhisky) {
+    if (bottlesWhisky[bottle] === "") {
+        bottlesWhisky.splice(i, 1);
     };
     localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky));
-});
-cocktails.forEach(function () {
-    for (let i = 0; i < cocktails.length; i++) {
-        if (cocktails[i] === "") {
-            cocktails.splice(i, 1);
-        };
+};
+
+for (cocktail in cocktails) {
+    if (cocktails[cocktail] === "") {
+        cocktails.splice(i, 1);
     };
     localStorage.setItem("Cocktails", JSON.stringify(cocktails));
-});
+};
+
 
 //items needed for startup
 console.log(bottlesWhisky);
 console.log(settings);
 console.log(cocktails);
 bottlesWhisky.forEach(createBottleList);
-cocktails.forEach(createCocktailCard);
+for (cocktail of cocktails) {
+    createCocktailCard(cocktail, recipeCardDiv);
+};
 sortList();
 styleSwitch();
 searchSwitch();
 categorySwitch();
 totalBottles();
 insertIngredient();
+
+
+//register service worker 
+
+if(`serviceWorker` in navigator){
+    navigator.serviceWorker.register(`./sw.js`)
+        .then(reg => console.log(`service worker has been registered`))
+        .catch(err => console.log(`error registering worker`, err))
+};  

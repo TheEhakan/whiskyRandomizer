@@ -3,7 +3,10 @@ const cocktailForm = document.getElementById('cocktail-form');
     const cocktailBaseSpirit = cocktailForm['cocktail-base-spirit'];
     const numOfIngredients = cocktailForm['ingredient-number'];
     const cocktailRecipe = cocktailForm['recipe-input'];
+const recipeCardDiv = document.getElementById("recipe-cards");
 const deleteCocktailModal = document.getElementById('delete-cocktail-modal');
+const cocktailErrorModal = document.getElementById('cocktail-error-modal');
+const cocktailErrorText = document.getElementById('cocktail-error-text');
 
 //cocktails in storage
 const cocktails = JSON.parse(localStorage.getItem('Cocktails')) || [];
@@ -35,11 +38,13 @@ function addCocktail(name, spirit, recipe) {
     recipe = cocktailRecipe.value;
 
     if(cocktailNameInput.value === ''){
-        alert('Cocktail name must be provided');
+        cocktailErrorModal.showModal();
+        cocktailErrorText.innerText = 'Cocktail name must be provided';
         return;
     };
     if(cocktailBaseSpirit.value === ''){
-        alert('Please provide the base Spirit.');
+        cocktailErrorModal.showModal();
+        cocktailErrorText.innerText = 'Please provide the base Spirit.';
         return;
     };
 
@@ -54,7 +59,14 @@ function addCocktail(name, spirit, recipe) {
     };
 
     if(Object.keys(ingredients).length === 0){
-        alert('Please provide the ingredients for this cocktail');
+        cocktailErrorModal.showModal();
+        cocktailErrorText.innerText = 'Please provide the ingredients for this cocktail';
+        return;
+    };
+
+    if(cocktailRecipe.value === '') {
+        cocktailErrorModal.showModal();
+        cocktailErrorText.innerText = 'Please input a recipe for this cocktail';
         return;
     };
 
@@ -70,15 +82,12 @@ function addCocktail(name, spirit, recipe) {
 
     console.log(cocktails);
     localStorage.setItem("Cocktials", JSON.stringify(cocktails));
-    createCocktailCard({ name, spirit, ingredients, recipe })
+    createCocktailCard({ name, spirit, ingredients, recipe }, recipeCardDiv)
 };
 
-function createCocktailCard({ name, spirit, ingredients, recipe }) {
+function createCocktailCard({ name, spirit, ingredients, recipe }, location) {
     let ingredient, eachIngredient;
-    const recipeCardDiv = document.getElementById("recipe-cards");
     const thisCocktail = cocktails.findIndex(n => n.name === name);
-    const cocktialName = cocktails[thisCocktail].name;
-    const smallName = cocktialName.replaceAll(/[^A-Za-z0-9]/g, "");
 
     eachIngredient = ''
 
@@ -87,25 +96,24 @@ function createCocktailCard({ name, spirit, ingredients, recipe }) {
     };
 
     const recipeCard = 
-        `<div class="recipeCard" id="cocktail${thisCocktail}" name='${smallName}'>
+        `<div class="recipeCard" id="cocktail${thisCocktail}" name=${spirit}>
             <h2>${name}</h2> 
             <ul>
                 ${eachIngredient}
             </ul>
             <p>${recipe}</p>
-            <input type='button' onclick='editCocktail(cocktail${thisCocktail})' value='Edit Cocktial' />
-            <input type='button' onclick='confirmDeleteCocktail(cocktail${thisCocktail})' value='Delete' />
+            ${location === recipeCardDiv ? `<input type="button" onclick="editCocktail(cocktail${thisCocktail})" value="Edit Cocktial" />` : ``}
+            ${location === recipeCardDiv ? `<input type='button' onclick='confirmDeleteCocktail(cocktail${thisCocktail})' value='Delete' />` : ``}
+            ${location === thisCocktailDiv ? `<input type="button" onclick="closeModal(randomizerRecipeModal)" value="Close"/>` : ``}
         </div>`;
 
-    recipeCardDiv.innerHTML += recipeCard;  
+    location.innerHTML += recipeCard;  
 };
 
 let cocktailId;
 
 function confirmDeleteCocktail(id){
-    console.log(id);
     let cocktailNumber = id.id.slice(8, 10);
-    console.log(cocktailNumber)
     confirmName = cocktails[cocktailNumber].name;
     document.getElementById('delete-cocktail-text').innerText = `Are you sure you wish to delete your ${confirmName} recipe?`
     deleteCocktailModal.showModal();

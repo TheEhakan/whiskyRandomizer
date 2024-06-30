@@ -1,10 +1,15 @@
 
-const staticCacheName = `site-static-v0.81`
-const dynamicCache = 'site-dynamic-v0.81'
+const staticCacheName = `site-static-v0.85`
+const dynamicCache = 'site-dynamic-v0.85'
 const assets = [
     '/',
     '/index.html',
-    '/app.js',
+    './modules/bottlelist.js',
+    './modules/cocktails.js',
+    './modules/randomizer.js',
+    './modules/settings.js',
+    './modules/support.js',
+    '/startup.js',
     '/style.css',
     '/manifest.json',
 ]
