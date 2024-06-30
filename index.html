@@ -40,7 +40,7 @@
         </label>
         <br />
         <br />
-        <form id="bottle-randomizer-form">
+        <div id="bottle-randomizer-div">
             <br />
             <div class="bottleChoice">
                 <label for="howToDrink">
@@ -107,12 +107,16 @@
             <br />
             <br />
             <div id="drink2">
-                <h3 id="drink"></h3>
             </div>
             <br />
-            <div id="cocktailRecipeDiv">
-                <p id="cocktailRecipe"></p>
-            </div>
+            <dialog id="randomizer-error-modal">
+                <p id="randomizer-error-text"></p>
+                <input type="button" onclick="closeModal(randomizerErrorModal)" value="Close"/>
+            </dialog>
+            <dialog id="randomizer-cocktail-recipe">
+                <div id="randomizer-cocktail-recipe-card" class="recipeCard"></div>
+                <input type="button" onclick="closeModal(randomizerRecipeModal)" value="Close"/>
+            </dialog>
             <br />
             <div id="drinkEnjoy">
                 <p>Did you enjoy this drink?</p><br />
@@ -121,7 +125,7 @@
                 </div>
                 <p id="enjoyDisplay"></p>
             </div>
-        </form>
+        </div>
         <br />
     </div>
     <div id="Bottles" class="tabcontent">
@@ -184,7 +188,7 @@
                     <span class="checkmark"></span>
                 </label>
             </div>
-            <input type="button" id="addToList" value="Add Bottle" onclick="addBottle()" /><input type="button" id="cancelEdit" value="Cancel" />
+            <input type="button" id="addToList" value="Add Bottle" onclick="bottleInputCheck()" /><input type="button" id="cancelEdit" value="Cancel" />
             <br />
             <dialog id="name-input-modal">
                 <h4>Input a name for this bottle.</h4>
@@ -209,7 +213,7 @@
         <br />
         <div id="bottleDisplay">
             <h3 id="bottleCount"></h3>
-            <input type="text" id="bottleSearch" onkeyup="bottleSearch()" placeholder="Search Bottles" />
+            <input type="text" id="bottleSearch" onchange="bottleSearch()" placeholder="Search Bottles" />
             <div class="allbottlesOnHand" id="allbottlesOnHand" name="bottlesOnHand2">
             </div>
             <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
@@ -229,6 +233,13 @@
                 <div class="tabcontent2" id="vodkaOnHand" name="bottlesOnHand2"></div>
                 <div class="tabcontent2" id="otherOnHand" name="bottlesOnHand2"></div>
             </div>
+        </div>
+        <div id="delete-bottle">
+            <dialog id="delete-bottle-modal">
+                <p id="delete-bottle-text"></p>
+                <input type="button" onclick="deleteBottleTrue()" value="Delete Bottle">
+                <input type="button" onclick="closeModal(deleteBottleModal)" value="Cancel">
+            </dialog>
         </div>
     </div>
     <div id="Settings" class="tabcontent">
@@ -300,8 +311,21 @@
         </div>
         <div id="recipe-cards">
         </div>
+        <div id="delete-cocktail">
+            <dialog id="delete-cocktail-modal">
+                <p id="delete-cocktail-text"></p>
+                <input type="button" onclick="deleteCocktailTrue()" value="Delete Cocktail">
+                <input type="button" onclick="closeModal(deleteCocktailModal)" value="Cancel">
+            </dialog>
+        </div>
     </div>
-    <script src="./app.js"></script>
+    <script src="./modules/bottlelist.js"></script>
+    <script src="./modules/cocktails.js"></script>
+    <script src="./modules/Rendomizer.js"></script>
+    <script src="./modules/settings.js"></script>
+    <script src="./modules/support.js"></script>
+    <script src="./modules/test.js"></script>
+    <script src="./startup.js"></script>
     
 </body>
 

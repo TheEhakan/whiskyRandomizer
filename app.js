@@ -11,6 +11,7 @@ const nameModal = document.getElementById('name-input-modal');
 const typeModal = document.getElementById('type-input-modal');
 const styleModal = document.getElementById('style-input-modal');
 const repeatNameModal = document.getElementById('repeat-name-modal');
+const deleteBottleModal = document.getElementById('delete-bottle-modal');
 
 //all the bottle div elements in the DOM
 let bottlesOnHand;
@@ -32,12 +33,13 @@ const cocktailForm = document.getElementById('cocktail-form');
     const cocktailBaseSpirit = cocktailForm['cocktail-base-spirit'];
     const numOfIngredients = cocktailForm['ingredient-number'];
     const cocktailRecipe = cocktailForm['recipe-input'];
+const deleteCocktailModal = document.getElementById('delete-cocktail-modal');
 
 //array of recipes available to make
 const cocktails = JSON.parse(localStorage.getItem('Cocktails')) || [];
 
 //style selector variables
-const settings = JSON.parse(localStorage.getItem("settings")) || [false];
+const settings = JSON.parse(localStorage.getItem("settings")) || [false, false, false];
 const optionalInfo = document.getElementById("optionalInfo");
 const styleSelector = document.getElementById("styleSelector");
 styleSelector.checked = settings[0];
@@ -123,12 +125,6 @@ totalBottles();
 insertIngredient();
 
 
-let list = ["one", "two", "three", "four", "five"];
-list.forEach((val) => {
-    console.log(val);
-});
-
-
 //allows the enter key to be used to submit 
 bottleNameInput.addEventListener("keypress", (event) => {
     if (event.key === "Enter") {
@@ -140,7 +136,6 @@ bottleNameInput.addEventListener("keypress", (event) => {
 //checks to see if the first letter is a vowel
 function isVowel(word) {
     let nameToCheck = word.toLowerCase().at(0);
-    console.log(nameToCheck);
     if(nameToCheck === 'a' || nameToCheck === 'e' || nameToCheck === 'i' || nameToCheck === 'o' || nameToCheck === 'u') {
         return true
     } else { return false };
@@ -151,16 +146,14 @@ function closeModal(name) {
     name.close();
 };
 
-//pushes bottle info into an object and stores it
-function addBottle(name, type, neat, iced, mixed) {
-
+//checks the inputs before submitting info
+function bottleInputCheck(name, type, neat, iced, mixed) {
     name = bottleNameInput.value;
     type = bottleTypeInput.value;
     neat = neatInput.checked;
     iced = icedInput.checked;
     mixed = mixedInput.checked;
-    if (addBottleBtn.value === "Add Bottle") {
-        if (bottleNameInput.value === "") {
+        if (bottleNameInput.value === "" || bottleNameInput.value === " ") {
             nameModal.showModal();
             return;
         };        
@@ -175,6 +168,9 @@ function addBottle(name, type, neat, iced, mixed) {
 
         let n;
         for (n = 0; n < bottlesWhisky.length; n++) {
+            if(addBottleBtn.value !== "Add Bottle") {
+                break;
+            }
             if (bottlesWhisky[n] === "") {
                 continue;
             };
@@ -183,13 +179,16 @@ function addBottle(name, type, neat, iced, mixed) {
                 bottleNameModal.innerText = `${bottlesWhisky[n].name} is already on your list, choose a different or more detailed name.`;
                 repeatNameModal.showModal();
                 return;
-
-                // if (confirm(`${bottlesWhisky[n].name} is already on your list, add it anyway?`)) {
-                // } else {
-                //     return;
-                // };
             };
         };
+
+    if (addBottleBtn.value === "Add Bottle") {
+        addBottle(name, type, neat, iced, mixed);
+    } else { editBottleInfo(name, type, neat, iced, mixed) };
+}
+
+//pushes bottle info into an object and stores it
+function addBottle(name, type, neat, iced, mixed) {
 
         bottlesWhisky.push({
             name,
@@ -205,11 +204,10 @@ function addBottle(name, type, neat, iced, mixed) {
         bottleNameInput.value = "";
         styleSwitch();
         totalBottles();
-    } else { editBottleInfo() };
 };
 
-//bottle list testing
-async function createBottleList({ name, type, neat, iced, mixed }) {
+//creates a info div for every bottle
+function createBottleList({ name, type, neat, iced, mixed }) {
 
     //finds the index to set as an ID
     let thisBottle = bottlesWhisky.findIndex(n => n.name === name);
@@ -237,7 +235,7 @@ async function createBottleList({ name, type, neat, iced, mixed }) {
                     <span class='checkmark'></span>
                 </label>
                 <input type='button' value='Edit Bottle' name='editBottle' onclick='editBottle(${thisBottle})' />
-                <input type='button' value='Delete' name='deleteBottle' onclick='deleteBottle(${thisBottle})' />
+                <input type='button' value='Delete' name='deleteBottle' onclick='confirmDeleteBottle(${thisBottle})' />
             </div> 
         </div>`;
 
@@ -271,125 +269,6 @@ async function createBottleList({ name, type, neat, iced, mixed }) {
     bottlesOnHand.innerHTML += bottleDiv;
 }
 
-//the old way of creating divs, just felt clunky and unnecessary
-/*
-function createBottleListOld({ name, type, neat, iced, mixed }) {
-    let thisBottleObject = bottlesWhisky.filter((o) => o.name === name);
-    let thisBottle = bottlesWhisky.indexOf(thisBottleObject[0]);
-
-    let smallName = name.replaceAll(/[^A-Za-z0-9]/g, "");
-
-    const bottleDiv = document.createElement("div");
-    bottleDiv.setAttribute("class", "info");
-    bottleDiv.setAttribute("name", "info");
-    bottleDiv.setAttribute("id", thisBottle);
-
-    const bottleName = document.createElement("button");
-    bottleName.setAttribute("class", "accordion");
-    bottleName.setAttribute("onclick", `accOpen(event)`);
-
-    const bottleInfo = document.createElement("div");
-    bottleInfo.setAttribute("class", "panel");
-    bottleInfo.setAttribute("id", `A${smallName}`);
-    bottleInfo.setAttribute("style", "display: none;");
-
-    const bottleType = document.createElement('p');
-
-    //neat checkbox in div
-    const span1 = document.createElement("span");
-    span1.setAttribute("class", "checkmark");
-    const neatCheck = document.createElement("label");
-    neatCheck.setAttribute("for", "display");
-    neatCheck.setAttribute("class", "container");
-    let neat2 = document.createElement("input");
-    neat2.setAttribute("type", "checkbox");
-    neat2.setAttribute("onclick", "defultCheck(event)");
-    if (neat === true) {
-        neat2.setAttribute("checked", "checked");
-    };
-
-    //iced checkbox in div
-    const span2 = document.createElement("span");
-    span2.setAttribute("class", "checkmark");
-    const icedCheck = document.createElement("label");
-    icedCheck.setAttribute("for", "display");
-    icedCheck.setAttribute("class", "container");
-    let iced2 = document.createElement("input");
-    iced2.setAttribute("type", "checkbox");
-    iced2.setAttribute("onclick", "defultCheck(event)");
-    if (iced === true) {
-        iced2.setAttribute("checked", "checked");
-    };
-
-    //mixed checkbox in div
-    const span3 = document.createElement("span");
-    span3.setAttribute("class", "checkmark");
-    const mixedCheck = document.createElement("label");
-    mixedCheck.setAttribute("for", "display");
-    mixedCheck.setAttribute("class", "container");
-    let mixed2 = document.createElement("input");
-    mixed2.setAttribute("type", "checkbox");
-    mixed2.setAttribute("onclick", "defultCheck(event)");
-    if (mixed === true) {
-        mixed2.setAttribute("checked", "checked");
-    };
-
-    //edit button in div
-    let editBottle = document.createElement("input");
-    editBottle.setAttribute("type", "button");
-    editBottle.setAttribute("value", "Edit Bottle");
-    editBottle.setAttribute("id", thisBottle);
-    editBottle.setAttribute("name", "editBottle");
-    editBottle.setAttribute("onclick", `editBottle(${thisBottle})`);
-
-    //delete button in div
-    let deleteBottle = document.createElement("input");
-    deleteBottle.setAttribute("type", "button");
-    deleteBottle.setAttribute("value", "Delete");
-    deleteBottle.setAttribute("id", thisBottle);
-    deleteBottle.setAttribute("name", "deleteBottle");
-    deleteBottle.setAttribute("onclick", `deleteBottle(${thisBottle})`);
-    bottleNumber++
-
-    //values to add to div                    
-    bottleName.innerText = name;
-    bottleType.innerText = type;
-    neatCheck.innerHTML = "Neat";
-    icedCheck.innerHTML = "On Ice";
-    mixedCheck.innerHTML = "Mixed";
-
-    //making the div
-    neatCheck.append(neat2, span1);
-    icedCheck.append(iced2, span2);
-    mixedCheck.append(mixed2, span3);
-    bottleInfo.append(bottleType, neatCheck, icedCheck, mixedCheck, editBottle, deleteBottle);
-    bottleDiv.append(bottleName, bottleInfo);
-
-    //sets div based on bottle type
-    switch (type) {
-        case "Whisky":
-            bottlesOnHand = whiskyOnHand;
-            break;
-        case "Rum":
-            bottlesOnHand = rumOnHand;
-            break;
-        case "Tequila/ Mezcal":
-            bottlesOnHand = tequilaOnHand;
-            break;
-        case "Gin":
-            bottlesOnHand = ginOnHand;
-            break;
-        case "Cognac/ Armagnac":
-            bottlesOnHand = cognacOnHand;
-            break;
-        default:
-            bottlesOnHand = otherOnHand;
-            break;
-    };
-
-    allbottlesOnHand.appendChild(bottleDiv.cloneNode(true));
-    bottlesOnHand.appendChild(bottleDiv);
-}; */
 
 //makes div checkboxes for display only
 function defultCheck(event) {
@@ -464,38 +343,13 @@ function chooseDrink() {
     drink = drinkRandom.name;
     type = drinkRandom.type;
 
-    //adjusts cocktails based on bottle type
-    switch (type) {
-        case "Whisky":
-            filteredCocktails = cocktails.filter(w => w.spirit === 'Whisky');
-            break;
-        case "Rum":
-            filteredCocktails = cocktails.filter(r => r.spirit === 'Rum');
-            break;
-        case "Tequila/ Mezcal":
-            filteredCocktails = cocktails.filter(t => t.spirit === 'Tequila/ Mezcal');
-            break;
-        case "Gin":
-            filteredCocktails = cocktails.filter(g => g.spirit === 'Gin');
-            break;
-        case "Cognac/ Armagnac":
-            filteredCocktails = cocktails.filter(c => c.spirit === 'Cognac/ Armagnac');
-            break;
-        case "Vodka":
-            filteredCocktails = cocktails.filter(v => v.spirit === 'Vodka');
-            break;
-        default:
-            filteredCocktails = [" a cocktail of your choice!"];
-            break;
-    };
-
-    cocktail = filteredCocktails[Math.floor(Math.random() * filteredCocktails.length)].name;
-    console.log(cocktail)
-
+    //chooses a cocktail based on the bottle choice
     if (style === "Mixed") {
         if (type === "Other") {
-            style += ", as" + filteredCocktails[0];
+            style += ", as a cocktail of your choice!";
         } else {
+            filteredCocktails = cocktails.filter(c => c.spirit === type);
+            cocktail = filteredCocktails[Math.floor(Math.random() * filteredCocktails.length)].name;
             style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } <button id='display-cocktail-recipe'>${cocktail}</button>`;
         };
     };
@@ -661,21 +515,25 @@ function openPage2(pageName, elmnt, color) {
 document.getElementById("defaultOpen2").click();
 
 //delete bottles
-function deleteBottle(id) {
+let bottleId;
+
+function confirmDeleteBottle(id) {
     console.log(id);
     confirmName = bottlesWhisky[id].name;
-    let thisDiv = document.getElementById(id);
-    console.log(thisDiv);
-    if (confirm(`Are you sure you wish to delete ${confirmName}?`)) {
-        bottlesWhisky.splice(id, 1, "");
-        localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky));
-        thisDiv.remove();
-        thisDiv = document.getElementById(id);
-        thisDiv.remove();
-        totalBottles();
-    } else {
-        return;
-    };
+    bottleId = id;
+    document.getElementById(`delete-bottle-text`).innerText = `Are you sure you wish to delete ${confirmName}?`
+    deleteBottleModal.showModal();
+};
+
+function deleteBottleTrue() {
+    let thisDiv = document.getElementById(bottleId);
+    closeModal(deleteBottleModal);
+    bottlesWhisky.splice(bottleId, 1, "");
+    localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky));
+    thisDiv.remove();
+    thisDiv = document.getElementById(bottleId);
+    thisDiv.remove();
+    totalBottles();
 };
 
 //edit bottles
@@ -710,27 +568,16 @@ cancelEdit.addEventListener("click", function () {
     styleSwitch();
 });
 
-function editBottleInfo() {
-    if (bottleTypeInput.value === "") {
-        alert("Select a type of liquor for this bottle.");
-        return;
-    };
-    if (bottleNameInput.value === "") {
-        alert("Input a name for this bottle.");
-        return;
-    };
-    if (!neatInput.checked && !icedInput.checked && !mixedInput.checked) {
-        alert("Choose at least one drink style for this bottle.");
-        return;
-    };
+function editBottleInfo(name, type, neat, iced, mixed) {
+
     cancelEdit.style.visibility = "hidden";
     bottleDisplay.style.display = "block";
     bottlesWhisky[id2] = {
-        name: bottleNameInput.value,
-        type: bottleTypeInput.value,
-        neat: neatInput.checked,
-        iced: icedInput.checked,
-        mixed: mixedInput.checked,
+        name,
+        type,
+        neat,
+        iced,
+        mixed
     };
     localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky));
     document.getElementById(id2).remove();
@@ -739,8 +586,8 @@ function editBottleInfo() {
     bottleHeader.textContent = "Add a bottle to the list";
     addBottleBtn.value = "Add Bottle";
     bottleNameInput.value = "";
-    sortList();
     styleSwitch();
+    sortList();
 };
 
 //makes accordian panels work
@@ -823,6 +670,7 @@ function addCocktail(name, spirit, recipe) {
     cocktailRecipe.value = ""
 
     console.log(cocktails);
+    localStorage.setItem("Cocktials", JSON.stringify(cocktails));
     createCocktailCard({ name, spirit, ingredients, recipe })
 };
 
@@ -845,27 +693,31 @@ function createCocktailCard({ name, spirit, ingredients, recipe }) {
             </ul>
             <p>${recipe}</p>
             <input type='button' onclick='editCocktail(cocktail${thisCocktail})' value='Edit Cocktial' />
-            <input type='button' onclick='deleteCocktail(cocktail${thisCocktail})' value='Delete' />
+            <input type='button' onclick='confirmDeleteCocktail(cocktail${thisCocktail})' value='Delete' />
         </div>`;
 
     recipeCardDiv.innerHTML += recipeCard;  
 };
 
-function deleteCocktail(id){
+let cocktailId;
+
+function confirmDeleteCocktail(id){
     console.log(id);
     let cocktailNumber = id.id.slice(8, 10);
     console.log(cocktailNumber)
     confirmName = cocktails[cocktailNumber].name;
-    let thisDiv = document.getElementById(id.id);
-    console.log(thisDiv);
-    if (confirm(`Are you sure you wish to delete your ${confirmName} recipe?`)) {
-        cocktails.splice(id, 1, "");
-        localStorage.setItem("Cocktials", JSON.stringify(cocktails));
-        thisDiv.remove();
-    } else {
-        return;
-    };
-}
+    document.getElementById('delete-cocktail-text').innerText = `Are you sure you wish to delete your ${confirmName} recipe?`
+    deleteCocktailModal.showModal();
+    cocktailId = id;
+};
+
+function deleteCocktailTrue() {
+    let thisDiv = document.getElementById(cocktailId.id);
+    cocktails.splice(cocktailId, 1, "");
+    localStorage.setItem("Cocktials", JSON.stringify(cocktails));
+    thisDiv.remove();
+    closeModal(deleteCocktailModal);
+};
 
 
 
@@ -955,8 +807,12 @@ function testCocktails() {
 
 //register service worker 
 
-if(`serviceWorker` in navigator){
-    navigator.serviceWorker.register(`./sw.js`)
-        .then(reg => console.log(`service worker has been registered`))
-        .catch(err => console.log(`error registering worker`, err))
-};  
+// if(`serviceWorker` in navigator){
+//     navigator.serviceWorker.register(`./sw.js`)
+//         .then(reg => console.log(`service worker has been registered`))
+//         .catch(err => console.log(`error registering worker`, err))
+// };  
+
+
+
+
