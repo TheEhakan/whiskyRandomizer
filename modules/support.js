@@ -56,7 +56,7 @@ function defultCheck(event) {
 };
 
 //sorts bottle items alphabetically
-async function sortList() {
+function sortList() {
     let list = document.getElementsByName("bottlesOnHand2")
     let list2, shouldSwitch, i, b, c;
     let switching = true;

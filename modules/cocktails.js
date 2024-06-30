@@ -82,7 +82,7 @@ function addCocktail(name, spirit, recipe) {
 
     console.log(cocktails);
     localStorage.setItem("Cocktials", JSON.stringify(cocktails));
-    createCocktailCard({ name, spirit, ingredients, recipe }, recipeCardDiv)
+    createCocktailCard({ name, spirit, ingredients, recipe }, recipeCardDiv);
 };
 
 function createCocktailCard({ name, spirit, ingredients, recipe }, location) {
@@ -96,7 +96,7 @@ function createCocktailCard({ name, spirit, ingredients, recipe }, location) {
     };
 
     const recipeCard = 
-        `<div class="recipeCard" id="cocktail${thisCocktail}" name=${spirit}>
+        `<div class="recipeCard" id="cocktail${thisCocktail}" name='cockails'>
             <h2>${name}</h2> 
             <ul>
                 ${eachIngredient}
