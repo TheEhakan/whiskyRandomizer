@@ -1,24 +1,26 @@
 
-const staticCacheName = `site-static-v0.862`
-const dynamicCache = 'site-dynamic-v0.862'
+const staticCache = `site-static-v0.863`
+const dynamicCache = 'site-dynamic-v0.863'
 const assets = [
     '/',
     '/index.html',
-    './modules/bottlelist.js',
-    './modules/cocktails.js',
-    './modules/randomizer.js',
-    './modules/settings.js',
-    './modules/support.js',
+    '/modules/bottlelist.js',
+    '/modules/cocktails.js',
+    '/modules/randomizer.js',
+    '/modules/settings.js',
+    '/modules/support.js',
     '/startup.js',
     '/style.css',
-    '/manifest.json',
+    '/manifest.json'
 ]
 
 // install evt
 self.addEventListener(`install`, evt => {
+    console.log("installed new SW")
     evt.waitUntil(
-        caches.open(staticCacheName).then(cache => {
-            console.log('caching shell assets')
+        caches.open(staticCache)
+        .then(cache => {
+            console.log('caching shell assets');
             cache.addAll(assets)
         })
     )
