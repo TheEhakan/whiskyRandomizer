@@ -19,10 +19,10 @@ for (cocktail in cocktails) {
 console.log(bottlesWhisky);
 console.log(settings);
 console.log(cocktails);
-bottlesWhisky.forEach(createBottleList);
 for (cocktail of cocktails) {
     createCocktailCard(cocktail, recipeCardDiv);
 };
+bottlesWhisky.forEach(createBottleList);
 sortList();
 sortCocktails();
 styleSwitch();
