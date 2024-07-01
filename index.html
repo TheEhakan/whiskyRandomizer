@@ -28,7 +28,7 @@
         What to drink and how 
     </h1>
     <p>
-        v.0.853
+        v.0.86
     </p>
     <br />
     <button class="tablink" onclick="openPage('Randomizer', this, 'rgb(52, 52, 54)')">Randomizer</button>
@@ -215,7 +215,7 @@
         <br />
         <div id="bottleDisplay">
             <h3 id="bottleCount"></h3>
-            <input type="text" id="bottleSearch" onchange="bottleSearch()" placeholder="Search Bottles" />
+            <input type="text" id="bottleSearch" onkeyup="bottleSearch()" placeholder="Search Bottles" />
             <div class="allbottlesOnHand" id="allbottlesOnHand" name="bottlesOnHand2">
             </div>
             <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
@@ -258,7 +258,7 @@
             <span class="slider round"></span>
         </label>
         <br />
-        <p>Adds a search bar for the bottle display</p>
+        <p>Adds a search bar to the bottle and cocktail lists.</p>
         <label class="switch" id="searchSelector2">
             <input type="checkbox" id="searchSelector" name="searchSelector" />
             <span class="slider round"></span>
@@ -308,9 +308,11 @@
 
                 </div>
                 <textarea id="recipe-input" placeholder="Recipe Instructions"></textarea>
-                <input type="button" id="recipe-sumbit" value="Add Cocktail" onclick="addCocktail()" >
+                <input type="button" id="recipe-sumbit" value="Add Cocktail" onclick="checkCocktialInputs()" >
+                <input type="button" id="cancel-cocktail-edit" value="Cancel" onclick="cancelCocktailEdit()" >
             </form>
         </div>
+        <input type="text" id="cocktail-search" onkeyup="cocktailSearch()" placeholder="Search Cocktails" />
         <div id="recipe-cards">
         </div>
         <dialog id="delete-cocktail-modal">

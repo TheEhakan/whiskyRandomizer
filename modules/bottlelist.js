@@ -176,6 +176,7 @@ function deleteBottleTrue() {
 let id2;
 const cancelEdit = document.getElementById("cancelEdit");
 cancelEdit.style.visibility = "hidden";
+
 function editBottle(id) {
     let bottleHeader = document.getElementById("bottleHeader");
     let bottleDisplay = document.getElementById("bottleDisplay");
@@ -195,6 +196,7 @@ function editBottle(id) {
 };
 
 cancelEdit.addEventListener("click", function () {
+
     addBottleBtn.value = "Add Bottle";
     cancelEdit.style.visibility = "hidden";
     bottleNameInput.value = "";
@@ -224,4 +226,30 @@ function editBottleInfo(name, type, neat, iced, mixed) {
     bottleNameInput.value = "";
     styleSwitch();
     sortList();
+};
+
+//sorts bottle items alphabetically
+function sortList() {
+    let list = document.getElementsByName("bottlesOnHand2")
+    let list2, shouldSwitch, i, b, c;
+    let switching = true;
+    for (c = 0; c < list.length; c++) {
+        list2 = document.getElementById(list[c].id);
+        switching = true;
+        while (switching) {
+            switching = false;
+            b = list2.getElementsByClassName("info");
+            for (i = 0; i < (b.length - 1); i++) {
+                shouldSwitch = false;
+                if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
+                    shouldSwitch = true;
+                    break;
+                };
+            };
+            if (shouldSwitch) {
+                b[i].parentNode.insertBefore(b[i + 1], b[i]);
+                switching = true;
+            };
+        };
+    };
 };

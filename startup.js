@@ -24,6 +24,7 @@ for (cocktail of cocktails) {
     createCocktailCard(cocktail, recipeCardDiv);
 };
 sortList();
+sortCocktails();
 styleSwitch();
 searchSwitch();
 categorySwitch();

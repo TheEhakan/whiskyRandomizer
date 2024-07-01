@@ -130,6 +130,7 @@ function didNotEnjoy() {
     sortList();
 };
 
+//shows the recipe of the chosen cocktail
 function displayRecipe() {
     const thisCocktail = cocktails.findIndex(n => n.name === cocktail)
     thisCocktailDiv.innerHTML = '';

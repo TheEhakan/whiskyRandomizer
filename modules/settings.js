@@ -10,6 +10,7 @@ styleSelector.addEventListener("click", styleSwitch);
 
 //search bar variables
 const search = document.getElementById("bottleSearch");
+const cocktailSearchBar = document.getElementById('cocktail-search')
 const searchSelector = document.getElementById("searchSelector");
 searchSelector.checked = settings[1];
 searchSelector.addEventListener("click", searchSwitch);
@@ -41,9 +42,13 @@ function styleSwitch() {
 function searchSwitch() {
     if (searchSelector.checked) {
         search.style.display = "block";
+        cocktailSearchBar.style.display = "block";
     } else {
         search.style.display = "none";
+        cocktailSearchBar.style.display = "none";
     };
+    search.value = '';
+    cocktailSearchBar.value = '';
     settings.splice(1, 1, searchSelector.checked);
     localStorage.setItem("settings", JSON.stringify(settings));
 };
@@ -64,7 +69,7 @@ function categorySwitch() {
 
 //search through bottles
 function bottleSearch() {
-    var input, filter, ul, li, a, i, b, txtValue;
+    let input, filter, ul, li, a, i, b, txtValue;
     input = document.getElementById("bottleSearch");
     filter = input.value.toUpperCase();
     ul = document.getElementsByName("bottlesOnHand2");
@@ -80,4 +85,22 @@ function bottleSearch() {
             };
         };
     };
+};
+
+//search cocktails
+function cocktailSearch() {
+    let input, filter, ul, li, a, i, txtValue;
+    input = document.getElementById("cocktail-search");
+    filter = input.value.toUpperCase();
+    ul = document.getElementById("recipe-cards");
+    li = ul.getElementsByClassName("recipeCard");
+        for (i = 0; i < li.length; i++) {
+            a = li[i];
+            txtValue = a.textContent || a.innerText || a.innerHTML;
+            if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                li[i].style.display = "";
+            } else {
+                li[i].style.display = "none";
+            };
+        };
 };

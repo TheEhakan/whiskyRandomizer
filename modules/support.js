@@ -1,7 +1,4 @@
 
-
-
-
 //sets a bottle count display
 function totalBottles() {
     let total = bottlesWhisky.filter((t) => t.name);
@@ -53,32 +50,6 @@ function closeModal(name) {
 //makes div checkboxes for display only
 function defultCheck(event) {
     event.preventDefault();
-};
-
-//sorts bottle items alphabetically
-function sortList() {
-    let list = document.getElementsByName("bottlesOnHand2")
-    let list2, shouldSwitch, i, b, c;
-    let switching = true;
-    for (c = 0; c < list.length; c++) {
-        list2 = document.getElementById(list[c].id);
-        switching = true;
-        while (switching) {
-            switching = false;
-            b = list2.getElementsByClassName("info");
-            for (i = 0; i < (b.length - 1); i++) {
-                shouldSwitch = false;
-                if (b[i].innerHTML.toLowerCase() > b[i + 1].innerHTML.toLowerCase()) {
-                    shouldSwitch = true;
-                    break;
-                };
-            };
-            if (shouldSwitch) {
-                b[i].parentNode.insertBefore(b[i + 1], b[i]);
-                switching = true;
-            };
-        };
-    };
 };
 
 //functionality to switch and view tabs
