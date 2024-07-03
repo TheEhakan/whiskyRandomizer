@@ -11,7 +11,7 @@ function chooseDrink() {
     const mixedq = document.querySelector("#mixedq");
     let type = document.getElementById("bottleTypeq").value;
     const random = [];
-    let result, bottleTypeChoice, drink, filteredCocktails;
+    let result, bottleTypeChoice, drink, filteredCocktails, activeCocktails;
 
     //Gets bottle options based off type
     if (type === "") {
@@ -82,7 +82,14 @@ function chooseDrink() {
             style += ", as a cocktail of your choice!";
         } else {
             filteredCocktails = cocktails.filter(c => c.spirit === type);
-            cocktail = filteredCocktails[Math.floor(Math.random() * filteredCocktails.length)].name;
+            activeCocktails = filteredCocktails.filter(a => a.active === true);
+            if (activeCocktails.length === 0) {
+                randomizerErrorModal.showModal();
+                randomizerErrorText.innerText = `There are no ${type} cocktails available to choose from`;
+                return;
+            };
+            
+            cocktail = activeCocktails[Math.floor(Math.random() * activeCocktails.length)].name;
             style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } <button id="display-cocktail-recipe" onclick="displayRecipe()">${cocktail}</button>`;
         };
     };

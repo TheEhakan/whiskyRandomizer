@@ -88,7 +88,8 @@ function addCocktail(name, spirit, ingredients, recipe) {
         name,
         spirit,
         ingredients,
-        recipe
+        recipe,
+        active: true
     });
 
     //clears inputs after submitting a new cocktail
@@ -104,7 +105,7 @@ function addCocktail(name, spirit, ingredients, recipe) {
 };
 
 //creates the visible cocktail cards in the dom
-function createCocktailCard({ name, spirit, ingredients, recipe }, location) {
+function createCocktailCard({ name, spirit, ingredients, recipe, active }, location) {
 
     let ingredient, eachIngredient;
     //finds the index to set as an id
@@ -119,14 +120,19 @@ function createCocktailCard({ name, spirit, ingredients, recipe }, location) {
     //the recipe card template
     const recipeCard = 
         `<div class="recipeCard" id="cocktail${thisCocktail}" name='${spirit}Cockails'>
-            <h2>${name}</h2> 
-            <ul>
-                ${eachIngredient}
-            </ul>
-            <p>${recipe}</p>
-            ${location === recipeCardDiv ? `<input type="button" onclick="editCocktail(cocktail${thisCocktail})" value="Edit Cocktial" />` : ``}
-            ${location === recipeCardDiv ? `<input type='button' onclick='confirmDeleteCocktail(cocktail${thisCocktail})' value='Delete' />` : ``}
-            ${location === thisCocktailDiv ? `<input type="button" onclick="closeModal(randomizerRecipeModal)" value="Close"/>` : ``}
+            <div class='${active ? `active-cocktial` : `non-active-cocktail`}'>
+                <div class="cocktail-header">
+                    <p>${name}</p>
+                    <input type="checkbox" id="toggle-cocktail" onclick="toggleCocktial(event)" ${active ? `` : `checked`}>
+                </div>
+                <ul>
+                    ${eachIngredient}
+                </ul>
+                <p>${recipe}</p>
+                ${location === recipeCardDiv ? `<input type="button" onclick="editCocktail(cocktail${thisCocktail})" value="Edit Cocktial" />` : ``}
+                ${location === recipeCardDiv ? `<input type='button' onclick='confirmDeleteCocktail(cocktail${thisCocktail})' value='Delete' />` : ``}
+                ${location === thisCocktailDiv ? `<input type="button" onclick="closeModal(randomizerRecipeModal)" value="Close"/>` : ``}
+            </div>
         </div>`;
 
     //add the template to the dom in desired location
@@ -235,3 +241,17 @@ function sortCocktails() {
     }
   }
 
+function toggleCocktial(event) {
+    const thisDiv = event.target.parentElement.parentElement;
+    const thisCocktailNumber = thisDiv.parentElement.id.slice(8, 10);
+    const thisCocktail = cocktails[thisCocktailNumber];
+    const toggleSwitch = event.target;
+    if (toggleSwitch.checked) {
+        thisDiv.className = 'non-active-cocktail';
+        thisCocktail.active = false;
+    } else {
+        thisDiv.className = 'active-cocktail';
+        thisCocktail.active = true;
+    };
+    localStorage.setItem('Cocktails', JSON.stringify(cocktails));
+};
