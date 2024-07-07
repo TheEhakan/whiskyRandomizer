@@ -64,12 +64,3 @@ categorySwitch();
 totalBottles();
 insertIngredient();
 
-
-fetch('https://192.168.1.230:3000/bottles', {
-  method: 'POST',
-  headers: {
-      'Content-Type': 'application/json'
-    },
-  body: JSON.stringify(bottlesWhisky)
-})
-.then((response) => console.log(response))
