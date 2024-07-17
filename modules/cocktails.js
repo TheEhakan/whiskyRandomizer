@@ -193,7 +193,7 @@ function cancelCocktailEdit() {
     insertIngredient();
     cocktailRecipe.value = '';
     recipeCardDiv.style.visibility = '';
-    submitCocktail.value = 'Add Cocktial';
+    submitCocktail.value = 'Add Cocktail';
     cancelCocktailEditBtn.style.visibility = 'hidden';
 };
 
