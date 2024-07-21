@@ -1,17 +1,17 @@
 
-const staticCache = `site-static-v0.865`
-const dynamicCache = 'site-dynamic-v0.865'
+const staticCache = `site-static-v0.866`
+const dynamicCache = 'site-dynamic-v0.866'
 const assets = [
-    '/',
-    '/index.html',
-    '/modules/bottlelist.js',
-    '/modules/cocktails.js',
-    '/modules/randomizer.js',
-    '/modules/settings.js',
-    '/modules/support.js',
-    '/startup.js',
-    '/style.css',
-    '/manifest.json'
+    './',
+    './index.html',
+    './modules/bottlelist.js',
+    './modules/cocktails.js',
+    './modules/randomizer.js',
+    './modules/settings.js',
+    './modules/support.js',
+    './startup.js',
+    './style.css',
+    './manifest.json'
 ]
 
 // install evt
