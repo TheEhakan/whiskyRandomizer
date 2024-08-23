@@ -97,21 +97,15 @@ const getSettings = async () => {
 
 
 (async () => {
-
-    try {
-                
-        //check if token exists or is valid
-        const response = await fetch(`${path}/auth/is-verify`, {
-            method: 'GET',
-            headers: {
-                'token': token
-            }
-        });
-        const result = await response.json();
-    } catch (error) {
-        loginModal.showModal();
-    }
-
+  
+    //check if token exists or is valid
+    const response = await fetch(`${path}/auth/is-verify`, {
+        method: 'GET',
+        headers: {
+            'token': token
+        }
+    });
+    const result = await response.json();
 
   if(!result.user_name) {
     loginModal.showModal();
