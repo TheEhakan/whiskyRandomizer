@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 module.exports = (req, res, next) => {
     const { name, email, dob, password } = req.body;
@@ -27,4 +28,35 @@ module.exports = (req, res, next) => {
     };
 
     next();
+=======
+
+module.exports = (req, res, next) => {
+    const { name, email, dob, password } = req.body;
+
+    function validEmail (userEmail) {
+        return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
+    };
+
+    if (req.path === "/register") {
+
+        if(![name, email, dob, password].every(Boolean)) {
+            return res.status(401).json('Missing Credentials');
+
+        } else if (!validEmail(email)) {
+            return res.status(401).json('Invalid Email');
+        };
+
+    } else if (req.path === '/login') {
+
+        if(![email, password].every(Boolean)) {
+            return res.status(401).json('Missing Credentials');
+
+        } else if (!validEmail(email)) {
+            return res.status(401).json('Invalid Email');
+        };
+
+    };
+
+    next();
+>>>>>>> 7eefc1e6f30814f779bacaf7c74e720c6feb78df
 };
