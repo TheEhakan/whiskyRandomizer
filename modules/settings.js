@@ -1,32 +1,25 @@
 
-//loads settings preferences
-const settings = JSON.parse(localStorage.getItem("settings")) || [false, false, false];
 
-//style selector variables
-const optionalInfo = document.getElementById("optionalInfo");
-const styleSelector = document.getElementById("styleSelector");
-styleSelector.checked = settings[0];
-styleSelector.addEventListener("click", styleSwitch);
+async function pushSettingsDataToServer() {
+    const response = await fetch(`${path}/userData/settings`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'token': token
+        },
+        body: JSON.stringify(settings)
+    });
+};
 
-//search bar variables
-const search = document.getElementById("bottleSearch");
-const cocktailSearchBar = document.getElementById('cocktail-search')
-const searchSelector = document.getElementById("searchSelector");
-searchSelector.checked = settings[1];
-searchSelector.addEventListener("click", searchSwitch);
+//changes the style display setting
+function changeStyleSwitch(){
+    settings.splice(0, 1, styleSelector.checked);
+    pushSettingsDataToServer();
+}
 
-//toggle category variables
-const categorySelector = document.getElementById("categorySelector");
-categorySelector.checked = settings[2];
-const tablink2 = document.getElementsByClassName("tablink2");
-const tabcontent2 = document.getElementsByName("bottlesOmHand2");
-categorySelector.addEventListener("click", categorySwitch);
-
-
-
-//style selector setting
+//adds or removes style selector from display
 function styleSwitch() {
-    if (styleSelector.checked) {
+    if (settings[0]) {
         optionalInfo.style.display = "block";
     } else {
         document.getElementById("neato").checked = true;
@@ -34,43 +27,47 @@ function styleSwitch() {
         document.getElementById("mixedo").checked = true;
         optionalInfo.style.display = "none";
     };
-    settings.splice(0, 1, styleSelector.checked);
-    localStorage.setItem("settings", JSON.stringify(settings));
-}
-
-//search bar setting
-function searchSwitch() {
-    if (searchSelector.checked) {
-        search.style.display = "block";
-        cocktailSearchBar.style.display = "block";
-    } else {
-        search.style.display = "none";
-        cocktailSearchBar.style.display = "none";
-    };
-    search.value = '';
-    cocktailSearchBar.value = '';
-    settings.splice(1, 1, searchSelector.checked);
-    localStorage.setItem("settings", JSON.stringify(settings));
 };
 
-//toggle category setting
+//changes search bar display settings
+function changeSearchSwitch() {
+    settings.splice(1, 1, searchSelector.checked);
+    pushSettingsDataToServer();
+}
+
+//adds or removes search bar from display
+function searchSwitch(page) {
+    const search = document.getElementById(`${page}-search`);
+    if (settings[1]) {
+        search.style.display = "block";
+    } else {
+        search.style.display = "none";
+    };
+    search.value = '';
+};
+
+//changes category display settings
+function changeCategorySwitch() {
+    settings.splice(2, 1, categorySelector.checked);
+    pushSettingsDataToServer();
+}
+
+//adds or removes categories to the bottle display
 function categorySwitch() {
     bottlesOnHand = document.getElementById("bottlesOnHand");
-    if (categorySelector.checked) {
+    if (settings[2]) {
         allbottlesOnHand.style.display = "none";
         bottlesOnHand.style.display = "block";
     } else {
         allbottlesOnHand.style.display = "block";
         bottlesOnHand.style.display = "none";
     };
-    settings.splice(2, 1, categorySelector.checked);
-    localStorage.setItem("settings", JSON.stringify(settings));
 };
 
 //search through bottles
 function bottleSearch() {
     let input, filter, ul, li, a, i, b, txtValue;
-    input = document.getElementById("bottleSearch");
+    input = document.getElementById("bottle-search");
     filter = input.value.toUpperCase();
     ul = document.getElementsByName("bottlesOnHand2");
     for (b = 0; b < ul.length; b++) {
@@ -104,3 +101,4 @@ function cocktailSearch() {
             };
         };
 };
+

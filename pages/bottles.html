@@ -1,0 +1,114 @@
+<div id="Bottles" class="tabcontent">
+    <label for="addBottle">
+        <h2 id="bottleHeader">
+            Add a bottle to the list
+        </h2>
+    </label>
+    <br />
+    <div class="bottleInput" id="bottleForm">
+        <div class="bottleInputArea">
+            <input type="text" id="bottleName" name="bottleName" placeholder="Bottle Name" />
+            <select name="bottleType" id="bottleType">
+                <option value="">
+                    --Type of liquor--
+                </option>
+                <option value="Whisky">
+                    Whisky
+                </option>
+                <option value="Tequila/ Mezcal">
+                    Tequila/ Mezcal
+                </option>
+                <option value="Rum">
+                    Rum
+                </option>
+                <option value="Cognac/ Armagnac">
+                    Cognac/ Armagnac
+                </option>
+                <option value="Gin">
+                    Gin
+                </option>
+                <option value="Vodka">
+                    Vodka
+                </option>
+                <option value="Other">
+                    Other
+                </option>
+            </select>
+        </div>
+        <br />
+        <div class="bottleInput" id="optionalInfo">
+            <label for="howWouldYouDrink" id="howWouldYouDrink">
+                &nbsp; &nbsp;How would you drink this liquor?
+            </label>
+            <br />
+            <br />
+            <label for="neato" class="container">
+                Neat
+                <input type="checkbox" id="neato" name="neato" />
+                <span class="checkmark"></span>
+            </label>
+            <label for="icedo" class="container">
+                On Ice
+                <input type="checkbox" id="icedo" name="icedo" />
+                <span class="checkmark"></span>
+            </label>
+            <label for="mixedo" class="container">
+                Mixed
+                <input type="checkbox" id="mixedo" name="mixedo" />
+                <span class="checkmark"></span>
+            </label>
+        </div>
+        <input type="button" id="addToList" value="Add Bottle" onclick="bottleInputCheck()" /><input type="button" id="cancelEdit" onclick="cancelBottleEdit()" value="Cancel" />
+        <br />
+        <dialog id="name-input-modal">
+            <h4>Input a name for this bottle.</h4>
+            <input type="button" onclick="closeModal('name-input-modal')" value="Close"/>
+        </dialog>
+        <dialog id="type-input-modal">
+            <h4>Select a type of liquor for this bottle.</h4>
+            <input type="button" onclick="closeModal('type-input-modal')" value="Close"/>
+        </dialog>
+        <dialog id="style-input-modal">
+            <h4>Choose at least one drink style for this bottle.</h4>
+            <input type="button" onclick="closeModal('style-input-modal')" value="Close"/>
+        </dialog>
+        <dialog id="repeat-name-modal">
+            <h4 id="bottleNameModal"></h4>
+            <input type="button" onclick="closeModal('repeat-name-modal')" value='Cancel'/>
+        </dialog>
+        <div class="bottleInput">
+        </div>
+    </div>
+    <br />
+    <br />
+    <div id="bottleDisplay">
+        <h3 id="bottleCount"></h3>
+        <input type="text" id="bottle-search" onkeyup="bottleSearch()" placeholder="Search Bottles" />
+        <div class="allbottlesOnHand" id="allbottlesOnHand" name="bottlesOnHand2">
+        </div>
+        <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
+            <button class="tablink2" onclick="openPage2('whiskyOnHand', this, 'rgb(75, 75, 75)')"
+                id="defaultOpen2">Whisky</button>
+            <button class="tablink2" onclick="openPage2('ginOnHand', this, 'rgb(75, 75, 75)')" id="ginTotal">Gin</button>
+            <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')" id="rumTotal">Rum</button>
+            <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')" id="cognacTotal">Cognac/ Armagnac</button>
+            <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')" id="tequilaTotal">Tequila/ Mezcal</button>
+            <button class="tablink2" onclick="openPage2('vodkaOnHand', this, 'rgb(75, 75, 75)')" id="vodkaTotal">Vodka</button>
+            <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')" id="otherTotal">Other</button>
+            <div class="tabcontent2" id="whiskyOnHand" name="bottlesOnHand2"></div>
+            <div class="tabcontent2" id="ginOnHand" name="bottlesOnHand2"></div>
+            <div class="tabcontent2" id="rumOnHand" name="bottlesOnHand2"></div>
+            <div class="tabcontent2" id="cognacOnHand" name="bottlesOnHand2"></div>
+            <div class="tabcontent2" id="tequilaOnHand" name="bottlesOnHand2"></div>
+            <div class="tabcontent2" id="vodkaOnHand" name="bottlesOnHand2"></div>
+            <div class="tabcontent2" id="otherOnHand" name="bottlesOnHand2"></div>
+        </div>
+    </div>
+    <div id="delete-bottle">
+        <dialog id="delete-bottle-modal">
+            <p id="delete-bottle-text"></p>
+            <input type="button" onclick="deleteBottleTrue(event)" value="Delete Bottle">
+            <input type="button" onclick="closeModal('delete-bottle-modal')" value="Cancel">
+        </dialog>
+    </div>
+</div>

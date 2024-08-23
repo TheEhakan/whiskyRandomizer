@@ -1,0 +1,56 @@
+<div id="Cocktails" class="tabcontent">
+    <h2>
+        Add or modify your personal cocktail list.
+    </h2>
+    <div id="cocktail-form-div">
+        <form action="" method="get" id="cocktail-form"> <br />
+            <input type="text" id="cocktailName" placeholder="Cocktail Name" />
+            <select id="cocktail-base-spirit">
+                <option value="">
+                    --Type of liquor--
+                </option>
+                <option value="Whisky">
+                    Whisky
+                </option>
+                <option value="Tequila/ Mezcal">
+                    Tequila/ Mezcal
+                </option>
+                <option value="Rum">
+                    Rum
+                </option>
+                <option value="Cognac/ Armagnac">
+                    Cognac/ Armagnac
+                </option>
+                <option value="Gin">
+                    Gin
+                </option>
+                <option value="Vodka">
+                    Vodka
+                </option>
+                <option value="Other">
+                    Other
+                </option>
+            </select>
+            <input type="number" id="ingredient-number" placeholder="Number of Ingredients" onchange="insertIngredient()" max="10" min="0"/>
+            <div id="ingredient-div">
+
+            </div>
+            <textarea id="recipe-input" placeholder="Recipe Instructions"></textarea>
+            <input type="button" id="recipe-sumbit" value="Add Cocktail" onclick="checkCocktialInputs()" >
+            <input type="button" id="cancel-cocktail-edit" value="Cancel" onclick="cancelCocktailEdit()" >
+        </form>
+    </div>
+    <input type="text" id="cocktail-search" onkeyup="cocktailSearch()" placeholder="Search Cocktails" />
+    <div id="recipe-cards">
+    </div>
+    <dialog id="delete-cocktail-modal">
+        <p id="delete-cocktail-text"></p>
+        <input type="button" onclick="deleteCocktailTrue()" value="Delete Cocktail">
+        <input type="button" onclick="closeModal('delete-cocktail-modal')" value="Cancel">
+    </dialog>
+    <dialog id="cocktail-error-modal">
+        <p id="cocktail-error-text"></p>
+        <input type="button" onclick="closeModal('cocktail-error-modal')" value="Close"/>
+    </dialog>
+    
+</div>

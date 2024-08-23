@@ -1,9 +1,6 @@
 //the randomizer
 let drinkRandom, style, cocktail;
-const randomizerErrorModal = document.getElementById('randomizer-error-modal');
-const randomizerErrorText = document.getElementById('randomizer-error-text');
-const randomizerRecipeModal = document.getElementById('randomizer-cocktail-recipe');
-const thisCocktailDiv = document.getElementById('randomizer-cocktail-recipe-card');
+
 
 function chooseDrink() {
     const neatq = document.querySelector("#neatq");
@@ -13,6 +10,9 @@ function chooseDrink() {
     const random = [];
     let result, bottleTypeChoice, drink, filteredCocktails, activeCocktails;
 
+    const randomizerErrorModal = document.getElementById('randomizer-error-modal');
+    const randomizerErrorText = document.getElementById('randomizer-error-text');
+
     //Gets bottle options based off type
     if (type === "") {
         randomizerErrorModal.showModal();
@@ -21,7 +21,7 @@ function chooseDrink() {
     } else if (type === "Any") {
         bottleTypeChoice = bottlesWhisky;
     } else {
-        bottleTypeChoice = bottlesWhisky.filter((b) => b.type == type);
+        bottleTypeChoice = bottlesWhisky.filter((b) => b.bottle_type == type);
     };
 
     if (bottleTypeChoice.length === 0) {
@@ -57,13 +57,13 @@ function chooseDrink() {
 
     //filters bottles further based on style or drink
     if (style === "Neat") {
-        result = bottleTypeChoice.filter((r) => r.neat == true);
+        result = bottleTypeChoice.filter((r) => r.bottle_neat == true);
     };
     if (style === "Iced") {
-        result = bottleTypeChoice.filter((r) => r.iced == true);
+        result = bottleTypeChoice.filter((r) => r.bottle_iced == true);
     };
     if (style === "Mixed") {
-        result = bottleTypeChoice.filter((r) => r.mixed == true);
+        result = bottleTypeChoice.filter((r) => r.bottle_mixed == true);
     };
     if (result.length === 0) {
         randomizerErrorModal.showModal();
@@ -73,23 +73,23 @@ function chooseDrink() {
 
     //chooses a single bottle to display
     drinkRandom = result[Math.floor(Math.random() * result.length)];
-    drink = drinkRandom.name;
-    type = drinkRandom.type;
+    drink = drinkRandom.bottle_name;
+    type = drinkRandom.bottle_type;
 
     //chooses a cocktail based on the bottle choice
     if (style === "Mixed") {
         if (type === "Other" || cocktails.length === 0) {
             style += ", as a cocktail of your choice!";
         } else {
-            filteredCocktails = cocktails.filter(c => c.spirit === type);
-            activeCocktails = filteredCocktails.filter(a => a.active === true);
+            filteredCocktails = cocktails.filter(c => c.cocktail_base_spirit === type);
+            activeCocktails = filteredCocktails.filter(a => a.cocktail_active === true);
             if (activeCocktails.length === 0) {
                 randomizerErrorModal.showModal();
                 randomizerErrorText.innerText = `There are no ${type} cocktails available to choose from`;
                 return;
             };
             
-            cocktail = activeCocktails[Math.floor(Math.random() * activeCocktails.length)].name;
+            cocktail = activeCocktails[Math.floor(Math.random() * activeCocktails.length)].cocktail_name;
             style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } <button id="display-cocktail-recipe" onclick="displayRecipe()">${cocktail}</button>`;
         };
     };
@@ -105,11 +105,6 @@ function chooseDrink() {
 };
 
 //changes objects if needed if you enjoyed the drink or not
-let drinkEnjoy = document.getElementById("drinkEnjoy");
-drinkEnjoy.style.display = "none";
-let enjoyChoice = document.getElementById("enjoyChoice");
-let enjoyDisplay = document.getElementById("enjoyDisplay");
-
 function enjoyedThisDrink() {
     enjoyDisplay.textContent = "Wonderful! Glad it was a good choice.";
     enjoyChoice.style.display = "none";
@@ -120,26 +115,26 @@ function didNotEnjoy() {
     enjoyChoice.style.display = "none";
     style = style.slice(0, 5).trim();
     let sampled = bottlesWhisky.indexOf(drinkRandom);
-    console.log(sampled);
+
     if (style === "Neat") {
-        bottlesWhisky[sampled].neat = false;
+        bottlesWhisky[sampled].bottle_neat = false;
     };
     if (style === "Iced") {
-        bottlesWhisky[sampled].iced = false;
+        bottlesWhisky[sampled].bottle_iced = false;
     };
     if (style === "Mixed") {
-        bottlesWhisky[sampled].mixed = false;
+        bottlesWhisky[sampled].bottle_mixed = false;
     };
-    localStorage.setItem("Whisky", JSON.stringify(bottlesWhisky));
-    document.getElementById(sampled).remove();
-    document.getElementById(sampled).remove();
-    createBottleList(bottlesWhisky[sampled]);
+
+    editBottleOnServer(bottlesWhisky[sampled], 'randomizer');
     sortList();
 };
 
 //shows the recipe of the chosen cocktail
 function displayRecipe() {
-    const thisCocktail = cocktails.findIndex(n => n.name === cocktail)
+    const thisCocktailDiv = document.getElementById('randomizer-cocktail-recipe-card');
+    const randomizerRecipeModal = document.getElementById('randomizer-cocktail-recipe');
+    const thisCocktail = cocktails.findIndex(n => n.cocktail_name === cocktail)
     thisCocktailDiv.innerHTML = '';
     createCocktailCard(cocktails[thisCocktail], thisCocktailDiv);
     randomizerRecipeModal.showModal();

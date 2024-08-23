@@ -1,35 +1,35 @@
 
 //sets a bottle count display
 function totalBottles() {
-    let total = bottlesWhisky.filter((t) => t.name);
+    let total = bottlesWhisky.filter((t) => t.bottle_name);
     let bottleCount = document.getElementById("bottleCount");
     bottleCount.textContent = `Bottles on Hand: ${total.length}`;
 
-    let totalWhisky = bottlesWhisky.filter((w) => w.type === "Whisky");
+    let totalWhisky = bottlesWhisky.filter((w) => w.bottle_type === "Whisky");
     let whiskyTotal = document.getElementById("defaultOpen2");
     whiskyTotal.textContent = `Whisky - ${totalWhisky.length}`;
 
-    let totalRum = bottlesWhisky.filter((r) => r.type === "Rum");
+    let totalRum = bottlesWhisky.filter((r) => r.bottle_type === "Rum");
     let rumTotal = document.getElementById("rumTotal");
     rumTotal.textContent = `Rum - ${totalRum.length}`;
 
-    let totalGin = bottlesWhisky.filter((g) => g.type === "Gin");
+    let totalGin = bottlesWhisky.filter((g) => g.bottle_type === "Gin");
     let ginTotal = document.getElementById("ginTotal");
     ginTotal.textContent = `Gin - ${totalGin.length}`;
 
-    let totalTequila = bottlesWhisky.filter((t) => t.type === "Tequila/ Mezcal");
+    let totalTequila = bottlesWhisky.filter((t) => t.bottle_type === "Tequila/ Mezcal");
     let tequilaTotal = document.getElementById("tequilaTotal");
     tequilaTotal.textContent = `Tequila/ Mezcal - ${totalTequila.length}`;
 
-    let totalCognac = bottlesWhisky.filter((c) => c.type === "Cognac/ Armagnac");
+    let totalCognac = bottlesWhisky.filter((c) => c.bottle_type === "Cognac/ Armagnac");
     let cognacTotal = document.getElementById("cognacTotal");
     cognacTotal.textContent = `Cognac/ Armagnac - ${totalCognac.length}`;
 
-    let totalVodka = bottlesWhisky.filter((v) => v.type === "Vodka");
+    let totalVodka = bottlesWhisky.filter((v) => v.bottle_type === "Vodka");
     let vodkaTotal = document.getElementById("vodkaTotal");
     vodkaTotal.textContent = `Vodka - ${totalVodka.length}`;
 
-    let totalOther = bottlesWhisky.filter((o) => o.type === "Other");
+    let totalOther = bottlesWhisky.filter((o) => o.bottle_type === "Other");
     let otherTotal = document.getElementById("otherTotal");
     otherTotal.textContent = `Other - ${totalOther.length}`;
 };
@@ -44,29 +44,14 @@ function isVowel(word) {
 
 //closes the specific modal
 function closeModal(name) {
-    name.close();
+    const modal = document.getElementById(name)
+    modal.close();
 };
 
 //makes div checkboxes for display only
 function defultCheck(event) {
     event.preventDefault();
 };
-
-//functionality to switch and view tabs
-function openPage(pageName, elmnt, color) {
-    let i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    };
-    tablinks = document.getElementsByClassName("tablink");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
-    };
-    document.getElementById(pageName).style.display = "block";
-    elmnt.style.backgroundColor = color;
-};
-document.getElementById("defaultOpen").click();
 
 //makes bottle category tabs work
 function openPage2(pageName, elmnt, color) {
@@ -82,7 +67,7 @@ function openPage2(pageName, elmnt, color) {
     document.getElementById(pageName).style.display = "block";
     elmnt.style.backgroundColor = color;
 };
-document.getElementById("defaultOpen2").click();
+
 
 //makes accordian panels work
 function accOpen(event) {
@@ -104,3 +89,29 @@ function accOpen(event) {
     };
 };
 
+//sorts various arrays to speed up loading
+function sortArrays(arrayName) {
+
+    arrayName.sort((a, b) => {
+        const nameA = arrayName === bottlesWhisky ? a.bottle_name.toUpperCase() : a.cocktail_name.toUpperCase();
+        const nameB = arrayName === bottlesWhisky ? b.bottle_name.toUpperCase() : b.cocktail_name.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+        return 0;
+      });
+};
+
+function sidebarOpen() {
+
+    const sidebarToggle = document.getElementById('sidebarCheck');
+
+    if (sidebarToggle.checked) {
+        document.body.style.overflow = 'hidden';
+    } else {
+        document.body.style.overflow = '';
+    }
+}

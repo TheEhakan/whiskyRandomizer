@@ -4,13 +4,15 @@
 <head>
     <title>Drink Randomizer</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="./style.css">
-    <link rel="shortcut icon" href="./img/bottle.ico">
-    <link rel="icon" type="image/gif" href="./img/bottle.ico">
+    <link rel="stylesheet" href="./style.css" type="text/css">
+    <link rel="stylesheet" href="./hamburger.css">
+    <link rel="shortcut icon" href="./img/bottle.ico" type="image/ico">
+    <link rel="icon"  href="./img/bottle.ico" type="image/ico">
+
 
     <meta name="theme-color" content="#5c5c5c">
 
-    <link rel="apple-touch-icon" href="./img/whisky128x128.png">
+    <link rel="apple-touch-icon" href="./img/whisky128x128.png" type="img/png">
     <link rel="apple-touch-icon" href="./img/whisky144x144.png">
     <link rel="apple-touch-icon" href="./img/whisky152x152.png">
     <link rel="apple-touch-icon" href="./img/whisky192x192.png">
@@ -23,317 +25,95 @@
 </head>
 
 <body>
-    <br />
+    
+    <label class="hamburger-menu">
+        <input type="checkbox" id="sidebarCheck" onchange="sidebarOpen()"/>
+    </label>
+    <aside class="sidebar">
+
+        <div id="userDiv">
+            <p id="userLoginButton"> <button id="changeUser" onclick="openLogin()">Log-in.</button>User: Guest</p>
+            <dialog id="userLogin">
+                <div id="close-modal-div">
+                    <button id="close-modal" onclick="closeModal('userLogin')">x</button>
+                </div>
+                <form>
+                    <h2>
+                        User Login:
+                    </h2>
+                    <p id="successMessage"></p>
+                    <input type="email" id="userEmailLogin" required placeholder="Email">
+                    <input type="password" id="userLoginPassword" required placeholder="password">
+                    <input type="submit" id="log-user-in" value="Login" onclick="logUserIn(event)">
+                    <input type="button" id="register" onclick="changeToRegister(event)" value="New User">
+                </form>
+            </dialog>
+            <dialog id="userRegister">
+                <div id="close-modal-div">
+                    <button id="close-modal" onclick="closeModal('userRegister')">x</button>
+                </div>
+                <form>
+                    <h2>
+                        Register new account:
+                    </h2>
+                    <p id="errorMessage"></p>
+                    <input type="text" name="userNameRegister" id="userNameRegister" placeholder="Your Name" required>
+                    <div class="userBirth">
+                        <label for="userDOB">DOB: </label>
+                        <input type="date"id="userDOB" required >
+                    </div>
+                    <input type="email" id="userEmailRegister" required placeholder="Email">
+                    <input type="password" id="userPasswordRegister" required placeholder="password">
+                    <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+                    <input type="submit" id="registerUser" onclick="registerNewUser(event)" value="Register new account">
+                </form>
+            </dialog>
+        </div>
+
+        <div id="menu-header">
+            <h2 id="menu">
+                Menu:
+            </h2>
+        </div>
+        <hr>
+        <br />
+        <nav>
+            <div>
+                <button class="nav-button" onclick="openPage('dashboard.html')">Dashboard</button>
+            </div>
+            <div>
+                <button class="nav-button" onclick="openPage('settings.html')">Settings</button>
+            </div>
+            <div>
+                <button class="nav-button" onclick="openPage('about.html')">About</button>
+            </div>
+        </nav>
+    </aside>
     <h1>
-        What to drink and how 
+        Drink Randomizer
     </h1>
-    <p>
-        v.0.865
+    <p id="versionNumber">
+        v.0.900
     </p>
     <br />
-    <button class="tablink" onclick="openPage('Randomizer', this, 'rgb(52, 52, 54)')">Randomizer</button>
-    <button class="tablink" onclick="openPage('Bottles', this, 'rgb(52, 52, 54)')" id="defaultOpen">Bottles</button>
-    <button class="tablink" onclick="openPage('Settings', this, 'rgb(52, 52, 54)')">Settings</button>
-    <button class="tablink" onclick="openPage('About', this, 'rgb(52, 52, 54)')">Cocktails</button>
-    <div id="Randomizer" class="tabcontent">
-        <label for="chooseDrink">
-            <h2>
-                Choose My Drink!
-            </h2>
-        </label>
-        <br />
-        <br />
-        <div id="bottle-randomizer-div">
-            <br />
-            <div class="bottleChoice">
-                <label for="howToDrink">
-                    <h3>
-                        &nbsp;&nbsp;How would you like your drink?
-                    </h3>
-                </label>
-                <br />
-                <select name="bottleTypeq" id="bottleTypeq">
-                    <option value="">
-                        --Type of liquor--
-                    </option>
-                    <option value="Any">
-                        Any
-                    </option>
-                    <option value="Whisky">
-                        Whisky
-                    </option>
-                    <option value="Tequila/ Mezcal">
-                        Tequila/ Mezcal
-                    </option>
-                    <option value="Rum">
-                        Rum
-                    </option>
-                    <option value="Cognac/ Armagnac">
-                        Cognac/ Armagnac
-                    </option>
-                    <option value="Gin">
-                        Gin
-                    </option>
-                    <option value="Vodka">
-                        Vodka
-                    </option>
-                    <option value="Other">
-                        Other
-                    </option>
-                </select>
-                <br />
-                <div>
-                    <label for="neatq" class="container">
-                        <input type="checkbox" id="neatq" name="neatq" />
-                        <span class="checkmark"></span>
-                        Neat
-                    </label>
-                </div>
-                <div>
-                    <label for="icedq" class="container">
-                        <input type="checkbox" id="icedq" name="icedq" />
-                        <span class="checkmark"></span>
-                        On Ice
-                    </label>
-                </div>
-                <div>
-                    <label for="mixedq" class="container">
-                        <input type="checkbox" id="mixedq" name="mixedq" />
-                        <span class="checkmark"></span>
-                        Mixed
-                    </label>
-                </div>
-            </div>
-            <br />
-            <br />
-            <input type="button" id="chooseMyDrink" value="Randomize" onclick="chooseDrink()" />
-            <br />
-            <br />
-            <div id="drink2">
-            </div>
-            <br />
-            <dialog id="randomizer-error-modal">
-                <p id="randomizer-error-text"></p>
-                <input type="button" onclick="closeModal(randomizerErrorModal)" value="Close"/>
-            </dialog>
-            <dialog id="randomizer-cocktail-recipe">
-                <div id="randomizer-cocktail-recipe-card"></div>
-            </dialog>
-            <br />
-            <div id="drinkEnjoy">
-                <p>Did you enjoy this drink?</p><br />
-                <div id="enjoyChoice">
-                    <input type="button" value="Yes!" id="enjoyedDrink" onclick="enjoyedThisDrink()" /><input type="button" value="Not Good." onclick="didNotEnjoy()" />
-                </div>
-                <p id="enjoyDisplay"></p>
-            </div>
-        </div>
-        <br />
-    </div>
-    <div id="Bottles" class="tabcontent">
-        <label for="addBottle">
-            <h2 id="bottleHeader">
-                Add a bottle to the list
-            </h2>
-        </label>
-        <br />
-        <form action="" method="get" class="bottleInput" id="bottleForm">
-            <div class="bottleInput">
-                <input type="text" id="bottleName" name="bottleName" placeholder="Bottle Name" />
-                <select name="bottleType" id="bottleType">
-                    <option value="">
-                        --Type of liquor--
-                    </option>
-                    <option value="Whisky">
-                        Whisky
-                    </option>
-                    <option value="Tequila/ Mezcal">
-                        Tequila/ Mezcal
-                    </option>
-                    <option value="Rum">
-                        Rum
-                    </option>
-                    <option value="Cognac/ Armagnac">
-                        Cognac/ Armagnac
-                    </option>
-                    <option value="Gin">
-                        Gin
-                    </option>
-                    <option value="Vodka">
-                        Vodka
-                    </option>
-                    <option value="Other">
-                        Other
-                    </option>
-                </select>
-            </div>
-            <br />
-            <div class="bottleInput" id="optionalInfo">
-                <label for="howWouldYouDrink" id="howWouldYouDrink">
-                    &nbsp; &nbsp;How would you drink this liquor?
-                </label>
-                <br />
-                <br />
-                <label for="neato" class="container">
-                    Neat
-                    <input type="checkbox" id="neato" name="neato" />
-                    <span class="checkmark"></span>
-                </label>
-                <label for="icedo" class="container">
-                    On Ice
-                    <input type="checkbox" id="icedo" name="icedo" />
-                    <span class="checkmark"></span>
-                </label>
-                <label for="mixedo" class="container">
-                    Mixed
-                    <input type="checkbox" id="mixedo" name="mixedo" />
-                    <span class="checkmark"></span>
-                </label>
-            </div>
-            <input type="button" id="addToList" value="Add Bottle" onclick="bottleInputCheck()" /><input type="button" id="cancelEdit" value="Cancel" />
-            <br />
-            <dialog id="name-input-modal">
-                <h4>Input a name for this bottle.</h4>
-                <input type="button" onclick="closeModal(nameModal)" value="Close"/>
-            </dialog>
-            <dialog id="type-input-modal">
-                <h4>Select a type of liquor for this bottle.</h4>
-                <input type="button" onclick="closeModal(typeModal)" value="Close"/>
-            </dialog>
-            <dialog id="style-input-modal">
-                <h4>Choose at least one drink style for this bottle.</h4>
-                <input type="button" onclick="closeModal(styleModal)" value="Close"/>
-            </dialog>
-            <dialog id="repeat-name-modal">
-                <h4 id="bottleNameModal"></h4>
-                <input type="button" onclick="closeModal(repeatNameModal)" value='Cancel'/>
-            </dialog>
-            <div class="bottleInput">
-            </div>
-        </form>
-        <br />
-        <br />
-        <div id="bottleDisplay">
-            <h3 id="bottleCount"></h3>
-            <input type="text" id="bottleSearch" onkeyup="bottleSearch()" placeholder="Search Bottles" />
-            <div class="allbottlesOnHand" id="allbottlesOnHand" name="bottlesOnHand2">
-            </div>
-            <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
-                <button class="tablink2" onclick="openPage2('whiskyOnHand', this, 'rgb(75, 75, 75)')"
-                    id="defaultOpen2">Whisky</button>
-                <button class="tablink2" onclick="openPage2('ginOnHand', this, 'rgb(75, 75, 75)')" id="ginTotal">Gin</button>
-                <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')" id="rumTotal">Rum</button>
-                <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')" id="cognacTotal">Cognac/ Armagnac</button>
-                <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')" id="tequilaTotal">Tequila/ Mezcal</button>
-                <button class="tablink2" onclick="openPage2('vodkaOnHand', this, 'rgb(75, 75, 75)')" id="vodkaTotal">Vodka</button>
-                <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')" id="otherTotal">Other</button>
-                <div class="tabcontent2" id="whiskyOnHand" name="bottlesOnHand2"></div>
-                <div class="tabcontent2" id="ginOnHand" name="bottlesOnHand2"></div>
-                <div class="tabcontent2" id="rumOnHand" name="bottlesOnHand2"></div>
-                <div class="tabcontent2" id="cognacOnHand" name="bottlesOnHand2"></div>
-                <div class="tabcontent2" id="tequilaOnHand" name="bottlesOnHand2"></div>
-                <div class="tabcontent2" id="vodkaOnHand" name="bottlesOnHand2"></div>
-                <div class="tabcontent2" id="otherOnHand" name="bottlesOnHand2"></div>
-            </div>
-        </div>
-        <div id="delete-bottle">
-            <dialog id="delete-bottle-modal">
-                <p id="delete-bottle-text"></p>
-                <input type="button" onclick="deleteBottleTrue()" value="Delete Bottle">
-                <input type="button" onclick="closeModal(deleteBottleModal)" value="Cancel">
-            </dialog>
-        </div>
-    </div>
-    <div id="Settings" class="tabcontent">
-        <h2>
-            Customize your App
-        </h2><br>
-        <input type="button" id="test" value="Test App" onclick="testApp()" />
-        <input type="button" id="cocktail-test" value="Test Cocktails" onclick="testCocktails()" />
-        <br />
-        <br />
-        <p>Allows for drinks styles to be set for every bottle</p>
-        <label class="switch" id="styleSelector2">
-            <input type="checkbox" id="styleSelector" name="styleSelector" />
-            <span class="slider round"></span>
-        </label>
-        <br />
-        <p>Adds a search bar to the bottle and cocktail lists.</p>
-        <label class="switch" id="searchSelector2">
-            <input type="checkbox" id="searchSelector" name="searchSelector" />
-            <span class="slider round"></span>
-        </label>
-        <br />
-        <p>Sorts bottle display into categories</p>
-        <label class="switch" id="categorySelector2">
-            <input type="checkbox" id="categorySelector" name="categorySelector" />
-            <span class="slider round"></span>
-        </label>
-    </div>
-    <div id="About" class="tabcontent">
-        <h2>
-            Add or modify your personal cocktail list.
-        </h2>
-        <div id="cocktail-form-div">
-            <form action="" method="get" id="cocktail-form"> <br />
-                <input type="text" id="cocktailName" placeholder="Cocktail Name" />
-                <select id="cocktail-base-spirit">
-                    <option value="">
-                        --Type of liquor--
-                    </option>
-                    <option value="Whisky">
-                        Whisky
-                    </option>
-                    <option value="Tequila/ Mezcal">
-                        Tequila/ Mezcal
-                    </option>
-                    <option value="Rum">
-                        Rum
-                    </option>
-                    <option value="Cognac/ Armagnac">
-                        Cognac/ Armagnac
-                    </option>
-                    <option value="Gin">
-                        Gin
-                    </option>
-                    <option value="Vodka">
-                        Vodka
-                    </option>
-                    <option value="Other">
-                        Other
-                    </option>
-                </select>
-                <input type="number" id="ingredient-number" placeholder="Number of Ingredients" onchange="insertIngredient()" max="10" min="0"/>
-                <div id="ingredient-div">
+    <button class="tablink" onclick="openPage('randomizer.html')" id="randomizer-page">Randomizer</button>
+    <button class="tablink" onclick="openPage('bottles.html')" id="defaultOpen">Bottles</button>
+    <button class="tablink" onclick="openPage('cocktails.html')" id="cocktail-page">Cocktails</button>
 
-                </div>
-                <textarea id="recipe-input" placeholder="Recipe Instructions"></textarea>
-                <input type="button" id="recipe-sumbit" value="Add Cocktail" onclick="checkCocktialInputs()" >
-                <input type="button" id="cancel-cocktail-edit" value="Cancel" onclick="cancelCocktailEdit()" >
-            </form>
-        </div>
-        <input type="text" id="cocktail-search" onkeyup="cocktailSearch()" placeholder="Search Cocktails" />
-        <div id="recipe-cards">
-        </div>
-        <dialog id="delete-cocktail-modal">
-            <p id="delete-cocktail-text"></p>
-            <input type="button" onclick="deleteCocktailTrue()" value="Delete Cocktail">
-            <input type="button" onclick="closeModal(deleteCocktailModal)" value="Cancel">
-        </dialog>
-        <dialog id="cocktail-error-modal">
-            <p id="cocktail-error-text"></p>
-            <input type="button" onclick="closeModal(cocktailErrorModal)" value="Close"/>
-        </dialog>
-        
-    </div>
-    <script src="./modules/bottlelist.js"></script>
-    <script src="./modules/cocktails.js"></script>
-    <script src="./modules/randomizer.js"></script>
-    <script src="./modules/settings.js"></script>
-    <script src="./modules/support.js"></script>
-    <script src="./modules/test.js"></script>
-    <script src="./startup.js"></script>
+    <div id="displayContent">
 
+    </div>
+
+    <script src="./startup.js" type="text/javascript"></script>
+    <script src="./modules/bottlelist.js" type="text/javascript"></script>
+    <script src="./modules/settings.js" type="text/javascript"></script>
+    <script src="./modules/cocktails.js" type="text/javascript"></script>
+    <script src="./modules/randomizer.js" type="text/javascript"></script>
+    <script src="./modules/pages.js" type="text/javascript"></script>
+    <script src="./modules/support.js" type="text/javascript"></script>
+    <script src="./modules/test.js" type="text/javascript"></script>
+    <script src="./modules/login.js" type="text/javascript"></script>
+    <script src="./modules/dashboard.js" type="text/javascript"></script>
     
 </body>
 
