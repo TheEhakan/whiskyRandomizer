@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 const { Router } = require('express');
 const router = Router();
@@ -37,7 +36,7 @@ router.get('/modules/:file', (req, res) => {
 });
 
 
-=======
+module.exports = router;
 
 const { Router } = require('express');
 const router = Router();
@@ -76,5 +75,4 @@ router.get('/modules/:file', (req, res) => {
 });
 
 
->>>>>>> 7eefc1e6f30814f779bacaf7c74e720c6feb78df
 module.exports = router;

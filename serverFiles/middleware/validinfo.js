@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 module.exports = (req, res, next) => {
     const { name, email, dob, password } = req.body;
@@ -28,7 +27,7 @@ module.exports = (req, res, next) => {
     };
 
     next();
-=======
+};
 
 module.exports = (req, res, next) => {
     const { name, email, dob, password } = req.body;
@@ -58,5 +57,4 @@ module.exports = (req, res, next) => {
     };
 
     next();
->>>>>>> 7eefc1e6f30814f779bacaf7c74e720c6feb78df
 };
