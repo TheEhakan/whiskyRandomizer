@@ -1,6 +1,6 @@
 
-const staticCache = `site-static-v0.865`
-const dynamicCache = 'site-dynamic-v0.865'
+const staticCache = `site-static-v0.866`
+const dynamicCache = 'site-dynamic-v0.866'
 const assets = [
     './',
     './index.html',
