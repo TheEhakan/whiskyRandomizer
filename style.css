@@ -1,4 +1,4 @@
-* {
+*, *::after, *::before {
     box-sizing: border-box
 }
 
@@ -11,6 +11,15 @@ html {
     color: whitesmoke;
 }
 
+.divider {
+    background-color: #777;
+    color: rgb(255, 254, 254);
+    padding: 14px 16px;
+    font-size: 17px;
+    border: none;
+    outline: none;
+}
+
 .tablink {
     background-color: #777;
     color: rgb(255, 254, 254);
@@ -20,7 +29,7 @@ html {
     cursor: pointer;
     padding: 14px 16px;
     font-size: 17px;
-    width: 25%;
+    width: 33.333%;
 }
 
 #otherTotal {
@@ -49,14 +58,21 @@ html {
 .tabcontent, .tabcontent2 {
     color: rgb(255, 255, 255);
     background-color: rgb(52, 52, 54);
-    display: none;
     padding: 100px 20px;
+}
+
+.tabcontent2 {
+    display: none;
 }
 
 form {
     border: 1px solid #f1f1f1;
     border-radius: 10px;
-    font-family: Arial;
+}
+
+.bottleInput {
+    border: 1px solid #f1f1f1;
+    border-radius: 10px;
 }
 
 textarea {
@@ -70,12 +86,23 @@ textarea {
     height: 200px;
 } 
 
-input[type=text] {
+input[type=text],
+input[type=email],
+input[type=password] {
     width: 94%;
     padding: 12px;
     margin: 8px 0;
     margin-left: 10px;
     display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+input[type=date] {
+    width: 70%;
+    padding: 12px;
+    margin: 8px 0;
+    margin-left: 10px;
     border: 1px solid #ccc;
     box-sizing: border-box;
 }
@@ -90,6 +117,22 @@ input[type=button] {
     color: white;
     border: none;
     box-sizing: border-box;
+}
+
+.nav-button {
+    width: 160px;
+    padding: 12px;
+    margin: 8px 0;
+    margin-left: 10px;
+    background-color: #777;
+    color: white;
+    border: none;
+    box-sizing: border-box;
+    box-shadow: 4px 3px 3px #555;
+}
+
+.nav-button:hover {
+    opacity: 0.8;
 }
 
 input[type=submit]:hover,
@@ -147,7 +190,7 @@ input[type=number] {
     height: 25px;
     width: 25px;
     background-color: #eee;
-}
+} 
 
 .container:hover input~.checkmark {
     background-color: #ccc;
@@ -161,7 +204,7 @@ input[type=number] {
     content: "";
     position: absolute;
     display: none;
-}
+} 
 
 .container input:checked~.checkmark:after {
     display: block;
@@ -336,7 +379,7 @@ dialog::backdrop{
     justify-content: space-between;
 }
 
-.cocktail-header p{
+.cocktail-header-name{
     font-size: 1.3rem;
     font-weight: bold;
 }
@@ -349,4 +392,101 @@ dialog::backdrop{
 .non-active-cocktail input[type=button] {
     text-decoration: line-through;
     background-color: #058556;
+}
+
+#userDiv {
+    text-align: right;
+}
+
+#changeUser {
+    color: white;
+    border: none;
+    background: none;
+    padding: none;
+    margin: 0;
+    margin-left: 0;
+    width: auto;
+    font-size: 0.7em;
+    text-decoration: underline;
+}
+
+#changeUser:hover {
+    cursor: pointer;
+    color: #2196F3;
+}
+
+.toggleDisplay{
+    font-size: 0.8em;
+}
+
+#userLogin {
+    text-align: center;
+}
+
+#userRegister {
+    text-align: center;
+}
+
+#registerUser {
+    width: 180px;
+}
+
+#close-modal {
+    background-color: rgb(192, 192, 192);
+    border: none;
+    font-size: 1.6rem;
+}
+
+#close-modal:hover {
+    cursor: pointer;
+}
+
+#close-modal-div{
+    text-align: right;
+}
+
+.display-container {
+    display: inline-block;
+    position: relative;
+    padding-left: 35px;
+    margin-left: 10px;
+    margin-bottom: 12px;
+    font-size: 22px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.display-container input {
+    position: absolute;
+    opacity: 0;
+    height: 0;
+    width: 0;
+}
+
+.display-checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+} 
+
+.display-container input:checked~.display-checkmark:after {
+    display: block;
+}
+
+.display-container .display-checkmark:after {
+    left: 9px;
+    top: 5px;
+    width: 5px;
+    height: 10px;
+    border: solid white;
+    border-width: 0 3px 3px 0;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+
+#button-div {
+    display: block;
 }

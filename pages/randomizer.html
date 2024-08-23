@@ -1,0 +1,96 @@
+<div id="Randomizer" class="tabcontent">
+    <label for="chooseDrink">
+        <h2>
+            Choose My Drink!
+        </h2>
+    </label>
+    <br />
+    <br />
+    <div id="bottle-randomizer-div">
+        <br />
+        <div class="bottleChoice">
+            <label for="howToDrink">
+                <h3>
+                    &nbsp;&nbsp;How would you like your drink?
+                </h3>
+            </label>
+            <br />
+            <select name="bottleTypeq" id="bottleTypeq">
+                <option value="">
+                    --Type of liquor--
+                </option>
+                <option value="Any">
+                    Any
+                </option>
+                <option value="Whisky">
+                    Whisky
+                </option>
+                <option value="Tequila/ Mezcal">
+                    Tequila/ Mezcal
+                </option>
+                <option value="Rum">
+                    Rum
+                </option>
+                <option value="Cognac/ Armagnac">
+                    Cognac/ Armagnac
+                </option>
+                <option value="Gin">
+                    Gin
+                </option>
+                <option value="Vodka">
+                    Vodka
+                </option>
+                <option value="Other">
+                    Other
+                </option>
+            </select>
+            <br />
+            <div>
+                <label for="neatq" class="container">
+                    <input type="checkbox" id="neatq" name="neatq" />
+                    <span class="checkmark"></span>
+                    Neat
+                </label>
+            </div>
+            <div>
+                <label for="icedq" class="container">
+                    <input type="checkbox" id="icedq" name="icedq" />
+                    <span class="checkmark"></span>
+                    On Ice
+                </label>
+            </div>
+            <div>
+                <label for="mixedq" class="container">
+                    <input type="checkbox" id="mixedq" name="mixedq" />
+                    <span class="checkmark"></span>
+                    Mixed
+                </label>
+            </div>
+        </div>
+        <br />
+        <br />
+        <input type="button" id="chooseMyDrink" value="Randomize" onclick="chooseDrink()" />
+        <br />
+        <br />
+        <div id="drink2">
+        </div>
+        <br />
+        <dialog id="randomizer-error-modal">
+            <p id="randomizer-error-text"></p>
+            <input type="button" onclick="closeModal('randomizer-error-modal')" value="Close"/>
+        </dialog>
+        <dialog id="randomizer-cocktail-recipe">
+            <div id="randomizer-cocktail-recipe-card"></div>
+        </dialog>
+        <br />
+        <div id="drinkEnjoy">
+            <p>Did you enjoy this drink?</p><br />
+            <div id="enjoyChoice">
+                <input type="button" value="Yes!" id="enjoyedDrink" onclick="enjoyedThisDrink()" /><input type="button" value="Not Good." onclick="didNotEnjoy()" />
+            </div>
+            <p id="enjoyDisplay"></p>
+        </div>
+    </div>
+    <br />
+</div>
+

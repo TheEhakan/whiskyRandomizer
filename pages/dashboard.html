@@ -1,0 +1,31 @@
+<div id="Dashboard" class="tabcontent">
+    <h2>User Dashboard:</h2>
+    <br />
+    <hr>
+    <h4>User Info:</h4>
+    <p id="user-info-error"></p>
+    <p id="user-name"></p>
+    <p id="user-email"></p>
+    <p id="user-DOB"></p>
+    <p id="user-password"><button id="changeUser" onclick="resetPassword()">Reset Password</button></p>
+    <br />
+    <input type="button" id="editBtn" value="Edit Info" onclick="checkUserBtnValue()">
+    <input type="button" id="cancelBtn" value="Cancel" onclick="cancelUserEdit()">
+</div>
+
+<dialog id="user-info-edit">
+    <h2>Confirm Info</h2>
+
+    <div id="new-user-info"></div>
+    <input type="button" value="Confirm" onclick="updateUser()">
+    <input type="button" value="Close" onclick="closeModal('user-info-edit')">
+</dialog>
+
+<dialog id="user-password-edit">
+    <h2>Enter new password:</h2>
+    <p id="password-error"></p>
+    <input type="password" id="new-password" placeholder="New Password">
+    <input type="password" id="new-password-confirm" placeholder="Confirm Password">
+    <input type="button" value="Confirm" onclick="changePassword()">
+    <input type="button" value="Close" onclick="closeModal('user-password-edit')">
+</dialog>
