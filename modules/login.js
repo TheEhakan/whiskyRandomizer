@@ -89,7 +89,7 @@ async function registerNewUser(event) {
     if (!result.token) {
         errorMessage.innerText = result;
     } else {
-        registerModal.close();
+
         token[0] = result.token;
 
         localStorage.setItem('token', JSON.stringify(token));
@@ -110,3 +110,24 @@ function logOut(event) {
     localStorage.setItem('token', "[]");
     location.reload();
 };
+
+async function checkIfLoggedIn(location) {
+
+    //check if jtw token is valid
+    const response = await fetch(`${path}/auth/valid-token`, {
+        method: 'GET',
+        headers: {
+            'token': token
+        }
+    });
+    const result = await response.json();
+
+    //if token is valid close modal else promp user to log in
+    if (result === true) {
+        closeModal(location);
+    } else {
+        closeModal(location);
+        loginModal.showModal()
+        document.getElementById('successMessage').innerText = 'Please log in.'
+    };
+}

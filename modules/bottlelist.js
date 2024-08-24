@@ -1,4 +1,30 @@
 
+//local bottle data
+const bottlesWhisky = [];
+
+//sends request to server to get bottles
+async function getBottles() {
+
+    //send request to server
+    const response = await fetch(`${path}/userData/bottles`, {
+        method: 'GET',
+        headers: {
+            'token': token
+        }
+    });
+    const result = await response.json();
+
+    //check if user is auth
+    if (result === 'Not Authorized, invalid token') {
+        console.log(result);
+        return result;
+    };
+
+    //adds each bottle from server to local data
+    for (let bottle of result) {
+        bottlesWhisky.push(bottle)
+    };
+};
 
 
 //updates bottle list on server
@@ -106,6 +132,17 @@ function addBottle(name, type, neat, iced, mixed) {
 
 //creates a info div for every bottle
 function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bottle_iced, bottle_mixed }) {
+
+    //all the bottle div elements in the DOM
+    let bottlesOnHand;
+        const allbottlesOnHand = document.querySelector("#allbottlesOnHand");
+        const whiskyOnHand = document.querySelector("#whiskyOnHand");
+        const tequilaOnHand = document.querySelector("#tequilaOnHand");
+        const rumOnHand = document.querySelector("#rumOnHand");
+        const cognacOnHand = document.querySelector("#cognacOnHand");
+        const ginOnHand = document.querySelector("#ginOnHand");
+        const vodkaOnHand = document.querySelector("#vodkaOnHand");
+        const otherOnHand = document.querySelector("#otherOnHand");
 
     //replaces characters in the name to make it useful
     let smallName = bottle_name.replaceAll(/[^A-Za-z0-9]/g, "");

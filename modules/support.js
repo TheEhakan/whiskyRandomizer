@@ -108,10 +108,17 @@ function sortArrays(arrayName) {
 function sidebarOpen() {
 
     const sidebarToggle = document.getElementById('sidebarCheck');
+    const sidebar = document.getElementById('sidebar');
 
     if (sidebarToggle.checked) {
         document.body.style.overflow = 'hidden';
+        sidebar.style.visibility = '';
     } else {
         document.body.style.overflow = '';
+
+    setTimeout(() => {
+        sidebar.style.visibility = 'hidden';
+    }, 200);
+
     }
 }

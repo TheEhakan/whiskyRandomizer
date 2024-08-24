@@ -1,5 +1,30 @@
 
 
+//gets settings data
+const settings = [];
+
+async function getSettings() {
+
+    const response = await fetch(`${path}/userData/settings`, {
+        method: 'GET',
+        headers: {
+            'token': token
+        }
+    });
+    const result = await response.json();
+
+    if (result === 'Not Authorized, invalid token') {
+        console.log(result);
+        return result;
+    };
+
+    for (let setting of result) {
+        settings.push(JSON.parse(setting))
+    };
+
+};
+
+
 async function pushSettingsDataToServer() {
     const response = await fetch(`${path}/userData/settings`, {
         method: 'PUT',

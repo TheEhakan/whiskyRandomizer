@@ -69,8 +69,11 @@ router.post('/login', validInfo , async (req, res) => {
     };
 });
 
+//check if jwt is valid and log user in
 router.get('/is-verify', authorization, async (req, res) => {
     try {
+
+        //get user name and id and return to client
         const user = await pool.query('SELECT user_name, user_id FROM users WHERE user_id = $1', [req.user]);
 
         return res.json(user.rows[0]);
@@ -80,5 +83,19 @@ router.get('/is-verify', authorization, async (req, res) => {
         return res.status(500).json('Server Error');
     }
 });
+
+//check if user is logged in
+router.get('/valid-token', authorization, async (req, res) => {
+
+    try {
+
+        //check if user is auth and return true
+        return res.json(true);
+
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json('Server Error');
+    }
+})
 
 module.exports = router;

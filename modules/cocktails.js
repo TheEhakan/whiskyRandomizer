@@ -1,4 +1,58 @@
 
+
+//cocktails in storage
+const cocktails = [];
+
+//sends request to get cocktails from server
+async function getCocktails() {
+    
+    //send request to server
+    const response = await fetch(`${path}/userData/cocktails`, {
+        method: 'GET',
+        headers: {
+            'token': token
+        }
+    });
+    const result = await response.json();
+
+    //checks if authroized
+    if (result === 'Not Authorized, invalid token') {
+        console.log(result);
+        return result;
+    };
+
+    //seperates data into individual cocktails
+    for (let cocktail of result) {
+
+        //deconstruncts cocktail data
+        const { cocktail_id, cocktail_name, cocktail_base_spirit, cocktail_ingredients, cocktail_recipe, cocktail_active, user_id } = cocktail;
+
+
+        try {
+
+            //reconstructs cocktial with parsed data
+            const thisCocktail = {
+                cocktail_id,
+                cocktail_name,
+                cocktail_base_spirit,
+                cocktail_ingredients: JSON.parse(cocktail_ingredients),
+                cocktail_recipe,
+                cocktail_active,
+                user_id
+            }
+
+            //adds cocktail to local data
+            cocktails.push(thisCocktail);
+
+        } catch (error) {
+
+            //display error for cockttails if any
+            console.error(error.message, cocktail_name)
+        }
+
+    };
+};
+
 //sends new cocktail to server
 async function pushCoctailsToServer(cocktail) {
 

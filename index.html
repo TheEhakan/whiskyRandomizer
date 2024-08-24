@@ -29,13 +29,13 @@
     <label class="hamburger-menu">
         <input type="checkbox" id="sidebarCheck" onchange="sidebarOpen()"/>
     </label>
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
 
         <div id="userDiv">
             <p id="userLoginButton"> <button id="changeUser" onclick="openLogin()">Log-in.</button>User: Guest</p>
             <dialog id="userLogin">
                 <div id="close-modal-div">
-                    <button id="close-modal" onclick="closeModal('userLogin')">x</button>
+                    <button id="close-modal" onclick="checkIfLoggedIn('userLogin')">x</button>
                 </div>
                 <form>
                     <h2>
@@ -50,7 +50,7 @@
             </dialog>
             <dialog id="userRegister">
                 <div id="close-modal-div">
-                    <button id="close-modal" onclick="closeModal('userRegister')">x</button>
+                    <button id="close-modal" onclick="checkIfLoggedIn('userRegister')">x</button>
                 </div>
                 <form>
                     <h2>
