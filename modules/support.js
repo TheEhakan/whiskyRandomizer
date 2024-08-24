@@ -1,6 +1,7 @@
 
 //sets a bottle count display
 function totalBottles() {
+
     let total = bottlesWhisky.filter((t) => t.bottle_name);
     let bottleCount = document.getElementById("bottleCount");
     bottleCount.textContent = `Bottles on Hand: ${total.length}`;

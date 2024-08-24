@@ -23,7 +23,7 @@ const path = 'http://23.245.231.92:5000';
         }
     });
     const result = await response.json();
-    
+
     //if user is not logged in displays log-in modal
     if(!result.user_name) {
         loginModal.showModal();

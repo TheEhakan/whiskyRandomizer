@@ -54,7 +54,7 @@ async function getCocktails() {
 };
 
 //sends new cocktail to server
-async function pushCoctailsToServer(cocktail) {
+async function pushCoctailsToServer(cocktail, location) {
 
     //gets the recipe card div to add to later
     const recipeCardDiv = document.getElementById("recipe-cards");
@@ -86,8 +86,14 @@ async function pushCoctailsToServer(cocktail) {
 
     //store locally and create recipe cards
     cocktails.push(thisCocktail);
-    createCocktailCard(thisCocktail, recipeCardDiv);
-    sortCocktails();
+
+    //if cocktails are added from the cocktail page
+    if (location === 'Cocktail-Page') {
+
+        createCocktailCard(thisCocktail, recipeCardDiv);
+        sortCocktails();
+
+    }
 
 };
 
@@ -198,7 +204,7 @@ function addCocktail(name, spirit, ingredients, recipe) {
     cocktailRecipe.value = "";
 
     //sends cocktail info to server
-    pushCoctailsToServer(cocktail);
+    pushCoctailsToServer(cocktail, 'Cocktail-Page');
 };
 
 //creates the visible cocktail cards in the dom

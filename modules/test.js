@@ -1,7 +1,13 @@
 //allows for easy app testing
 const test = document.getElementById("test");
 
+//adds 20 various bottles to storage for user to test app functions
 function testApp() {
+
+    //gets test button to check value
+    const test = document.getElementById("test");
+
+    //adds bottles to storage and sends them to server
     if (test.value === "Test Bottles") {
         const bottles = [
             { bottle_name: "Ardbeg 10", bottle_type: "Whisky", bottle_neat: true, bottle_iced: false, bottle_mixed: true },
@@ -25,34 +31,45 @@ function testApp() {
             { bottle_name: "Castarède VSOP", bottle_type: "Cognac/ Armagnac", bottle_neat: true, bottle_iced: false, bottle_mixed: true },
             { bottle_name: "Watershed Vodka", bottle_type: "Vodka", bottle_neat: false, bottle_iced: true, bottle_mixed: true },
         ];
+        
+        bottles.forEach(pushBottlesToServer, 'Test-Button');
 
-        bottles.forEach(pushBottlesToServer);
+        //changes value of button and opens bottlelist page
         test.value = 'Clear Bottles';
-        sortList();
-        totalBottles();
         document.getElementById('defaultOpen').click();
+
     } else {
+
+        //promps user to confirm they want to delete all bottle data
         if (confirm("Are you sure you want to clear all bottle data?")) {
+
+            //deletes all bottles on the server for current user
             bottlesWhisky.forEach(bottle => {
                 deleteBottleFromServer(bottle.bottle_id)
             })
+
+            //sets local storage it empty
             bottlesWhisky.length = 0;
-            const displays = document.getElementsByClassName('info');
-            for (let display of displays) {
-                setTimeout(() => {
-                display.remove() }, 50);
-            };
-            totalBottles();
+
+            //changes value of button and opens bottle list
             test.value = 'Test Bottles';
             document.getElementById('defaultOpen').click();
+
         } else {
+
+            //ends function if user does not want to delete data
             return;
         };
     };
 };
 
-
+//add various cocktail to test app functions
 function testCocktails() {
+
+    //gets cockatil button to check value
+    const cocktailTest = document.getElementById('cocktail-test');
+
+    //adds cocktails to storage and pushes them to server
     if(cocktailTest.value === 'Test Cocktails'){
 
         const cocktailArray = [
@@ -77,31 +94,43 @@ function testCocktails() {
         ];
 
         cocktailArray.forEach(pushCoctailsToServer);
-        sortCocktails();
-        cocktailTest.value = 'Clear Cocktails'
+
+        //changes value of cocktail button
+        cocktailTest.value = 'Clear Cocktails';
+
+        //opens cocktail page
         document.getElementById('cocktail-page').click();
+
     } else {
+
+        //check to confirm user wants to delete all cocktial data
         if (confirm("Are you sure you want to clear all cockatil data?")) {
+
+            //deletes cocktails from server
             cocktails.forEach(cocktail => {
                 deleteCoctailFromServer(cocktail.cocktail_id)
             });
             cocktails.length = 0;
-            const displays = document.getElementsByClassName('recipeCard');
-            for (let display of displays) {
-                setTimeout(() => {
-                display.remove() }, 50);
-            };
-            cocktailTest.value = 'Test Cocktails'
+
+            //changes value of cocktail button
+            cocktailTest.value = 'Test Cocktails';
+
+            //opens cocktail page
             document.getElementById('cocktail-page').click();
+
         } else {
+
+            //stops function if user does not want to delete all cocktail data
             return;
         };
     };
 };
 
-
+//allows me to add my personal bottle list to the database
 async function addBottlesJSON(event) {
+
     event.preventDefault();
+
     if (bottlesWhisky.length === 0) {
         const response = await fetch('../bottles.json');
         const result = await response.json();
@@ -119,6 +148,6 @@ async function addBottlesJSON(event) {
         totalBottles();
         document.getElementById('defaultOpen').click();
     } else {
-        return
+        return;
     }
 }

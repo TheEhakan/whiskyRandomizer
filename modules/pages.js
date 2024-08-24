@@ -62,7 +62,7 @@ async function openPage(pageName) {
                 cocktailTest.value = 'Clear Cocktails'
             };
 
-            //sets settings based on data from server
+            //sets settings selectors based on data from server
             styleSelector.checked = settings[0];
             searchSelector.checked = settings[1];
             categorySelector.checked = settings[2];
@@ -105,6 +105,6 @@ async function openPage(pageName) {
             displayUserInfo();
 
             break;
-    }
+    };
 };
 

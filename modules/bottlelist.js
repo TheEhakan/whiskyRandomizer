@@ -28,7 +28,7 @@ async function getBottles() {
 
 
 //updates bottle list on server
-async function pushBottlesToServer(bottle) {
+async function pushBottlesToServer(bottle, location) {
 
     //send bottle data to server
     const response = await fetch(`${path}/userData/bottles`, {
@@ -44,10 +44,15 @@ async function pushBottlesToServer(bottle) {
     //changes bottle locally
     bottlesWhisky.push(result[0]);
 
-    //creates bottle display and updates info
-    createBottleList(result[0]);
-    totalBottles();
-    sortList();
+    //if bottles are added normally
+    if (location === 'Bottle-Page') {
+
+        //creates bottle display and updates info
+        createBottleList(result[0]);
+        totalBottles();
+        sortList();
+
+    }
 
 };
 
@@ -127,7 +132,7 @@ function addBottle(name, type, neat, iced, mixed) {
     styleSwitch();
 
     //sends data to server
-    pushBottlesToServer(bottle, 'bottle list');
+    pushBottlesToServer(bottle, 'Bottle-Page');
 };
 
 //creates a info div for every bottle

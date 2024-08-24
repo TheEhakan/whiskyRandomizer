@@ -15,9 +15,13 @@ module.exports = async (req, res, next) => {
     };
 
     try {
+
         const payload = jwt.verify(jwtToken, process.env.JWT_SECRET);
+
         req.user = payload.user;
+
         next();
+        
     } catch (error) {
 
         console.error(error.message);
