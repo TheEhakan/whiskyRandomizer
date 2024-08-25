@@ -3,21 +3,20 @@
     <br />
     <hr>
     <h4>User Info:</h4>
-    <p id="user-info-error"></p>
+
     <p id="user-name"></p>
     <p id="user-email"></p>
     <p id="user-DOB"></p>
     <p id="user-password"><button id="changeUser" onclick="resetPassword()">Reset Password</button></p>
     <br />
     <input type="button" id="editBtn" value="Edit Info" onclick="checkUserBtnValue()">
-    <input type="button" id="cancelBtn" value="Cancel" onclick="cancelUserEdit()">
 </div>
 
 <dialog id="user-info-edit">
     <h2>Confirm Info</h2>
-
+    <p id="user-info-error"></p>
     <div id="new-user-info"></div>
-    <input type="button" value="Confirm" onclick="updateUser()">
+    <input type="button" id="user-edit-btn" value="Confirm" onclick="checkBtnValue()">
     <input type="button" value="Close" onclick="closeModal('user-info-edit')">
 </dialog>
 

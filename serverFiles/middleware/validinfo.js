@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
 
     if (req.path === "/register") {
 
-        if(![name, email, dob, password].every(Boolean)) {
+        if (![name, email, dob, password].every(Boolean)) {
             return res.status(401).json('Missing Credentials');
 
         } else if (!validEmail(email)) {
@@ -17,13 +17,26 @@ module.exports = (req, res, next) => {
 
     } else if (req.path === '/login') {
 
-        if(![email, password].every(Boolean)) {
+        if (![email, password].every(Boolean)) {
             return res.status(401).json('Missing Credentials');
 
         } else if (!validEmail(email)) {
             return res.status(401).json('Invalid Email');
         };
 
+    } else if (req.path === '/') {
+
+        if (![name, email, dob].every(Boolean)) {
+            return res.status(401).json('Missing Credentials');
+
+        } else if (!validEmail(email)) {
+            return res.status(401).json('Invalid Email');
+        };
+    } else if (req.path === '/change-pass') {
+        
+        if (![password].every(Boolean)) {
+            return res.status(401).json('Missing Credentials');
+        };
     };
 
     next();

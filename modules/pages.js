@@ -97,10 +97,7 @@ async function openPage(pageName) {
             break;
 
         case 'dashboard.html':
-
-            //hides cancel edit button on load
-            document.getElementById('cancelBtn').style.visibility = 'hidden';
-
+            
             //gets user info from server to display
             displayUserInfo();
 

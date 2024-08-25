@@ -26,19 +26,30 @@ async function displayUserInfo() {
 
 };
 
+function checkBtnValue() {
+
+    //button to be checked
+    const userEditBtn = document.getElementById('user-edit-btn');
+
+    //check value and perform related action
+    if (userEditBtn.value === 'Confirm') {
+        openUserEdit();
+    } else {
+        updateUser();
+    };
+}
+
 //allows user to edit personal info
 function editUserInfo() {
+
+    //gets the modal to edit info
+    const userModal = document.getElementById('user-info-edit');
+    const userEdited = document.getElementById('new-user-info');
 
     //get elements with user info
     const userNameDiv = document.getElementById('user-name');
     const userEmailDiv = document.getElementById('user-email');
     const userDOBDiv = document.getElementById('user-DOB');
-    const userPasswordDiv = document.getElementById('user-password');
-    const editBtn = document.getElementById('editBtn');
-
-    //change styles for cleaner look
-    editBtn.value = 'Save Edit';
-    userPasswordDiv.style.visibility = 'hidden';
 
     //gets the user info from elements
     const userName = userNameDiv.innerText.slice(6);
@@ -50,30 +61,20 @@ function editUserInfo() {
     const userDay = userDOB.slice(3, 4);
 
     //allows user to edit info
-    userNameDiv.innerHTML = `Name: <input type='text' id='user-name-input' value='${userName}' />`;
-    userEmailDiv.innerHTML = `Email: <input type='email' id='user-email-input' value='${userEmail}' />`;
-    userDOBDiv.innerHTML = `DOB: <input type='date' id='user-dob-input' value='${userYear}-${userMonth.padStart(2, '0')}-${userDay.padStart(2, '0')}'/>`;
-    document.getElementById('cancelBtn').style.visibility = '';
+    userEdited.innerHTML = `Name: <input type='text' id='user-name-input' value='${userName}' />
+        Email: <input type='email' id='user-email-input' value='${userEmail}' />
+        DOB: <input type='date' id='user-dob-input' value='${userYear}-${userMonth.padStart(2, '0')}-${userDay.padStart(2, '0')}'/>`
+
+    //opens modal to edit info
+    userModal.showModal();
 
 };
-
-//cancel the editing
-function cancelUserEdit() {
-
-    //resets the display
-    document.getElementById('cancelBtn').style.visibility = 'hidden';
-    document.getElementById('user-password').style.visibility = '';
-
-    document.getElementById('editBtn').value = 'Edit Info';
-    displayUserInfo();
-
-}
 
 //opens modal to confirm info and update
 function openUserEdit() {
 
     //get modal and its div from dom
-    const userModal = document.getElementById('user-info-edit');
+    const userEditBtn = document.getElementById('user-edit-btn');
     const userEdited = document.getElementById('new-user-info');
 
     //get element values from display
@@ -90,25 +91,33 @@ function openUserEdit() {
     //displays edited information
     userEdited.innerHTML = `<p id='editedName'>Name: ${userName}</p>
     <p id='editedEmail'>Email: ${userEmail}</p>
-    <p id='editedDOB'>DOB: ${userDOB}</p>`
+    <p id='editedDOB'>DOB: ${userDOB}</p>`;
 
-    //open the modal 
-    userModal.showModal();
+    //changes value of button
+    userEditBtn.value = 'Submit';
+
 }
 
 //sends info to server to save any edits
 async function updateUser() {
     
     //gather new user info
-    const userName = document.getElementById('user-name-input').value;
-    const userEmail = document.getElementById('user-email-input').value;
-    const userDOB = document.getElementById('user-dob-input').value;
+    const userNameDisplay = document.getElementById('editedName');
+    const userEmailDisplay = document.getElementById('editedEmail');
+    const userDOBDisplay = document.getElementById('editedDOB');
+    const userEditBtn = document.getElementById('user-edit-btn');
+
+    
+    //parse the values from the display
+    const userName = userNameDisplay.innerText.slice(6);
+    const userEmail = userEmailDisplay.innerText.slice(7);
+    const userDOB = userDOBDisplay.innerText.slice(5);
 
     //make user info object
     const userInfo = {
-        user_name: userName,
-        user_email: userEmail,
-        user_dob: userDOB
+        name: userName,
+        email: userEmail,
+        dob: userDOB
     };
 
     //sends new data to the server
@@ -121,6 +130,13 @@ async function updateUser() {
         body: JSON.stringify(userInfo)
     });
     const result = await response.json();
+
+    //if no user results display error message and reset
+    if (!result.user_name) {
+        editUserInfo();
+        userEditBtn.value = 'Confirm';
+        return document.getElementById('user-info-error').innerText = result;
+    }
 
     //changes view back to the normal
     document.getElementById('user-password').style.visibility = '';
@@ -140,23 +156,9 @@ async function updateUser() {
     userEmailDiv.innerText = `Email: ${result.user_email}`;
     userDOBDiv.innerText = `DOB: ${dob.toLocaleDateString()}`;
 
-    //close the modal
+    //close the modal and reset button
+    userEditBtn.value = 'Confirm';
     closeModal('user-info-edit');
-
-}
-
-//check the button value to assign function
-function checkUserBtnValue() {
-
-    //button to be checked
-    const editBtn = document.getElementById('editBtn');
-
-    //decide what to do
-    if (editBtn.value === 'Save Edit') {
-        openUserEdit();
-    } else {
-        editUserInfo();
-    }
 
 }
 
@@ -184,11 +186,11 @@ async function changePassword() {
     }
 
     //make object to send server
-    const userPassowrd = { user_password: newPass};
+    const userPassowrd = { password: newPass};
     
     //send new password to server
-    const response = await fetch(`${path}/dashboard/`,{
-        method: 'POST',
+    const response = await fetch(`${path}/dashboard/change-pass`,{
+        method: 'PUT',
         headers: {
             'token': token,
             'Content-Type': 'application/json'
@@ -196,6 +198,10 @@ async function changePassword() {
         body: JSON.stringify(userPassowrd)
     });
     const result = await response.json();
+
+    if (result === 'Missing Credentials') {
+        return passError.innerText = 'Please provide a password';
+    }
 
     //close password modal
     closeModal('user-password-edit');
