@@ -6,7 +6,7 @@ const displayContent = document.getElementById('displayContent');
 async function openPage(pageName) {
 
     //fetch page data from local files
-    const response = await fetch(`../pages/${pageName}`);
+    const response = await fetch(`pages/${pageName}`);
     const result = await response.text();
 
     //sets display to needed page
