@@ -6,6 +6,8 @@ if(process.env.NODE_ENV !== 'production') {
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const https = require('https');
+const fs = require('fs');
 
 
 const port = process.env.PORT || 3000;
@@ -31,4 +33,10 @@ app.use('*', (req, res) => {
 
 
 
-app.listen(port, () => console.log(`listening on port ${port}`));
+const options = {
+    key: fs.readFileSync('keys/server.key'),
+    cert: fs.readFileSync('keys/server.crt')
+}
+
+https.createServer(options, app).listen(port, () => console.log(`listening on port ${port}`));
+
