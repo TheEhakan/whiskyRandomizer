@@ -33,10 +33,10 @@ app.use('*', (req, res) => {
 
 
 
-const options = {
-    key: fs.readFileSync('keys/server.key'),
-    cert: fs.readFileSync('keys/server.crt')
-}
+// const options = {
+//     key: fs.readFileSync('keys/server.key'),
+//     cert: fs.readFileSync('keys/server.crt')
+// }
 
-https.createServer(options, app).listen(port, () => console.log(`listening on port ${port}`));
+app.listen(port, () => console.log(`listening on port ${port}`));
 
