@@ -22,8 +22,12 @@ app.use('/dashboard', require('./routes/dashboard'));
 
 app.use('/userData', require('./routes/userInfo'));
 
-app.use('/', require('./routes/appRoutes'));
+app.use(express.static('../'));
+//app.use('/', require('./routes/appRoutes'));
 
+app.use('*', (req, res) => {
+    res.redirect('/');
+});
 
 
 

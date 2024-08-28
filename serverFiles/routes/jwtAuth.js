@@ -27,7 +27,7 @@ router.post('/register', validInfo, async (req, res) => {
         //enter new user into database
         const newUser = await pool.query('INSERT INTO users (user_name, user_email, user_dob, user_password, user_settings) VALUES ($1, $2, $3, $4, ARRAY[false, true, false]) RETURNING *;', [name, email, dob, hashedPass]);
 
-        console.log('New user registered' + name);
+        console.log('New user registered ' + name);
 
         //generate jwt token
         const token = jwtGenerator(newUser.rows[0].user_id);
@@ -60,7 +60,7 @@ router.post('/login', validInfo , async (req, res) => {
             return res.status(401).json('Password or Email incorrect');
         };
 
-        console.log('New Login' + user.rows[0].user_name);
+        console.log('New Login ' + user.rows[0].user_name);
 
         //give jwt token if success
         const token = jwtGenerator(user.rows[0].user_id);
