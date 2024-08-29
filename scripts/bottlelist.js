@@ -52,7 +52,7 @@ async function pushBottlesToServer(bottle, location) {
         totalBottles();
         sortList();
 
-    }
+    };
 
 };
 
