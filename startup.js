@@ -29,12 +29,7 @@ const path = 'http://23.245.231.92:5000';
         loginModal.showModal();
         return userNameDisplay.innerHTML = `<p id="userLoginButton"> <button id="changeUser" onclick="openLogin()">Log-in.</button>User: Guest</p>`;
         
-        //if user is specifically me, allows me to import my personal bottle json file
-    } else if (result.user_id === '56daa9d4-6cef-466f-aae1-93f7dd08433b') {
-        userNameDisplay.innerHTML = `<p id="userLoginButton"> <button id="changeUser" onclick="logOut(event)">Log Out.</button>User: ${result.user_name}</p>`;
-        document.getElementById('versionNumber').innerHTML = `<button onclick='addBottlesJSON(event)'>Add JSON bottle</button>`;
-        
-        //sets display to show user name if logged in
+        //if user is loggin in display user name in menu
     } else {
         userNameDisplay.innerHTML = `<p id="userLoginButton"> <button id="changeUser" onclick="logOut(event)">Log Out.</button>User: ${result.user_name}</p>`;
     };
