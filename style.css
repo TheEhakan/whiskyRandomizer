@@ -9,6 +9,11 @@ html {
     font-family: Arial;
     background-color: hsl(240, 4%, 9%);
     color: whitesmoke;
+    overflow-x: hidden;
+}
+
+body {
+    position: relative;
 }
 
 .divider {
