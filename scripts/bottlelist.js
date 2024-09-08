@@ -67,6 +67,12 @@ function bottleInputCheck(name, type, neat, iced, mixed) {
     const mixedInput = document.getElementById('mixedo');
     const addBottleBtn = document.getElementById('addToList');
 
+    //gets the modals to show errors
+    const nameModal = document.getElementById('name-input-modal');
+    const typeModal = document.getElementById('type-input-modal');
+    const styleModal = document.getElementById('style-input-modal');
+    const repeatNameModal = document.getElementById('repeat-name-modal');
+
     //sets values based on inputs
     name = bottleNameInput.value;
     type = bottleTypeInput.value;
@@ -89,14 +95,13 @@ function bottleInputCheck(name, type, neat, iced, mixed) {
     };
 
     //checks for duplicate bottle
-    let n;
-    for (n = 0; n < bottlesWhisky.length; n++) {
+    for (let bottle of bottlesWhisky) {
         if(addBottleBtn.value !== "Add Bottle") {
             break;
         }
-        if (bottlesWhisky[n].bottle_name.toLowerCase() === bottleNameInput.value.toLowerCase()) {
+        if (bottle.bottle_name.toLowerCase() === bottleNameInput.value.toLowerCase()) {
             const bottleNameModal = document.getElementById('bottleNameModal');
-            bottleNameModal.innerText = `${bottlesWhisky[n].bottle_name} is already on your list, choose a different or more detailed name.`;
+            bottleNameModal.innerText = `${bottle.bottle_name} is already on your list, choose a different or more detailed name.`;
             repeatNameModal.showModal();
             return;
         };

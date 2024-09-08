@@ -171,9 +171,12 @@ function checkCocktialInputs(name, spirit, recipe){
 
     //check if duplicate cocktail
     for (let cocktail of cocktails) {
+        if(submitCocktail.value !== 'Add Cocktail') {
+            break;
+        }
         if (cocktailNameInput.value.toLowerCase() === cocktail.cocktail_name.toLowerCase()) {
             cocktailErrorModal.showModal();
-            cocktailErrorText.innerText = 'Cocktail already exists on list';
+            cocktailErrorText.innerText = `${cocktail.cocktail_name} already exists on your list.`;
             return;
         };
     };

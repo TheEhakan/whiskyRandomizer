@@ -23,7 +23,7 @@ async function openPage(pageName) {
         case 'bottles.html':
 
             //creates visible bottle list
-            bottlesWhisky.forEach(createBottleList);
+            bottlesWhisky.map(createBottleList);
 
             //hides cancel edit button on load
             const cancelEdit = document.getElementById("cancelEdit");
