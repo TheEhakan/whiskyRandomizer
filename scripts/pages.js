@@ -23,7 +23,7 @@ async function openPage(pageName) {
         case 'bottles.html':
 
             //creates visible bottle list
-            bottlesWhisky.map(createBottleList);
+            bottleCollection.map(createBottleList);
 
             //hides cancel edit button on load
             const cancelEdit = document.getElementById("cancelEdit");
@@ -53,7 +53,7 @@ async function openPage(pageName) {
 
             //changes testing button values as needed
             const bottleTest = document.getElementById('test');
-            if(bottlesWhisky.length > 0){
+            if(bottleCollection.length > 0){
                 bottleTest.value = 'Clear Bottles'
             };
 

@@ -19,9 +19,9 @@ function chooseDrink() {
         randomizerErrorText.innerText = 'PLease select a bottle type.';
         return;
     } else if (type === "Any") {
-        bottleTypeChoice = bottlesWhisky;
+        bottleTypeChoice = bottleCollection;
     } else {
-        bottleTypeChoice = bottlesWhisky.filter((b) => b.bottle_type == type);
+        bottleTypeChoice = bottleCollection.filter((b) => b.bottle_type == type);
     };
 
     if (bottleTypeChoice.length === 0) {
@@ -114,19 +114,19 @@ function didNotEnjoy() {
     enjoyDisplay.textContent = "Sorry to hear that, this will no longer be an option for you.";
     enjoyChoice.style.display = "none";
     style = style.slice(0, 5).trim();
-    let sampled = bottlesWhisky.indexOf(drinkRandom);
+    let sampled = bottleCollection.indexOf(drinkRandom);
 
     if (style === "Neat") {
-        bottlesWhisky[sampled].bottle_neat = false;
+        bottleCollection[sampled].bottle_neat = false;
     };
     if (style === "Iced") {
-        bottlesWhisky[sampled].bottle_iced = false;
+        bottleCollection[sampled].bottle_iced = false;
     };
     if (style === "Mixed") {
-        bottlesWhisky[sampled].bottle_mixed = false;
+        bottleCollection[sampled].bottle_mixed = false;
     };
 
-    editBottleOnServer(bottlesWhisky[sampled], 'randomizer');
+    editBottleOnServer(bottleCollection[sampled], 'randomizer');
     sortList();
 };
 

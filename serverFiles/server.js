@@ -26,7 +26,7 @@ app.use(express.static('../'));
 //app.use('/', require('./routes/appRoutes'));
 
 app.use('*', (req, res) => {
-    console.log('Odd connection');
+    console.log('Odd connection ' + req.originalUrl);
     return res.redirect('/');
 });
 

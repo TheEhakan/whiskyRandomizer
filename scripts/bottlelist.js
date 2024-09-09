@@ -1,6 +1,6 @@
 
 //local bottle data
-const bottlesWhisky = [];
+const bottleCollection = [];
 
 //sends request to server to get bottles
 async function getBottles() {
@@ -22,7 +22,7 @@ async function getBottles() {
 
     //adds each bottle from server to local data
     for (let bottle of result) {
-        bottlesWhisky.push(bottle)
+        bottleCollection.push(bottle)
     };
 };
 
@@ -42,7 +42,7 @@ async function pushBottlesToServer(bottle, location) {
     const result = await response.json();
 
     //changes bottle locally
-    bottlesWhisky.push(result[0]);
+    bottleCollection.push(result[0]);
 
     //if bottles are added normally
     if (location === 'Bottle-Page') {
@@ -95,7 +95,7 @@ function bottleInputCheck(name, type, neat, iced, mixed) {
     };
 
     //checks for duplicate bottle
-    for (let bottle of bottlesWhisky) {
+    for (let bottle of bottleCollection) {
         if(addBottleBtn.value !== "Add Bottle") {
             break;
         }
@@ -227,8 +227,8 @@ function confirmDeleteBottle(event, id) {
 
     //sets up values to prepare to delete bottle
     bottleId = id;
-    let confirmName = bottlesWhisky.find(({bottle_id}) => bottle_id === bottleId).bottle_name;
-    bottleNumber = bottlesWhisky.findIndex(n => n.bottle_name === confirmName);
+    let confirmName = bottleCollection.find(({bottle_id}) => bottle_id === bottleId).bottle_name;
+    bottleNumber = bottleCollection.findIndex(n => n.bottle_name === confirmName);
     document.getElementById(`delete-bottle-text`).innerText = `Are you sure you wish to delete ${confirmName}?`;
 
     //selects and opens modal
@@ -247,7 +247,7 @@ function deleteBottleTrue(event) {
     closeModal('delete-bottle-modal');
 
     //deletes local data
-    bottlesWhisky.splice(bottleNumber, 1);
+    bottleCollection.splice(bottleNumber, 1);
 
     //selects and removes bottle info div
     let thisDiv = document.getElementById(bottleId);
@@ -293,18 +293,18 @@ function editBottle(id) {
 
     //gathers info to prepare bottle edit 
     bottleId = id;
-    let confirmName = bottlesWhisky.find(({bottle_id}) => bottle_id === bottleId).bottle_name;
-    bottleNumber = bottlesWhisky.findIndex(n => n.bottle_name === confirmName);
+    let confirmName = bottleCollection.find(({bottle_id}) => bottle_id === bottleId).bottle_name;
+    bottleNumber = bottleCollection.findIndex(n => n.bottle_name === confirmName);
 
     //sets focus to bottle name input for ease of access
     bottleNameInput.focus();
 
     //sets displayed inputs to current bottle info 
-    bottleNameInput.value = bottlesWhisky[bottleNumber].bottle_name;
-    bottleTypeInput.value = bottlesWhisky[bottleNumber].bottle_type;
-    neatInput.checked = bottlesWhisky[bottleNumber].bottle_neat;
-    icedInput.checked = bottlesWhisky[bottleNumber].bottle_iced;
-    mixedInput.checked = bottlesWhisky[bottleNumber].bottle_mixed;
+    bottleNameInput.value = bottleCollection[bottleNumber].bottle_name;
+    bottleTypeInput.value = bottleCollection[bottleNumber].bottle_type;
+    neatInput.checked = bottleCollection[bottleNumber].bottle_neat;
+    icedInput.checked = bottleCollection[bottleNumber].bottle_iced;
+    mixedInput.checked = bottleCollection[bottleNumber].bottle_mixed;
 
     //sets up display to edit bottle info
     addBottleBtn.value = "Update Bottle";
@@ -380,11 +380,11 @@ async function editBottleOnServer(bottle, location) {
     const result = await response.json();
 
     //changes local bottle info
-    bottlesWhisky[bottleNumber] = result;
+    bottleCollection[bottleNumber] = result;
 
     //creates bottle divs if on the bottle list page
     if (location === 'bottle list') {
-        createBottleList(bottlesWhisky[bottleNumber]);
+        createBottleList(bottleCollection[bottleNumber]);
         sortList();
     };
 };

@@ -2,35 +2,35 @@
 //sets a bottle count display
 function totalBottles() {
 
-    let total = bottlesWhisky.filter((t) => t.bottle_name);
+    let total = bottleCollection.filter((t) => t.bottle_name);
     let bottleCount = document.getElementById("bottleCount");
     bottleCount.textContent = `Bottles on Hand: ${total.length}`;
 
-    let totalWhisky = bottlesWhisky.filter((w) => w.bottle_type === "Whisky");
+    let totalWhisky = bottleCollection.filter((w) => w.bottle_type === "Whisky");
     let whiskyTotal = document.getElementById("defaultOpen2");
     whiskyTotal.textContent = `Whisky - ${totalWhisky.length}`;
 
-    let totalRum = bottlesWhisky.filter((r) => r.bottle_type === "Rum");
+    let totalRum = bottleCollection.filter((r) => r.bottle_type === "Rum");
     let rumTotal = document.getElementById("rumTotal");
     rumTotal.textContent = `Rum - ${totalRum.length}`;
 
-    let totalGin = bottlesWhisky.filter((g) => g.bottle_type === "Gin");
+    let totalGin = bottleCollection.filter((g) => g.bottle_type === "Gin");
     let ginTotal = document.getElementById("ginTotal");
     ginTotal.textContent = `Gin - ${totalGin.length}`;
 
-    let totalTequila = bottlesWhisky.filter((t) => t.bottle_type === "Tequila/ Mezcal");
+    let totalTequila = bottleCollection.filter((t) => t.bottle_type === "Tequila/ Mezcal");
     let tequilaTotal = document.getElementById("tequilaTotal");
     tequilaTotal.textContent = `Tequila/ Mezcal - ${totalTequila.length}`;
 
-    let totalCognac = bottlesWhisky.filter((c) => c.bottle_type === "Cognac/ Armagnac");
+    let totalCognac = bottleCollection.filter((c) => c.bottle_type === "Cognac/ Armagnac");
     let cognacTotal = document.getElementById("cognacTotal");
     cognacTotal.textContent = `Cognac/ Armagnac - ${totalCognac.length}`;
 
-    let totalVodka = bottlesWhisky.filter((v) => v.bottle_type === "Vodka");
+    let totalVodka = bottleCollection.filter((v) => v.bottle_type === "Vodka");
     let vodkaTotal = document.getElementById("vodkaTotal");
     vodkaTotal.textContent = `Vodka - ${totalVodka.length}`;
 
-    let totalOther = bottlesWhisky.filter((o) => o.bottle_type === "Other");
+    let totalOther = bottleCollection.filter((o) => o.bottle_type === "Other");
     let otherTotal = document.getElementById("otherTotal");
     otherTotal.textContent = `Other - ${totalOther.length}`;
 };
@@ -94,8 +94,8 @@ function accOpen(event) {
 function sortArrays(arrayName) {
 
     arrayName.sort((a, b) => {
-        const nameA = arrayName === bottlesWhisky ? a.bottle_name.toUpperCase() : a.cocktail_name.toUpperCase();
-        const nameB = arrayName === bottlesWhisky ? b.bottle_name.toUpperCase() : b.cocktail_name.toUpperCase();
+        const nameA = arrayName === bottleCollection ? a.bottle_name.toUpperCase() : a.cocktail_name.toUpperCase();
+        const nameB = arrayName === bottleCollection ? b.bottle_name.toUpperCase() : b.cocktail_name.toUpperCase();
         if (nameA < nameB) {
           return -1;
         }

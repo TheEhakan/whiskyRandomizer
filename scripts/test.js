@@ -35,8 +35,10 @@ function testApp() {
         bottles.forEach(pushBottlesToServer, 'Test-Button');
 
         //changes value of button and opens bottlelist page
-        test.value = 'Clear Bottles';
-        document.getElementById('defaultOpen').click();
+        setTimeout(() => {
+            test.value = 'Clear Bottles';
+            document.getElementById('defaultOpen').click();
+        }, 200);
 
     } else {
 
@@ -44,16 +46,18 @@ function testApp() {
         if (confirm("Are you sure you want to clear all bottle data?")) {
 
             //deletes all bottles on the server for current user
-            bottlesWhisky.forEach(bottle => {
+            bottleCollection.forEach(bottle => {
                 deleteBottleFromServer(bottle.bottle_id)
-            })
+            });
 
             //sets local storage it empty
-            bottlesWhisky.length = 0;
+            bottleCollection.length = 0;
 
             //changes value of button and opens bottle list
-            test.value = 'Test Bottles';
-            document.getElementById('defaultOpen').click();
+            setTimeout(() => {
+                test.value = 'Test Bottles';
+                document.getElementById('defaultOpen').click();
+            }, 200);
 
         } else {
 
@@ -94,12 +98,12 @@ function testCocktails() {
         ];
 
         cocktailArray.forEach(pushCoctailsToServer);
-
-        //changes value of cocktail button
-        cocktailTest.value = 'Clear Cocktails';
-
+        
         //opens cocktail page
-        document.getElementById('cocktail-page').click();
+        setTimeout(() => {
+            cocktailTest.value = 'Clear Cocktails';
+            document.getElementById('cocktail-page').click();
+        }, 200);
 
     } else {
 
@@ -111,12 +115,12 @@ function testCocktails() {
                 deleteCoctailFromServer(cocktail.cocktail_id)
             });
             cocktails.length = 0;
-
-            //changes value of cocktail button
-            cocktailTest.value = 'Test Cocktails';
-
+            
             //opens cocktail page
-            document.getElementById('cocktail-page').click();
+            setTimeout(() => {
+                cocktailTest.value = 'Test Cocktails';
+                document.getElementById('cocktail-page').click();
+            }, 200);
 
         } else {
 
@@ -131,7 +135,7 @@ async function addBottlesJSON(event) {
 
     event.preventDefault();
 
-    if (bottlesWhisky.length === 0) {
+    if (bottleCollection.length === 0) {
         const response = await fetch('../bottles.json');
         const result = await response.json();
         const bottles = [];

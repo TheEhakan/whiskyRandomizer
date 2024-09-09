@@ -40,11 +40,11 @@ const path = 'http://23.245.231.92:5000';
     await getCocktails();
     
     //sort arrays to improve load time
-    sortArrays(bottlesWhisky);
+    sortArrays(bottleCollection);
     sortArrays(cocktails);
     
     //logs items in storage
-    console.log(bottlesWhisky);
+    console.log(bottleCollection);
     console.log(settings);
     console.log(cocktails);
     
