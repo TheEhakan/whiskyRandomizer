@@ -22,26 +22,9 @@ async function getBottles() {
 
     //adds each bottle from server to local data
     for (const bottle of result) {
-
-        //fixes the array sent from the server to be useable
-        const { reject_cocktails, ...rest } = bottle;
-
-        const rejects = [];
-
-        
-        const regex = /['"{}]/g; 
-        const reject = reject_cocktails[0].replaceAll(regex, '').split(',');
-        for(let r of reject) {
-            if(r !== ""){
-                rejects.push(r);
-            } 
-        }
         
         //pushes bottle to local array
-        bottleCollection.push({
-            reject_cocktails: rejects,
-            ...rest
-        })
+        bottleCollection.push(bottle)
     };
 };
 
@@ -429,22 +412,8 @@ async function editBottleOnServer(bottle, location) {
     });
     const result = await response.json();
 
-    //fixes the array sent from the server to be useable
-    const { reject_cocktails, ...rest } = result;
-
-    const rejects = [];
-
-    const regex = /['"{}]/g; 
-    const reject = reject_cocktails[0].replaceAll(regex, '').split(',');
-
-    for(let r of reject) {
-        if(r !== ""){
-            rejects.push(r);
-        } 
-    };
-
     //changes local bottle info
-    bottleCollection[bottleNumber] = {reject_cocktails: rejects, ...rest}
+    bottleCollection[bottleNumber] = result;
     sortArrays(bottleCollection);
 
     //creates bottle divs if on the bottle list page

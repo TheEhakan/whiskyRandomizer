@@ -68,7 +68,7 @@ router.put('/bottles', authorization, async (req, res) => {
     try {
 
         //put edited data into the bottle table and return to the client
-        const bottle = await pool.query('UPDATE bottles SET bottle_name = $2, bottle_type = $3, bottle_neat = $4, bottle_iced = $5, bottle_mixed = $6, reject_cocktails = ARRAY [$8] WHERE bottle_id = $1 AND user_id = $7 RETURNING *;', [bottle_id, bottle_name, bottle_type, bottle_neat, bottle_iced, bottle_mixed, req.user, reject_cocktails ]);
+        const bottle = await pool.query('UPDATE bottles SET bottle_name = $2, bottle_type = $3, bottle_neat = $4, bottle_iced = $5, bottle_mixed = $6, reject_cocktails = $8 WHERE bottle_id = $1 AND user_id = $7 RETURNING *;', [bottle_id, bottle_name, bottle_type, bottle_neat, bottle_iced, bottle_mixed, req.user, reject_cocktails ]);
 
         return res.json(bottle.rows[0]);
         
