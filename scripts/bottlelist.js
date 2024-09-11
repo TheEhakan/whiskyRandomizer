@@ -21,8 +21,27 @@ async function getBottles() {
     };
 
     //adds each bottle from server to local data
-    for (let bottle of result) {
-        bottleCollection.push(bottle)
+    for (const bottle of result) {
+
+        //fixes the array sent from the server to be useable
+        const { reject_cocktails, ...rest } = bottle;
+
+        const rejects = [];
+
+        
+        const regex = /['"{}]/g; 
+        const reject = reject_cocktails[0].replaceAll(regex, '').split(',');
+        for(let r of reject) {
+            if(r !== ""){
+                rejects.push(r);
+            } 
+        }
+        
+        //pushes bottle to local array
+        bottleCollection.push({
+            reject_cocktails: rejects,
+            ...rest
+        })
     };
 };
 
@@ -43,6 +62,7 @@ async function pushBottlesToServer(bottle, location) {
 
     //changes bottle locally
     bottleCollection.push(result[0]);
+    sortArrays(bottleCollection);
 
     //if bottles are added normally
     if (location === 'Bottle-Page') {
@@ -127,6 +147,7 @@ function addBottle(name, type, neat, iced, mixed) {
         bottle_neat: neat,
         bottle_iced: iced,
         bottle_mixed: mixed,
+        reject_cocktails: []
     });
 
     //resets name for next bottle
@@ -141,7 +162,7 @@ function addBottle(name, type, neat, iced, mixed) {
 };
 
 //creates a info div for every bottle
-function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bottle_iced, bottle_mixed }) {
+function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bottle_iced, bottle_mixed, reject_cocktails }) {
 
     //all the bottle div elements in the DOM
     let bottlesOnHand;
@@ -178,6 +199,9 @@ function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bo
                     <input type='checkbox' onclick='defaultCheck(event)' ${bottle_mixed ? 'checked' : ''} />
                     <span class='display-checkmark'></span>
                 </label>
+                <div id='rejected-cocktails'>
+                    <p>Cocktials not enjoyed: ${reject_cocktails}</p>
+                </div>
                 <div id='button-div'>
                     <input type='button' value='Edit Bottle' name='editBottle' onclick='editBottle("${bottle_id}")' />
                     <input type='button' value='Delete' name='deleteBottle' onclick='confirmDeleteBottle(event, "${bottle_id}")' />
@@ -211,8 +235,8 @@ function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bo
     };
 
     //add to the DOM 
-    allbottlesOnHand.innerHTML += bottleDiv;
-    bottlesOnHand.innerHTML += bottleDiv;
+    settings[2] ? bottlesOnHand.innerHTML += bottleDiv : allbottlesOnHand.innerHTML += bottleDiv;
+    
 }
 
 //delete/ edit bottle variables
@@ -252,8 +276,6 @@ function deleteBottleTrue(event) {
     //selects and removes bottle info div
     let thisDiv = document.getElementById(bottleId);
     thisDiv.remove();
-    thisDiv = document.getElementById(bottleId);
-    thisDiv.remove();
     totalBottles();
 
     //sends delete request to server
@@ -288,12 +310,14 @@ function editBottle(id) {
     const addBottleBtn = document.getElementById('addToList');
     const cancelEdit = document.getElementById("cancelEdit");
 
-    let bottleHeader = document.getElementById("bottleHeader");
-    let bottleDisplay = document.getElementById("bottleDisplay");
+    const bottleHeader = document.getElementById("bottleHeader");
+    const bottleDisplay = document.getElementById("bottleDisplay");
+    const rejectList = document.getElementById('rejects-list');
+    const rejectDisplay = document.getElementById('rejected-cocktails');
 
     //gathers info to prepare bottle edit 
     bottleId = id;
-    let confirmName = bottleCollection.find(({bottle_id}) => bottle_id === bottleId).bottle_name;
+    const confirmName = bottleCollection.find(({bottle_id}) => bottle_id === bottleId).bottle_name;
     bottleNumber = bottleCollection.findIndex(n => n.bottle_name === confirmName);
 
     //sets focus to bottle name input for ease of access
@@ -306,16 +330,28 @@ function editBottle(id) {
     icedInput.checked = bottleCollection[bottleNumber].bottle_iced;
     mixedInput.checked = bottleCollection[bottleNumber].bottle_mixed;
 
+    for(let rejects of bottleCollection[bottleNumber].reject_cocktails) {
+        rejectList.innerHTML += `<li id='${rejects}'>${rejects}<button class='rejects-displayed' id='changeUser' name='${rejects}' onclick='removeReject(this.name)'>x</button></li>`;
+    }
+
     //sets up display to edit bottle info
     addBottleBtn.value = "Update Bottle";
     bottleHeader.textContent = "Update Bottle";
     bottleDisplay.style.display = "none";
     optionalInfo.style.display = "block";
     cancelEdit.style.visibility = "visible";
+    rejectDisplay.style.display = "block";
 };
+
+function removeReject(element) {
+    const thisElem = document.getElementById(element);
+    thisElem.remove();
+}
 
 //cancel the bottle edit
 function cancelBottleEdit() {
+
+    const rejectDisplay = document.getElementById('rejected-cocktails');
 
     //gets bottle inputs and resets values
     const bottleNameInput = document.getElementById("bottleName");
@@ -331,11 +367,23 @@ function cancelBottleEdit() {
     cancelEdit.style.visibility = "hidden";
     bottleDisplay.style.display = "block";
     bottleHeader.textContent = "Add a bottle to the list";
+    rejectDisplay.style.visibility = "none";
     styleSwitch();
 };
 
 //prepares info to send to server
 function editBottleInfo(name, type, neat, iced, mixed) {
+
+    //collects rejected cocktail names
+    const rejects = document.getElementsByClassName('rejects-displayed');
+
+    //sets up an array for rejected cocktails
+    const rejectCocktails = [];
+
+    //populates array with cocktails on the list
+    for ( let r of rejects) {
+        rejectCocktails.push(r.name);
+    }
 
     //creates object to send to server
     const bottle = {
@@ -344,11 +392,11 @@ function editBottleInfo(name, type, neat, iced, mixed) {
         bottle_type: type,
         bottle_neat: neat,
         bottle_iced: iced,
-        bottle_mixed: mixed
+        bottle_mixed: mixed, 
+        reject_cocktails: rejectCocktails
     };
     
     //remove old divs after bottle edit 
-    document.getElementById(bottleId).remove();
     document.getElementById(bottleId).remove();
     
     //resets input display after edit
@@ -357,9 +405,11 @@ function editBottleInfo(name, type, neat, iced, mixed) {
     const addBottleBtn = document.getElementById('addToList');
     addBottleBtn.value = "Add Bottle";
     bottleNameInput.value = "";
+    document.getElementById('rejected-cocktails').style.display = "none";
     cancelEdit.style.visibility = "hidden";
     bottleDisplay.style.display = "block";
     styleSwitch();
+    document.getElementById('rejects-list').innerHTML = '';
 
     //sends data to server
     editBottleOnServer(bottle, 'bottle list');
@@ -379,8 +429,23 @@ async function editBottleOnServer(bottle, location) {
     });
     const result = await response.json();
 
+    //fixes the array sent from the server to be useable
+    const { reject_cocktails, ...rest } = result;
+
+    const rejects = [];
+
+    const regex = /['"{}]/g; 
+    const reject = reject_cocktails[0].replaceAll(regex, '').split(',');
+
+    for(let r of reject) {
+        if(r !== ""){
+            rejects.push(r);
+        } 
+    };
+
     //changes local bottle info
-    bottleCollection[bottleNumber] = result;
+    bottleCollection[bottleNumber] = {reject_cocktails: rejects, ...rest}
+    sortArrays(bottleCollection);
 
     //creates bottle divs if on the bottle list page
     if (location === 'bottle list') {
@@ -391,7 +456,7 @@ async function editBottleOnServer(bottle, location) {
 
 //sorts bottle items alphabetically
 function sortList() {
-    let list = document.getElementsByName("bottlesOnHand2")
+    let list = document.getElementsByName("bottlesOnHand2");
     let list2, shouldSwitch, i, b, c;
     let switching = true;
     for (c = 0; c < list.length; c++) {

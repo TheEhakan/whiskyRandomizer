@@ -12,7 +12,7 @@ function totalBottles() {
 
     let totalRum = bottleCollection.filter((r) => r.bottle_type === "Rum");
     let rumTotal = document.getElementById("rumTotal");
-    rumTotal.textContent = `Rum - ${totalRum.length}`;
+    rumTotal.innerText = `Rum - ${totalRum.length}`;
 
     let totalGin = bottleCollection.filter((g) => g.bottle_type === "Gin");
     let ginTotal = document.getElementById("ginTotal");
@@ -37,10 +37,10 @@ function totalBottles() {
 
 //checks to see if the first letter is a vowel
 function isVowel(word) {
-    let nameToCheck = word.toLowerCase().at(0);
-    if(nameToCheck === 'a' || nameToCheck === 'e' || nameToCheck === 'i' || nameToCheck === 'o' || nameToCheck === 'u') {
-        return true
-    } else { return false };
+    const nameToCheck = word.toLowerCase().at(0);
+    const vowels = /[a,e,i,o,u]/g;
+    const result = nameToCheck.match(vowels) ? true : false;
+    return result;
 };
 
 //closes the specific modal
@@ -55,33 +55,27 @@ function defultCheck(event) {
 };
 
 //makes bottle category tabs work
-function openPage2(pageName, elmnt, color) {
-    let i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent2");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    };
-    tablinks = document.getElementsByClassName("tablink2");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].style.backgroundColor = "";
+function displayBottles(pageName) {
+    let tabcontent = document.getElementsByClassName("tabcontent2");
+    for (let tab of tabcontent) {
+        tab.style.display = "none";
     };
     document.getElementById(pageName).style.display = "block";
-    elmnt.style.backgroundColor = color;
 };
 
 
 //makes accordian panels work
 function accOpen(event) {
-    let i, panel, acc;
-    panel = document.getElementsByClassName("panel");
+    let panels, acc;
+    panels = document.getElementsByClassName("panel");
     let accElement = event.target.nextElementSibling;
     if (accElement.style.display == "block") {
         acc = true;
     } else if (accElement.style.display == "none") {
         acc = false;
     };
-    for (i = 0; i < panel.length; i++) {
-        panel[i].style.display = "none";
+    for (let panel of panels) {
+        panel.style.display = "none";
     };
     if (acc) {
         accElement.style.display = "none";
@@ -106,20 +100,14 @@ function sortArrays(arrayName) {
       });
 };
 
+//when sidebar is open prevents scrolling
 function sidebarOpen() {
 
     const sidebarToggle = document.getElementById('sidebarCheck');
-    const sidebar = document.getElementById('sidebar');
 
     if (sidebarToggle.checked) {
         document.body.style.overflow = 'hidden';
-        sidebar.style.visibility = '';
     } else {
         document.body.style.overflow = '';
-
-    setTimeout(() => {
-        sidebar.style.visibility = 'hidden';
-    }, 200);
-
-    }
-}
+    };
+};

@@ -25,18 +25,21 @@ async function openPage(pageName) {
             //creates visible bottle list
             bottleCollection.map(createBottleList);
 
-            //hides cancel edit button on load
+            //hides cancel edit button and rejected cocktail display on load
             const cancelEdit = document.getElementById("cancelEdit");
             cancelEdit.style.visibility = "hidden";
-
-            //sets the category display to whisky as default
-            document.getElementById("defaultOpen2").click();
-
+            document.getElementById('rejected-cocktails').style.display = "none";
+            
             //runs functions for loading the page
             totalBottles();
             styleSwitch();
             searchSwitch('bottle');
             categorySwitch();
+            
+            //sets the category display to whisky as default
+            if (settings[2]) {
+                displayBottles('whiskyOnHand');
+            };
 
             break;
 

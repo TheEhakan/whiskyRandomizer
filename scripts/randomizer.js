@@ -81,15 +81,32 @@ function chooseDrink() {
         if (type === "Other" || cocktails.length === 0) {
             style += ", as a cocktail of your choice!";
         } else {
+
+            //filters cocktail by spirit
             filteredCocktails = cocktails.filter(c => c.cocktail_base_spirit === type);
+
+            //filters further to active cocktails
             activeCocktails = filteredCocktails.filter(a => a.cocktail_active === true);
             if (activeCocktails.length === 0) {
                 randomizerErrorModal.showModal();
                 randomizerErrorText.innerText = `There are no ${type} cocktails available to choose from`;
                 return;
             };
-            
-            cocktail = activeCocktails[Math.floor(Math.random() * activeCocktails.length)].cocktail_name;
+
+            //checks if user has not enjoyed certain cockatails with this spirit
+            const approvedCocktails = activeCocktails.filter(app => !drinkRandom.reject_cocktails.includes(app.cocktail_name));
+
+            //if no cocktails available set this spirits mixed drink option to false and re runs
+            if (approvedCocktails.length === 0 ) {
+                drinkRandom.bottle_mixed = false;
+                const thisBottle = bottleCollection.indexOf(drinkRandom);
+                editBottleOnServer(bottleCollection[thisBottle], 'randomizer');
+                chooseDrink();
+                return;
+            }
+
+            //finally chooses the cocktail and updates the style display
+            cocktail = approvedCocktails[Math.floor(Math.random() * approvedCocktails.length)].cocktail_name;
             style += `, perhaps as ${isVowel(cocktail) ? 'an' : 'a' } <button id="display-cocktail-recipe" onclick="displayRecipe()">${cocktail}</button>`;
         };
     };
@@ -104,12 +121,13 @@ function chooseDrink() {
     document.getElementById('enjoyedDrink').focus();
 };
 
-//changes objects if needed if you enjoyed the drink or not
+//changes display if drink was enjoyed
 function enjoyedThisDrink() {
     enjoyDisplay.textContent = "Wonderful! Glad it was a good choice.";
     enjoyChoice.style.display = "none";
 };
 
+//removes options if the drink was not enjoyed
 function didNotEnjoy() {
     enjoyDisplay.textContent = "Sorry to hear that, this will no longer be an option for you.";
     enjoyChoice.style.display = "none";
@@ -123,11 +141,10 @@ function didNotEnjoy() {
         bottleCollection[sampled].bottle_iced = false;
     };
     if (style === "Mixed") {
-        bottleCollection[sampled].bottle_mixed = false;
+        bottleCollection[sampled].reject_cocktails.push(cocktail);
     };
 
     editBottleOnServer(bottleCollection[sampled], 'randomizer');
-    sortList();
 };
 
 //shows the recipe of the chosen cocktail

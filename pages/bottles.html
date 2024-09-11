@@ -36,27 +36,36 @@
             </select>
         </div>
         <br />
-        <div class="bottleInput" id="optionalInfo">
-            <label for="howWouldYouDrink" id="howWouldYouDrink">
-                &nbsp; &nbsp;How would you drink this liquor?
-            </label>
+        <div id="optionalInfo">
+            <div id="style-choices">
+                <label for="howWouldYouDrink" id="howWouldYouDrink">
+                    &nbsp; &nbsp;How would you drink this liquor?
+                </label>
+                <br />
+                <br />
+                <label for="neato" class="container">
+                    Neat
+                    <input type="checkbox" id="neato" name="neato" checked/>
+                    <span class="checkmark"></span>
+                </label>
+                <label for="icedo" class="container">
+                    On Ice
+                    <input type="checkbox" id="icedo" name="icedo" checked/>
+                    <span class="checkmark"></span>
+                </label>
+                <label for="mixedo" class="container">
+                    Mixed
+                    <input type="checkbox" id="mixedo" name="mixedo" checked/>
+                    <span class="checkmark"></span>
+                </label>
+            </div>
             <br />
-            <br />
-            <label for="neato" class="container">
-                Neat
-                <input type="checkbox" id="neato" name="neato" />
-                <span class="checkmark"></span>
-            </label>
-            <label for="icedo" class="container">
-                On Ice
-                <input type="checkbox" id="icedo" name="icedo" />
-                <span class="checkmark"></span>
-            </label>
-            <label for="mixedo" class="container">
-                Mixed
-                <input type="checkbox" id="mixedo" name="mixedo" />
-                <span class="checkmark"></span>
-            </label>
+            <div id="rejected-cocktails">
+                <label for="rejects-list">&nbsp; &nbsp;Cocktails not enjoyed</label>
+                <ul id="rejects-list">
+
+                </ul>
+            </div>
         </div>
         <input type="button" id="addToList" value="Add Bottle" onclick="bottleInputCheck()" /><input type="button" id="cancelEdit" onclick="cancelBottleEdit()" value="Cancel" />
         <br />
@@ -87,14 +96,16 @@
         <div class="allbottlesOnHand" id="allbottlesOnHand" name="bottlesOnHand2">
         </div>
         <div class="bottlesOnHand" id="bottlesOnHand" name="bottleDiv">
-            <button class="tablink2" onclick="openPage2('whiskyOnHand', this, 'rgb(75, 75, 75)')"
-                id="defaultOpen2">Whisky</button>
-            <button class="tablink2" onclick="openPage2('ginOnHand', this, 'rgb(75, 75, 75)')" id="ginTotal">Gin</button>
-            <button class="tablink2" onclick="openPage2('rumOnHand', this, 'rgb(75, 75, 75)')" id="rumTotal">Rum</button>
-            <button class="tablink2" onclick="openPage2('cognacOnHand', this, 'rgb(75, 75, 75)')" id="cognacTotal">Cognac/ Armagnac</button>
-            <button class="tablink2" onclick="openPage2('tequilaOnHand', this, 'rgb(75, 75, 75)')" id="tequilaTotal">Tequila/ Mezcal</button>
-            <button class="tablink2" onclick="openPage2('vodkaOnHand', this, 'rgb(75, 75, 75)')" id="vodkaTotal">Vodka</button>
-            <button class="tablink2" onclick="openPage2('otherOnHand', this, 'rgb(75, 75, 75)')" id="otherTotal">Other</button>
+            <select class="tablink2" onchange="displayBottles(this.value)">
+                <option value="whiskyOnHand" id="defaultOpen2">Whisky</option>
+                <option value="ginOnHand" id="ginTotal">Gin</option>
+                <option value="rumOnHand" id="rumTotal">Rum</option>
+                <option value="cognacOnHand" id="cognacTotal">Cognac/ Armagnac</option>
+                <option value="tequilaOnHand" id="tequilaTotal">Tequila/ Mezcal</option>
+                <option value="vodkaOnHand" id="vodkaTotal">Vodka</option>
+                <option value="otherOnHand" id="otherTotal">Other</option>
+            </select>
+
             <div class="tabcontent2" id="whiskyOnHand" name="bottlesOnHand2"></div>
             <div class="tabcontent2" id="ginOnHand" name="bottlesOnHand2"></div>
             <div class="tabcontent2" id="rumOnHand" name="bottlesOnHand2"></div>
