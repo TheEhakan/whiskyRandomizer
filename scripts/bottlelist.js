@@ -165,7 +165,7 @@ function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bo
     const bottleDiv = 
         `<div id='${bottle_id}' class='info' name='info'>
             <button class='accordion' onclick='accOpen(event)'>${bottle_name}</button>
-            <div id='A${smallName}' class='panel' style='display: none;'>
+            <div id='A${smallName}' class='panel'>
                 <p>${bottle_type}</p>
                 <label class='display-container' for='display'>
                     Neat
@@ -183,7 +183,7 @@ function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bo
                     <span class='display-checkmark'></span>
                 </label>
                 <div id='rejected-cocktails'>
-                    <p>Cocktials not enjoyed: ${reject_cocktails}</p>
+                    ${reject_cocktails.length !== 0 ? '<p>Cocktials not enjoyed: ' + reject_cocktails + '</p>' : ''}
                 </div>
                 <div id='button-div'>
                     <input type='button' value='Edit Bottle' name='editBottle' onclick='editBottle("${bottle_id}")' />
@@ -191,7 +191,7 @@ function createBottleList({ bottle_id, bottle_name, bottle_type, bottle_neat, bo
                 </div>
             </div> 
         </div>`;
-
+    
     //sets div based on bottle type
     switch (bottle_type) {
         case "Whisky":

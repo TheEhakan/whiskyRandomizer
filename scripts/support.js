@@ -69,19 +69,24 @@ function accOpen(event) {
     let panels, acc;
     panels = document.getElementsByClassName("panel");
     let accElement = event.target.nextElementSibling;
-    if (accElement.style.display == "block") {
+
+    event.target.classList.toggle('active');
+
+    if (accElement.style.maxHeight) {
         acc = true;
-    } else if (accElement.style.display == "none") {
+    } else {
         acc = false;
     };
+
     for (let panel of panels) {
-        panel.style.display = "none";
+        panel.style.maxHeight = null;
     };
     if (acc) {
-        accElement.style.display = "none";
+        accElement.style.maxHeight = null;
     } else {
-        accElement.style.display = "block";
+        accElement.style.maxHeight = accElement.scrollHeight + "px";
     };
+
 };
 
 //sorts various arrays to speed up loading

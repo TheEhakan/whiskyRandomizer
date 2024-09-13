@@ -1,6 +1,6 @@
 
 module.exports = (req, res, next) => {
-    const { name, email, dob, password } = req.body;
+    const { name, email, dob, password, oldPassword, newPassword } = req.body;
 
     function validEmail (userEmail) {
         return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(userEmail);
@@ -32,9 +32,10 @@ module.exports = (req, res, next) => {
         } else if (!validEmail(email)) {
             return res.status(401).json('Invalid Email');
         };
+        
     } else if (req.path === '/change-pass') {
         
-        if (![password].every(Boolean)) {
+        if (![oldPassword, newPassword].every(Boolean)) {
             return res.status(401).json('Missing Credentials');
         };
     };

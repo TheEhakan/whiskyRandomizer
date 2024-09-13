@@ -26,10 +26,10 @@ async function displayUserInfo() {
 
 };
 
-function checkBtnValue() {
+function checkBtnValue(button) {
 
     //button to be checked
-    const userEditBtn = document.getElementById('user-edit-btn');
+    const userEditBtn = document.getElementById(button);
 
     //check value and perform related action
     if (userEditBtn.value === 'Confirm') {
@@ -138,11 +138,6 @@ async function updateUser() {
         return document.getElementById('user-info-error').innerText = result;
     }
 
-    //changes view back to the normal
-    document.getElementById('user-password').style.visibility = '';
-    document.getElementById('cancelBtn').style.visibility = 'hidden';
-    document.getElementById('editBtn').value = 'Edit Info';
-
     //elements to display user info
     const userNameDiv = document.getElementById('user-name');
     const userEmailDiv = document.getElementById('user-email');
@@ -174,6 +169,7 @@ function resetPassword() {
 async function changePassword() {
 
     //get password elements
+    const oldPass = document.getElementById('old-password').value;
     const newPass = document.getElementById('new-password').value;
     const newPassConfirm = document.getElementById('new-password-confirm').value;
     const passError = document.getElementById('password-error');
@@ -186,7 +182,7 @@ async function changePassword() {
     }
 
     //make object to send server
-    const userPassowrd = { password: newPass};
+    const userPassowrd = { oldPassword: oldPass, newPassword: newPass };
     
     //send new password to server
     const response = await fetch(`${path}/dashboard/change-pass`,{
@@ -201,7 +197,9 @@ async function changePassword() {
 
     if (result === 'Missing Credentials') {
         return passError.innerText = 'Please provide a password';
-    }
+    } else if (result === 'Incorrect Password.') {
+        return passError.innerText = 'Incorrect Password.'
+    };
 
     //close password modal
     closeModal('user-password-edit');
@@ -210,6 +208,6 @@ async function changePassword() {
     document.getElementById('user-password').innerText = result;
     setTimeout( () => {
         document.getElementById('user-password').innerHTML = `<button id="changeUser" onclick="resetPassword()">Reset Password</button>`
-    }, 2000)
+    }, 2000);
 
-}
+};
