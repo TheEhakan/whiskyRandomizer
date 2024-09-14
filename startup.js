@@ -12,6 +12,10 @@ const token = JSON.parse(localStorage.getItem('token')) || [];
 //path to fetch any data
 const path = 'http://23.245.231.92:5000';
 
+//app version number
+const appVersion = 'v.0.81';
+document.getElementById('versionNumber').innerHTML = appVersion;
+
 //function to set up all data for the app and check log-in
 (async () => {
   
